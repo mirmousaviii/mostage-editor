@@ -1,7 +1,7 @@
 "use client";
 
 import { MarkdownPreviewProps } from "@/types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Mostage from "mostage";
 
 export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
@@ -10,8 +10,9 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const mostageRef = useRef<Mostage | null>(null);
   const [slideCount, setSlideCount] = useState<number>(0);
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
+  const updateMostage = useCallback((content: string) => {
     if (containerRef.current) {
       // Clean up previous instance
       if (mostageRef.current) {
@@ -21,14 +22,14 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
       // Create new Mostage instance
       mostageRef.current = new Mostage({
         element: containerRef.current,
-        content: markdown,
-        theme: "light",
+        content: content,
+        theme: "dark",
         scale: 0.8,
         plugins: {
-          ProgressBar: { enabled: false },
-          SlideNumber: { enabled: false },
-          Controller: { enabled: false },
-          Confetti: { enabled: false },
+          ProgressBar: { enabled: true, position: "bottom" },
+          SlideNumber: { enabled: true, position: "bottom-right" },
+          Controller: { enabled: true, position: "bottom-center" },
+          Confetti: { enabled: true },
         },
       });
 
@@ -39,13 +40,37 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
         }
       });
     }
+  }, []);
 
+  useEffect(() => {
+    // Clear previous timeout
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    // Set new timeout for debounced update
+    debounceTimeoutRef.current = setTimeout(() => {
+      updateMostage(markdown);
+    }, 500); // 500ms debounce
+
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, [markdown, updateMostage]);
+
+  // Cleanup on unmount
+  useEffect(() => {
     return () => {
       if (mostageRef.current) {
         mostageRef.current.destroy();
       }
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
     };
-  }, [markdown]);
+  }, []);
 
   return (
     <div className="h-full flex flex-col">

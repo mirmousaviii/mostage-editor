@@ -81,7 +81,7 @@ export const Editor: React.FC<EditorProps> = ({
         {showEditor && showPreview ? (
           // Resizable split view
           <ResizableSplitPane
-            defaultSize={50}
+            defaultSize={30}
             minSize={25}
             maxSize={75}
             direction="horizontal"

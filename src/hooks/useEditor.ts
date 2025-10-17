@@ -5,13 +5,15 @@ import { EditorState } from "@/types";
 
 const defaultMarkdown = `# Welcome to Mostage
 
-## A simple presentation framework based on Markdown
+## Presentation based on Markdown
 
 ---
 
 ## What is Mostage?
 
-Mostage is a modern presentation framework that allows you to create slides using Markdown and HTML.
+#### Presentation framework
+###### based on
+#### Markdown and HTML
 
 
 ---
@@ -24,13 +26,16 @@ Mostage is a modern presentation framework that allows you to create slides usin
 
 ---
 
+
 ## Getting Started
-- Edit this content.md file
-- Modify config.json as needed
-- Add your own assets
-- Run your presentation
+- #### Edit this \`content\` file
+- #### Modify \`config\` as needed
+- #### Run your presentation
+- #### Export your presentation
 
 ---
+
+<!-- confetti -->
 
 ### Happy presenting with Mostage!`;
 
