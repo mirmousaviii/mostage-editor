@@ -23,7 +23,7 @@ export const Editor: React.FC<EditorProps> = ({
       loop: false, // Default from library
       keyboard: true, // Default from library
       touch: true, // Default from library
-      urlHash: false, // Default from library
+      urlHash: true, // Default from library
       transition: {
         type: "horizontal", // Default from library
         duration: 300, // Default from library
@@ -32,6 +32,18 @@ export const Editor: React.FC<EditorProps> = ({
       centerContent: {
         vertical: true, // Default from library
         horizontal: true, // Default from library
+      },
+      header: {
+        enabled: false, // Default disabled
+        content: "",
+        position: "top-left", // Default from library
+        showOnFirstSlide: true, // Default from library
+      },
+      footer: {
+        enabled: false, // Default disabled
+        content: "",
+        position: "bottom-left", // Default from library
+        showOnFirstSlide: true, // Default from library
       },
       plugins: {
         ProgressBar: {

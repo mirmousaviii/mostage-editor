@@ -47,6 +47,20 @@ export interface PresentationConfig {
     vertical: boolean;
     horizontal: boolean;
   };
+  header: {
+    enabled: boolean;
+    content?: string;
+    contentPath?: string;
+    position?: "top-left" | "top-center" | "top-right";
+    showOnFirstSlide?: boolean;
+  };
+  footer: {
+    enabled: boolean;
+    content?: string;
+    contentPath?: string;
+    position?: "bottom-left" | "bottom-center" | "bottom-right";
+    showOnFirstSlide?: boolean;
+  };
   plugins: {
     ProgressBar: {
       enabled: boolean;

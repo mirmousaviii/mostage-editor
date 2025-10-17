@@ -8,7 +8,9 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
   onConfigChange,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState<"general" | "plugins">("general");
+  const [activeTab, setActiveTab] = useState<
+    "general" | "plugins" | "header-footer"
+  >("general");
 
   const handleThemeChange = (theme: typeof config.theme) => {
     onConfigChange({
@@ -60,6 +62,32 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
     });
   };
 
+  const handleHeaderChange = (
+    key: keyof typeof config.header,
+    value: string | boolean
+  ) => {
+    onConfigChange({
+      ...config,
+      header: {
+        ...config.header,
+        [key]: value,
+      },
+    });
+  };
+
+  const handleFooterChange = (
+    key: keyof typeof config.footer,
+    value: string | boolean
+  ) => {
+    onConfigChange({
+      ...config,
+      footer: {
+        ...config.footer,
+        [key]: value,
+      },
+    });
+  };
+
   const handlePluginToggle = (pluginName: keyof typeof config.plugins) => {
     onConfigChange({
       ...config,
@@ -93,31 +121,29 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
   return (
     <div className="border-b border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-slate-900">
       {/* Toolbar Header */}
-      <div className="flex items-center justify-between p-3">
+      <div
+        className="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        onClick={() => setIsExpanded(!isExpanded)}
+        title={isExpanded ? "Collapse settings" : "Expand settings"}
+      >
         <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
           Presentation Settings
         </h3>
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          title={isExpanded ? "Collapse settings" : "Expand settings"}
+        <svg
+          className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${
+            isExpanded ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          <svg
-            className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${
-              isExpanded ? "rotate-180" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
       </div>
 
       {/* Expanded Settings */}
@@ -134,6 +160,16 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
               }`}
             >
               General
+            </button>
+            <button
+              onClick={() => setActiveTab("header-footer")}
+              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "header-footer"
+                  ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                  : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              }`}
+            >
+              Header & Footer
             </button>
             <button
               onClick={() => setActiveTab("plugins")}
@@ -154,7 +190,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                 {/* Basic Settings */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {/* Theme Selection */}
-                  <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Theme
                     </label>
@@ -174,7 +210,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                   </div>
 
                   {/* Scale Slider */}
-                  <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Scale: {config.scale}x
                     </label>
@@ -187,18 +223,18 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       onChange={(e) =>
                         handleScaleChange(parseFloat(e.target.value))
                       }
-                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                     />
                   </div>
                 </div>
 
                 {/* Navigation Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Navigation
                   </label>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.loop}
@@ -233,7 +269,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.keyboard}
@@ -268,7 +304,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.touch}
@@ -303,7 +339,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.urlHash}
@@ -341,7 +377,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Transition Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Transition
                   </label>
@@ -379,7 +415,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                             parseInt(e.target.value)
                           )
                         }
-                        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                       />
                     </div>
                     <div>
@@ -404,12 +440,12 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Center Content Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Center Content
                   </label>
                   <div className="grid grid-cols-2 gap-4">
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.centerContent.vertical}
@@ -447,7 +483,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.centerContent.horizontal}
@@ -492,8 +528,8 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
             {activeTab === "plugins" && (
               <div className="space-y-5">
                 {/* Progress Bar */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="flex items-center justify-between">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -585,8 +621,8 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Slide Number */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="flex items-center justify-between">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -660,8 +696,8 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Controller */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="flex items-center justify-between">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -715,7 +751,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Confetti */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-slate-800 shadow-sm">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
                   <div className="flex items-center mb-3">
                     <label className="flex items-center cursor-pointer">
                       <input
@@ -769,7 +805,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                               parseInt(e.target.value)
                             )
                           }
-                          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                         />
                       </div>
                       <div>
@@ -789,8 +825,238 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                               parseInt(e.target.value)
                             )
                           }
-                          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                         />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {activeTab === "header-footer" && (
+              <div className="space-y-5">
+                {/* Header Settings */}
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="flex items-center">
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={config.header.enabled}
+                        onChange={() =>
+                          handleHeaderChange("enabled", !config.header.enabled)
+                        }
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-5 h-5 rounded border-2 mr-3 flex items-center justify-center transition-colors ${
+                          config.header.enabled
+                            ? "bg-blue-500 border-blue-500"
+                            : "border-gray-300 dark:border-gray-500"
+                        }`}
+                      >
+                        {config.header.enabled && (
+                          <svg
+                            className="w-3 h-3 text-white"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        )}
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Header
+                      </span>
+                    </label>
+                  </div>
+                  {config.header.enabled && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm text-gray-600 dark:text-gray-400 mb-2 block">
+                          Content
+                        </label>
+                        <textarea
+                          value={config.header.content}
+                          onChange={(e) =>
+                            handleHeaderChange("content", e.target.value)
+                          }
+                          className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Enter header content (Markdown, HTML, or Text)"
+                          rows={3}
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                          <input
+                            type="checkbox"
+                            checked={config.header.showOnFirstSlide}
+                            onChange={(e) =>
+                              handleHeaderChange(
+                                "showOnFirstSlide",
+                                e.target.checked
+                              )
+                            }
+                            className="sr-only"
+                          />
+                          <div
+                            className={`w-5 h-5 rounded border-2 mr-3 flex items-center justify-center transition-colors ${
+                              config.header.showOnFirstSlide
+                                ? "bg-blue-500 border-blue-500"
+                                : "border-gray-300 dark:border-gray-500"
+                            }`}
+                          >
+                            {config.header.showOnFirstSlide && (
+                              <svg
+                                className="w-3 h-3 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            )}
+                          </div>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">
+                            Show on First Slide
+                          </span>
+                        </label>
+                        <div>
+                          <label className="text-sm text-gray-600 dark:text-gray-400 mb-2 block">
+                            Position
+                          </label>
+                          <select
+                            value={config.header.position}
+                            onChange={(e) =>
+                              handleHeaderChange("position", e.target.value)
+                            }
+                            className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          >
+                            <option value="top-left">Top Left</option>
+                            <option value="top-center">Top Center</option>
+                            <option value="top-right">Top Right</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer Settings */}
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
+                  <div className="flex items-center">
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={config.footer.enabled}
+                        onChange={() =>
+                          handleFooterChange("enabled", !config.footer.enabled)
+                        }
+                        className="sr-only"
+                      />
+                      <div
+                        className={`w-5 h-5 rounded border-2 mr-3 flex items-center justify-center transition-colors ${
+                          config.footer.enabled
+                            ? "bg-blue-500 border-blue-500"
+                            : "border-gray-300 dark:border-gray-500"
+                        }`}
+                      >
+                        {config.footer.enabled && (
+                          <svg
+                            className="w-3 h-3 text-white"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        )}
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Footer
+                      </span>
+                    </label>
+                  </div>
+                  {config.footer.enabled && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm text-gray-600 dark:text-gray-400 mb-2 block">
+                          Content
+                        </label>
+                        <textarea
+                          value={config.footer.content}
+                          onChange={(e) =>
+                            handleFooterChange("content", e.target.value)
+                          }
+                          className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Enter footer content (Markdown, HTML, or Text)"
+                          rows={3}
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors">
+                          <input
+                            type="checkbox"
+                            checked={config.footer.showOnFirstSlide}
+                            onChange={(e) =>
+                              handleFooterChange(
+                                "showOnFirstSlide",
+                                e.target.checked
+                              )
+                            }
+                            className="sr-only"
+                          />
+                          <div
+                            className={`w-5 h-5 rounded border-2 mr-3 flex items-center justify-center transition-colors ${
+                              config.footer.showOnFirstSlide
+                                ? "bg-blue-500 border-blue-500"
+                                : "border-gray-300 dark:border-gray-500"
+                            }`}
+                          >
+                            {config.footer.showOnFirstSlide && (
+                              <svg
+                                className="w-3 h-3 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            )}
+                          </div>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">
+                            Show on First Slide
+                          </span>
+                        </label>
+                        <div>
+                          <label className="text-sm text-gray-600 dark:text-gray-400 mb-2 block">
+                            Position
+                          </label>
+                          <select
+                            value={config.footer.position}
+                            onChange={(e) =>
+                              handleFooterChange("position", e.target.value)
+                            }
+                            className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          >
+                            <option value="bottom-left">Bottom Left</option>
+                            <option value="bottom-center">Bottom Center</option>
+                            <option value="bottom-right">Bottom Right</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   )}

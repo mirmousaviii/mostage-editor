@@ -33,6 +33,8 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
           urlHash: presentationConfig.urlHash,
           transition: presentationConfig.transition,
           centerContent: presentationConfig.centerContent,
+          header: presentationConfig.header,
+          footer: presentationConfig.footer,
           plugins: presentationConfig.plugins,
         });
 
