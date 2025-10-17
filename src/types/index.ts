@@ -21,6 +21,7 @@ export interface MarkdownEditorProps {
 
 export interface MarkdownPreviewProps {
   markdown: string;
+  config: PresentationConfig;
 }
 
 export interface ToggleButtonProps {
@@ -28,4 +29,57 @@ export interface ToggleButtonProps {
   onClick: () => void;
   children: React.ReactNode;
   title: string;
+}
+
+export interface PresentationConfig {
+  theme: "light" | "dark" | "dracula" | "ocean" | "rainbow";
+  scale: number;
+  loop: boolean;
+  keyboard: boolean;
+  touch: boolean;
+  urlHash: boolean;
+  transition: {
+    type: "horizontal" | "vertical" | "fade" | "slide";
+    duration: number;
+    easing: string;
+  };
+  centerContent: {
+    vertical: boolean;
+    horizontal: boolean;
+  };
+  plugins: {
+    ProgressBar: {
+      enabled: boolean;
+      position: "top" | "bottom";
+      height?: string;
+      color?: string;
+      backgroundColor?: string;
+    };
+    SlideNumber: {
+      enabled: boolean;
+      position: "bottom-right" | "bottom-left" | "bottom-center";
+      format?: string;
+      color?: string;
+      fontSize?: string;
+    };
+    Controller: {
+      enabled: boolean;
+      position: "bottom-right" | "bottom-left" | "bottom-center";
+      showLabels?: boolean;
+      theme?: "light" | "dark";
+    };
+    Confetti: {
+      enabled: boolean;
+      particleCount?: number;
+      size?: { min: number; max: number };
+      duration?: number;
+      delay?: number;
+      colors?: string[];
+    };
+  };
+}
+
+export interface PresentationToolbarProps {
+  config: PresentationConfig;
+  onConfigChange: (config: PresentationConfig) => void;
 }

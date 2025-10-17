@@ -1,46 +1,51 @@
 "use client";
 
-import { MarkdownPreviewProps } from "@/types";
+import { MarkdownPreviewProps, PresentationConfig } from "@/types";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Mostage from "mostage";
 
 export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
   markdown,
+  config,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mostageRef = useRef<Mostage | null>(null);
   const [slideCount, setSlideCount] = useState<number>(0);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const updateMostage = useCallback((content: string) => {
-    if (containerRef.current) {
-      // Clean up previous instance
-      if (mostageRef.current) {
-        mostageRef.current.destroy();
-      }
-
-      // Create new Mostage instance
-      mostageRef.current = new Mostage({
-        element: containerRef.current,
-        content: content,
-        theme: "dark",
-        scale: 0.8,
-        plugins: {
-          ProgressBar: { enabled: true, position: "bottom" },
-          SlideNumber: { enabled: true, position: "bottom-right" },
-          Controller: { enabled: true, position: "bottom-center" },
-          Confetti: { enabled: true },
-        },
-      });
-
-      mostageRef.current.start().then(() => {
-        // Get slide count after presentation is initialized
+  const updateMostage = useCallback(
+    (content: string, presentationConfig: PresentationConfig) => {
+      if (containerRef.current) {
+        // Clean up previous instance
         if (mostageRef.current) {
-          setSlideCount(mostageRef.current.getTotalSlides());
+          mostageRef.current.destroy();
         }
-      });
-    }
-  }, []);
+
+        // Create new Mostage instance
+        mostageRef.current = new Mostage({
+          element: containerRef.current,
+          content: content,
+          theme: presentationConfig.theme,
+          scale: presentationConfig.scale,
+          loop: presentationConfig.loop,
+          keyboard: presentationConfig.keyboard,
+          touch: presentationConfig.touch,
+          urlHash: presentationConfig.urlHash,
+          transition: presentationConfig.transition,
+          centerContent: presentationConfig.centerContent,
+          plugins: presentationConfig.plugins,
+        });
+
+        mostageRef.current.start().then(() => {
+          // Get slide count after presentation is initialized
+          if (mostageRef.current) {
+            setSlideCount(mostageRef.current.getTotalSlides());
+          }
+        });
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     // Clear previous timeout
@@ -50,7 +55,7 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
 
     // Set new timeout for debounced update
     debounceTimeoutRef.current = setTimeout(() => {
-      updateMostage(markdown);
+      updateMostage(markdown, config);
     }, 500); // 500ms debounce
 
     return () => {
@@ -58,7 +63,7 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [markdown, updateMostage]);
+  }, [markdown, config, updateMostage]);
 
   // Cleanup on unmount
   useEffect(() => {

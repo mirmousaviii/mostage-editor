@@ -1,10 +1,12 @@
 "use client";
 
-import { EditorProps } from "@/types";
+import { EditorProps, PresentationConfig } from "@/types";
 import { MarkdownEditor } from "./MarkdownEditor";
 import { MarkdownPreview } from "./MarkdownPreview";
+import { PresentationToolbar } from "./PresentationToolbar";
 import { ToggleButton } from "./ToggleButton";
 import { ResizableSplitPane } from "./ResizableSplitPane";
+import { useState } from "react";
 
 export const Editor: React.FC<EditorProps> = ({
   markdown,
@@ -14,6 +16,57 @@ export const Editor: React.FC<EditorProps> = ({
   onToggleEditor,
   onTogglePreview,
 }) => {
+  const [presentationConfig, setPresentationConfig] =
+    useState<PresentationConfig>({
+      theme: "light", // Default from library
+      scale: 1.0, // Default from library
+      loop: false, // Default from library
+      keyboard: true, // Default from library
+      touch: true, // Default from library
+      urlHash: false, // Default from library
+      transition: {
+        type: "horizontal", // Default from library
+        duration: 300, // Default from library
+        easing: "ease-in-out", // Default from library
+      },
+      centerContent: {
+        vertical: true, // Default from library
+        horizontal: true, // Default from library
+      },
+      plugins: {
+        ProgressBar: {
+          enabled: true, // Default from library
+          position: "bottom", // Default from library
+          height: "12px", // Default from library
+          color: "#007acc", // Default from library
+        },
+        SlideNumber: {
+          enabled: true, // Default from library
+          position: "bottom-right", // Default from library
+          format: "current/total", // Default from library
+        },
+        Controller: {
+          enabled: true, // Default from library
+          position: "bottom-center", // Default from library
+        },
+        Confetti: {
+          enabled: true, // Default from library
+          particleCount: 50, // Default from library
+          size: { min: 5, max: 10 }, // Default from library
+          duration: 3000, // Default from library
+          delay: 0, // Default from library
+          colors: [
+            "#ff6b6b",
+            "#4ecdc4",
+            "#45b7d1",
+            "#96ceb4",
+            "#feca57",
+            "#ff9ff3",
+            "#54a0ff",
+          ], // Default from library
+        },
+      },
+    });
   return (
     <div className="h-full flex flex-col">
       {/* Toolbar */}
@@ -90,8 +143,15 @@ export const Editor: React.FC<EditorProps> = ({
             <div className="h-full border-r border-gray-200 dark:border-gray-700">
               <MarkdownEditor value={markdown} onChange={onChange} />
             </div>
-            <div className="h-full">
-              <MarkdownPreview markdown={markdown} />
+            <div className="h-full flex flex-col">
+              <PresentationToolbar
+                config={presentationConfig}
+                onConfigChange={setPresentationConfig}
+              />
+              <MarkdownPreview
+                markdown={markdown}
+                config={presentationConfig}
+              />
             </div>
           </ResizableSplitPane>
         ) : showEditor ? (
@@ -101,8 +161,12 @@ export const Editor: React.FC<EditorProps> = ({
           </div>
         ) : showPreview ? (
           // Preview only
-          <div className="h-full">
-            <MarkdownPreview markdown={markdown} />
+          <div className="h-full flex flex-col">
+            <PresentationToolbar
+              config={presentationConfig}
+              onConfigChange={setPresentationConfig}
+            />
+            <MarkdownPreview markdown={markdown} config={presentationConfig} />
           </div>
         ) : (
           // Neither (shouldn't happen, but fallback)
