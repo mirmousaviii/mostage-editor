@@ -1,11 +1,13 @@
 "use client";
 
 import { EditorProps, PresentationConfig } from "@/types";
-import { MarkdownEditor } from "./MarkdownEditor";
-import { MarkdownPreview } from "./MarkdownPreview";
+import { ContentEditor } from "./ContentEditor";
+import { ContentPreview } from "./ContentPreview";
 import { PresentationToolbar } from "./PresentationToolbar";
 import { ToggleButton } from "./ToggleButton";
 import { ResizableSplitPane } from "./ResizableSplitPane";
+import { ThemeToggle } from "./ThemeToggle";
+import { AuthButton } from "./AuthButton";
 import { useState } from "react";
 
 export const Editor: React.FC<EditorProps> = ({
@@ -92,7 +94,7 @@ export const Editor: React.FC<EditorProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <ToggleButton
             isActive={showEditor}
             onClick={onToggleEditor}
@@ -138,6 +140,10 @@ export const Editor: React.FC<EditorProps> = ({
               />
             </svg>
           </ToggleButton>
+
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
+          <ThemeToggle />
+          <AuthButton />
         </div>
       </div>
 
@@ -152,24 +158,25 @@ export const Editor: React.FC<EditorProps> = ({
             direction="horizontal"
             className="h-full"
           >
-            <div className="h-full border-r border-gray-200 dark:border-gray-700">
-              <MarkdownEditor value={markdown} onChange={onChange} />
-            </div>
-            <div className="h-full flex flex-col">
+            <div className="h-full border-r border-gray-200 dark:border-gray-700 flex flex-col">
               <PresentationToolbar
                 config={presentationConfig}
                 onConfigChange={setPresentationConfig}
               />
-              <MarkdownPreview
-                markdown={markdown}
-                config={presentationConfig}
-              />
+              <ContentEditor value={markdown} onChange={onChange} />
+            </div>
+            <div className="h-full">
+              <ContentPreview markdown={markdown} config={presentationConfig} />
             </div>
           </ResizableSplitPane>
         ) : showEditor ? (
           // Editor only
-          <div className="h-full">
-            <MarkdownEditor value={markdown} onChange={onChange} />
+          <div className="h-full flex flex-col">
+            <PresentationToolbar
+              config={presentationConfig}
+              onConfigChange={setPresentationConfig}
+            />
+            <ContentEditor value={markdown} onChange={onChange} />
           </div>
         ) : showPreview ? (
           // Preview only
@@ -178,7 +185,7 @@ export const Editor: React.FC<EditorProps> = ({
               config={presentationConfig}
               onConfigChange={setPresentationConfig}
             />
-            <MarkdownPreview markdown={markdown} config={presentationConfig} />
+            <ContentPreview markdown={markdown} config={presentationConfig} />
           </div>
         ) : (
           // Neither (shouldn't happen, but fallback)

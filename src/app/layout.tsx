@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mostage Editor - Professional Markdown Editor",
+  title: "Mostage Editor - Professional Content Editor",
   description:
-    "A modern, professional markdown editor with live preview built with Mostage",
+    "A modern, professional content editor with live preview built with Mostage",
 };
 
 export default function RootLayout({
@@ -24,11 +25,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme');
+                  const root = document.documentElement;
+                  
+                  if (theme === 'light' || theme === 'dark') {
+                    root.classList.add(theme);
+                    root.style.colorScheme = theme;
+                  } else {
+                    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    root.classList.add(systemTheme);
+                    root.style.colorScheme = systemTheme;
+                  }
+                } catch (e) {
+                  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  document.documentElement.classList.add(systemTheme);
+                  document.documentElement.style.colorScheme = systemTheme;
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* CSS Variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -12,13 +13,113 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Theme Classes */
+.light {
+  --background: #ffffff;
+  --foreground: #171717;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  color-scheme: dark;
+}
+
+/* System Theme Preference */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light):not(.dark) {
     --background: #0a0a0a;
     --foreground: #ededed;
+    color-scheme: dark;
   }
 }
 
+/* Theme Overrides */
+.light * {
+  color-scheme: light;
+}
+
+.dark * {
+  color-scheme: dark;
+}
+
+/* Light Theme Overrides */
+.light .dark\:bg-gray-800,
+.light .dark\:bg-gray-900,
+.light .dark\:bg-slate-800,
+.light .dark\:bg-slate-900 {
+  background-color: #ffffff;
+}
+
+.light .dark\:bg-gray-700,
+.light .dark\:bg-slate-700 {
+  background-color: #f3f4f6;
+}
+
+.light .dark\:text-gray-300,
+.light .dark\:text-slate-300 {
+  color: #374151;
+}
+
+.light .dark\:text-gray-400,
+.light .dark\:text-slate-400 {
+  color: #6b7280;
+}
+
+.light .dark\:text-gray-100 {
+  color: #111827;
+}
+
+.light .dark\:border-gray-600,
+.light .dark\:border-slate-600 {
+  border-color: #d1d5db;
+}
+
+.light .dark\:border-gray-700,
+.light .dark\:border-slate-700 {
+  border-color: #9ca3af;
+}
+
+/* Dark Theme Overrides */
+.dark .bg-white {
+  background-color: #1f2937;
+}
+
+.dark .bg-gray-100,
+.dark .bg-slate-50 {
+  background-color: #374151;
+}
+
+.dark .bg-gray-50 {
+  background-color: #4b5563;
+}
+
+.dark .text-gray-700,
+.dark .text-slate-700 {
+  color: #d1d5db;
+}
+
+.dark .text-gray-500,
+.dark .text-slate-500 {
+  color: #9ca3af;
+}
+
+.dark .text-gray-900 {
+  color: #f9fafb;
+}
+
+.dark .border-gray-300,
+.dark .border-slate-300 {
+  border-color: #4b5563;
+}
+
+.dark .border-gray-200,
+.dark .border-slate-200 {
+  border-color: #6b7280;
+}
+
+/* Base Styles */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -28,7 +129,7 @@ body {
   overflow: hidden;
 }
 
-/* Custom scrollbar styles */
+/* Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -47,34 +148,32 @@ body {
   background: #a8a8a8;
 }
 
-@media (prefers-color-scheme: dark) {
-  ::-webkit-scrollbar-track {
-    background: #2d2d2d;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #555;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #777;
-  }
+.dark ::-webkit-scrollbar-track {
+  background: #2d2d2d;
 }
 
-/* Focus styles for better accessibility */
+.dark ::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Accessibility */
 button:focus-visible,
 textarea:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
-/* Smooth transitions */
+/* Transitions */
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease,
     color 0.2s ease;
 }
 
-/* Disable text selection during drag */
+/* Utility Classes */
 .no-select {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -82,7 +181,6 @@ textarea:focus-visible {
   user-select: none;
 }
 
-/* Improve cursor during resize */
 .cursor-col-resize {
   cursor: col-resize;
 }
@@ -91,12 +189,11 @@ textarea:focus-visible {
   cursor: row-resize;
 }
 
-/* Prevent scrolling during drag */
 body.dragging {
   overflow: hidden;
 }
 
-/* Custom slider styles */
+/* Slider Styles */
 .slider::-webkit-slider-thumb {
   appearance: none;
   height: 16px;

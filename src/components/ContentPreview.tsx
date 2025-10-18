@@ -1,10 +1,10 @@
 "use client";
 
-import { MarkdownPreviewProps, PresentationConfig } from "@/types";
+import { ContentPreviewProps, PresentationConfig } from "@/types";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Mostage from "mostage";
 
-export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
+export const ContentPreview: React.FC<ContentPreviewProps> = ({
   markdown,
   config,
 }) => {
@@ -66,6 +66,20 @@ export const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({
       }
     };
   }, [markdown, config, updateMostage]);
+
+  // Handle theme changes without recreating Mostage instance
+  useEffect(() => {
+    if (mostageRef.current && containerRef.current) {
+      // Just update the theme without recreating the instance
+      const root = document.documentElement;
+      const currentTheme = root.classList.contains("dark") ? "dark" : "light";
+
+      // Apply theme to Mostage container
+      if (containerRef.current) {
+        containerRef.current.style.colorScheme = currentTheme;
+      }
+    }
+  }, [config.theme]);
 
   // Cleanup on unmount
   useEffect(() => {

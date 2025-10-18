@@ -1,6 +1,9 @@
 export { Editor } from "./Editor";
-export { MarkdownEditor } from "./MarkdownEditor";
-export { MarkdownPreview } from "./MarkdownPreview";
+export { ContentEditor } from "./ContentEditor";
+export { ContentPreview } from "./ContentPreview";
 export { PresentationToolbar } from "./PresentationToolbar";
 export { ToggleButton } from "./ToggleButton";
 export { ResizableSplitPane } from "./ResizableSplitPane";
+export { ThemeToggle } from "./ThemeToggle";
+export { AuthButton } from "./AuthButton";
+export { AuthModal } from "./AuthModal";

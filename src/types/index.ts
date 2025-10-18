@@ -13,13 +13,13 @@ export interface EditorProps {
   onTogglePreview: () => void;
 }
 
-export interface MarkdownEditorProps {
+export interface ContentEditorProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
 }
 
-export interface MarkdownPreviewProps {
+export interface ContentPreviewProps {
   markdown: string;
   config: PresentationConfig;
 }
