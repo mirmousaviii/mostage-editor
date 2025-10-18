@@ -11,3 +11,4 @@ export { AboutModal } from "./AboutModal";
 export { EditorToggle } from "./EditorToggle";
 export { PreviewToggle } from "./PreviewToggle";
 export { AboutButton } from "./AboutButton";
+export { Loading } from "./Loading";
