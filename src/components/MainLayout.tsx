@@ -109,14 +109,22 @@ export const MainLayout: React.FC<EditorProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
-          <EditorToggle isActive={showEditor} onClick={onToggleEditor} />
-          <PreviewToggle isActive={showPreview} onClick={onTogglePreview} />
+        <div className="flex items-center gap-2">
+          {/* Main Controls */}
+          <div className="flex items-center gap-1">
+            <EditorToggle isActive={showEditor} onClick={onToggleEditor} />
+            <PreviewToggle isActive={showPreview} onClick={onTogglePreview} />
+          </div>
 
-          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
-          <AboutButton onClick={() => setShowAboutModal(true)} />
-          <ThemeToggle />
-          <AuthButton />
+          {/* Separator */}
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600 mx-2" />
+
+          {/* Secondary Controls */}
+          <div className="flex items-center gap-1">
+            <AboutButton onClick={() => setShowAboutModal(true)} />
+            <ThemeToggle />
+            <AuthButton />
+          </div>
         </div>
       </div>
 

@@ -15,7 +15,7 @@ export function PreviewToggle({ isActive, onClick }: PreviewToggleProps) {
       onClick={onClick}
       title={isActive ? "Hide Preview" : "Show Preview"}
     >
-      <Eye className="w-4 h-4" />
+      <Eye className="w-5 h-5" />
     </ToggleButton>
   );
 }
