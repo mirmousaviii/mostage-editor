@@ -4,10 +4,13 @@ import { EditorProps, PresentationConfig } from "@/types";
 import { ContentEditor } from "./ContentEditor";
 import { ContentPreview } from "./ContentPreview";
 import { PresentationToolbar } from "./PresentationToolbar";
-import { ToggleButton } from "./ToggleButton";
 import { ResizableSplitPane } from "./ResizableSplitPane";
 import { ThemeToggle } from "./ThemeToggle";
 import { AuthButton } from "./AuthButton";
+import { AboutModal } from "./AboutModal";
+import { EditorToggle } from "./EditorToggle";
+import { PreviewToggle } from "./PreviewToggle";
+import { AboutButton } from "./AboutButton";
 import { useState } from "react";
 
 export const Editor: React.FC<EditorProps> = ({
@@ -18,6 +21,7 @@ export const Editor: React.FC<EditorProps> = ({
   onToggleEditor,
   onTogglePreview,
 }) => {
+  const [showAboutModal, setShowAboutModal] = useState(false);
   const [presentationConfig, setPresentationConfig] =
     useState<PresentationConfig>({
       theme: "light", // Default from library
@@ -95,53 +99,11 @@ export const Editor: React.FC<EditorProps> = ({
         </div>
 
         <div className="flex items-center gap-3">
-          <ToggleButton
-            isActive={showEditor}
-            onClick={onToggleEditor}
-            title={showEditor ? "Hide Editor" : "Show Editor"}
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-              />
-            </svg>
-          </ToggleButton>
-
-          <ToggleButton
-            isActive={showPreview}
-            onClick={onTogglePreview}
-            title={showPreview ? "Hide Preview" : "Show Preview"}
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              />
-            </svg>
-          </ToggleButton>
+          <EditorToggle isActive={showEditor} onClick={onToggleEditor} />
+          <PreviewToggle isActive={showPreview} onClick={onTogglePreview} />
 
           <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
+          <AboutButton onClick={() => setShowAboutModal(true)} />
           <ThemeToggle />
           <AuthButton />
         </div>
@@ -209,6 +171,12 @@ export const Editor: React.FC<EditorProps> = ({
           </div>
         )}
       </div>
+
+      {/* About Modal */}
+      <AboutModal
+        isOpen={showAboutModal}
+        onClose={() => setShowAboutModal(false)}
+      />
     </div>
   );
 };
