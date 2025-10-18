@@ -23,11 +23,11 @@ export function ThemeToggle() {
     <button
       onClick={handleToggle}
       className={`
-        relative flex items-center justify-center w-10 h-10 
+        relative flex items-center gap-2 px-3 py-1.5 text-sm font-medium 
         text-gray-700 dark:text-gray-300 
         bg-white dark:bg-gray-800 
         border border-gray-300 dark:border-gray-600 
-        rounded-md 
+        rounded-sm 
         hover:bg-blue-50 dark:hover:bg-blue-900/20 
         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
         transition-all duration-300 ease-in-out
@@ -35,11 +35,11 @@ export function ThemeToggle() {
       `}
       title={`Switch to ${resolvedTheme === "light" ? "dark" : "light"} mode`}
     >
-      <div className="relative w-5 h-5">
+      <div className="relative w-4 h-4">
         {/* Sun Icon */}
         <Sun
           className={`
-            absolute inset-0 w-5 h-5 transition-all duration-500 ease-in-out
+            absolute inset-0 w-4 h-4 transition-all duration-500 ease-in-out
             ${
               resolvedTheme === "light"
                 ? "opacity-100 rotate-0 scale-100"
@@ -51,7 +51,7 @@ export function ThemeToggle() {
         {/* Moon Icon */}
         <Moon
           className={`
-            absolute inset-0 w-5 h-5 transition-all duration-500 ease-in-out
+            absolute inset-0 w-4 h-4 transition-all duration-500 ease-in-out
             ${
               resolvedTheme === "dark"
                 ? "opacity-100 rotate-0 scale-100"
@@ -61,9 +61,13 @@ export function ThemeToggle() {
         />
       </div>
 
+      <span className="hidden sm:inline">
+        {resolvedTheme === "light" ? "Dark" : "Light"}
+      </span>
+
       {/* Ripple Effect */}
       {isAnimating && (
-        <div className="absolute inset-0 rounded-md bg-blue-500/20 animate-ping" />
+        <div className="absolute inset-0 rounded-sm bg-blue-500/20 animate-ping" />
       )}
     </button>
   );

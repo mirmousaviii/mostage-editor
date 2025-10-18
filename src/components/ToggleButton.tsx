@@ -13,7 +13,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
       onClick={onClick}
       title={title}
       className={`
-        flex items-center justify-center w-10 h-10 rounded-md transition-colors
+        flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-sm transition-colors
         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
         ${
           isActive

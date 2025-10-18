@@ -15,7 +15,8 @@ export function EditorToggle({ isActive, onClick }: EditorToggleProps) {
       onClick={onClick}
       title={isActive ? "Hide Editor" : "Show Editor"}
     >
-      <Code className="w-5 h-5" />
+      <Code className="w-4 h-4" />
+      <span className="hidden sm:inline">Editor</span>
     </ToggleButton>
   );
 }
