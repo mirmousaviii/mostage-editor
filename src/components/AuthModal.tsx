@@ -60,8 +60,17 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+        onClick={() => {
+          setError(""); // Clear error when closing modal
+          onClose();
+        }}
+      >
+        <div
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
