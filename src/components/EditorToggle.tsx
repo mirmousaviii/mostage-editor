@@ -1,6 +1,7 @@
 "use client";
 
 import { ToggleButton } from "./ToggleButton";
+import { Code } from "lucide-react";
 
 interface EditorToggleProps {
   isActive: boolean;
@@ -14,19 +15,7 @@ export function EditorToggle({ isActive, onClick }: EditorToggleProps) {
       onClick={onClick}
       title={isActive ? "Hide Editor" : "Show Editor"}
     >
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-        />
-      </svg>
+      <Code className="w-4 h-4" />
     </ToggleButton>
   );
 }
