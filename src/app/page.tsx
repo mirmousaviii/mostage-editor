@@ -1,6 +1,6 @@
 "use client";
 
-import { Editor } from "@/components";
+import { MainLayout } from "@/components";
 import { useEditor } from "@/hooks/useEditor";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <div className="h-screen w-full bg-gray-50 dark:bg-gray-900">
-      <Editor
+      <MainLayout
         markdown={markdown}
         onChange={updateMarkdown}
         showEditor={showEditor}

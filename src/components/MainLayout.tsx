@@ -13,7 +13,7 @@ import { PreviewToggle } from "./PreviewToggle";
 import { AboutButton } from "./AboutButton";
 import { useState } from "react";
 
-export const Editor: React.FC<EditorProps> = ({
+export const MainLayout: React.FC<EditorProps> = ({
   markdown,
   onChange,
   showEditor,

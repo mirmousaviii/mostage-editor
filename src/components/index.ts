@@ -1,4 +1,4 @@
-export { Editor } from "./Editor";
+export { MainLayout } from "./MainLayout";
 export { ContentEditor } from "./ContentEditor";
 export { ContentPreview } from "./ContentPreview";
 export { PresentationToolbar } from "./PresentationToolbar";
