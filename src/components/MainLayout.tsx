@@ -7,6 +7,7 @@ import { PresentationToolbar } from "./PresentationToolbar";
 import { ResizableSplitPane } from "./ResizableSplitPane";
 import { ThemeToggle } from "./ThemeToggle";
 import { AuthButton } from "./AuthButton";
+import { AuthModal } from "./AuthModal";
 import { AboutModal } from "./AboutModal";
 import { EditorToggle } from "./EditorToggle";
 import { PreviewToggle } from "./PreviewToggle";
@@ -24,6 +25,7 @@ export const MainLayout: React.FC<EditorProps> = ({
   onTogglePreview,
 }) => {
   const [showAboutModal, setShowAboutModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [presentationConfig, setPresentationConfig] =
     useState<PresentationConfig>({
       theme: "light", // Default from library
@@ -144,7 +146,11 @@ export const MainLayout: React.FC<EditorProps> = ({
                 config={presentationConfig}
                 onConfigChange={setPresentationConfig}
               />
-              <ContentEditor value={markdown} onChange={onChange} />
+              <ContentEditor
+                value={markdown}
+                onChange={onChange}
+                onOpenAuthModal={() => setShowAuthModal(true)}
+              />
             </div>
             <div className="h-full">
               <ContentPreview markdown={markdown} config={presentationConfig} />
@@ -157,7 +163,11 @@ export const MainLayout: React.FC<EditorProps> = ({
               config={presentationConfig}
               onConfigChange={setPresentationConfig}
             />
-            <ContentEditor value={markdown} onChange={onChange} />
+            <ContentEditor
+              value={markdown}
+              onChange={onChange}
+              onOpenAuthModal={() => setShowAuthModal(true)}
+            />
           </div>
         ) : showPreview ? (
           // Preview only
@@ -183,6 +193,12 @@ export const MainLayout: React.FC<EditorProps> = ({
       <AboutModal
         isOpen={showAboutModal}
         onClose={() => setShowAboutModal(false)}
+      />
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
       />
     </div>
   );

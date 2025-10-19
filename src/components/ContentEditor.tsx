@@ -19,16 +19,21 @@ import {
   Minus,
   Terminal,
   PartyPopper,
-  HelpCircle,
+  FolderOpen,
+  Save,
+  Sparkles,
 } from "lucide-react";
+import { AIModal } from "./AIModal";
 
 export const ContentEditor: React.FC<ContentEditorProps> = ({
   value,
   onChange,
   placeholder = "Start typing your markdown here...",
+  onOpenAuthModal,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isHeadingDropdownOpen, setIsHeadingDropdownOpen] = useState(false);
+  const [showAIModal, setShowAIModal] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +99,37 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
   const formatConfetti = () => insertText("\n<!-- confetti -->\n", "", "");
   const formatHorizontalRule = () => insertText("\n---\n", "", "");
 
+  // File handling functions
+  const handleFileOpen = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".md,.markdown,.txt";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const content = e.target?.result as string;
+          onChange(content);
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  };
+
+  const handleFileDownload = () => {
+    const blob = new Blob([value], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "content.md";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -137,6 +173,35 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         <div className="flex-1 overflow-hidden flex flex-col">
           {/* Markdown Toolbar */}
           <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
+            {/* Open File Button */}
+            <button
+              onClick={handleFileOpen}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Open Markdown File"
+            >
+              <FolderOpen className="w-4 h-4" />
+            </button>
+
+            {/* Download File Button */}
+            <button
+              onClick={handleFileDownload}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Download Markdown File"
+            >
+              <Save className="w-4 h-4" />
+            </button>
+
+            {/* AI Generate Button */}
+            <button
+              onClick={() => setShowAIModal(true)}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Generate presentation content with AI"
+            >
+              <Sparkles className="w-4 h-4" />
+            </button>
+
+            <div className="w-px h-6 bg-input mx-1" />
+
             {/* Heading Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
@@ -326,18 +391,6 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             >
               <Minus className="w-4 h-4" />
             </button>
-
-            <div className="w-px h-6 bg-input mx-1" />
-
-            <a
-              href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
-              title="GitHub Markdown Help (opens in new tab)"
-            >
-              <HelpCircle className="w-4 h-4" />
-            </a>
           </div>
 
           <textarea
@@ -388,6 +441,13 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
           </div>
         </div>
       )}
+
+      {/* AI Modal */}
+      <AIModal
+        isOpen={showAIModal}
+        onClose={() => setShowAIModal(false)}
+        onOpenAuthModal={onOpenAuthModal || (() => {})}
+      />
     </div>
   );
 };

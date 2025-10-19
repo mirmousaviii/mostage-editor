@@ -52,12 +52,12 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 Available as a NPM package, CLI and Web Editor.
               </p>
               <a
-                href="https://mo.js.org"
+                href="https://github.com/mirmousaviii/mostage"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:underline"
               >
-                mo.js.org
+                github.com/mirmousaviii/mostage
               </a>
             </div>
 
@@ -74,43 +74,37 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 real time. Effortlessly export your work to PDF, PNG, JPG, and
                 other formats. Easily share your presentations with others.
               </p>
+              <a
+                href="https://github.com/mirmousaviii/mostage"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                github.com/mirmousaviii/mostage-editor
+              </a>
             </div>
 
-            {/* Features */}
+            {/* Markdown Help */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
-                Key Features
+                Markdown Help
               </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  Content Editor
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  Content Preview
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  Export
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  Presentation Settings
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  Plugin Settings
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  Theme Settings
-                </div>
-              </div>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-3">
+                Need help with Markdown syntax? Check out the official GitHub
+                Markdown guide for comprehensive documentation and examples.
+              </p>
+              <a
+                href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                docs.github.com
+              </a>
             </div>
 
             {/* Links */}
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 justify-end">
               <a
                 href="https://github.com/mirmousaviii/mostage"
                 target="_blank"

@@ -8,6 +8,7 @@ export { ThemeToggle } from "./ThemeToggle";
 export { AuthButton } from "./AuthButton";
 export { AuthModal } from "./AuthModal";
 export { AboutModal } from "./AboutModal";
+export { AIModal } from "./AIModal";
 export { EditorToggle } from "./EditorToggle";
 export { PreviewToggle } from "./PreviewToggle";
 export { AboutButton } from "./AboutButton";
