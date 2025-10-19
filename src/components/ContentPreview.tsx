@@ -13,6 +13,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
   const mostageRef = useRef<Mostage | null>(null);
   const [slideCount, setSlideCount] = useState<number>(0);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastConfigRef = useRef<PresentationConfig | null>(null);
 
   const updateMostage = useCallback(
     (content: string, presentationConfig: PresentationConfig) => {
@@ -110,16 +111,32 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
     []
   );
 
-  // Handle content changes with debounce
+  // Handle content and config changes with smart logic
   useEffect(() => {
     // Clear previous timeout
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
 
+    // Check if config has changed
+    const configChanged =
+      JSON.stringify(lastConfigRef.current) !== JSON.stringify(config);
+    lastConfigRef.current = config;
+
     // Set new timeout for debounced update
     debounceTimeoutRef.current = setTimeout(() => {
-      updateMostage(markdown, config);
+      if (mostageRef.current) {
+        if (configChanged) {
+          // If config changed, recreate instance
+          recreateMostage(markdown, config);
+        } else {
+          // If only content changed, update content only
+          updateMostage(markdown, config);
+        }
+      } else {
+        // If no instance, create new one
+        recreateMostage(markdown, config);
+      }
     }, 500); // 500ms debounce
 
     return () => {
@@ -127,14 +144,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [markdown, updateMostage, config]);
-
-  // Handle config changes by recreating Mostage instance
-  useEffect(() => {
-    if (mostageRef.current && containerRef.current) {
-      recreateMostage(markdown, config);
-    }
-  }, [config, markdown, recreateMostage]);
+  }, [markdown, config, updateMostage, recreateMostage]);
 
   // Cleanup on unmount
   useEffect(() => {
