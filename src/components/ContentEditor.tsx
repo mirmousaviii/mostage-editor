@@ -1,8 +1,26 @@
 "use client";
 
 import { ContentEditorProps } from "@/types";
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import {
+  ChevronDown,
+  Bold,
+  Italic,
+  Quote,
+  Code,
+  Link,
+  List,
+  ListOrdered,
+  CheckSquare,
+  Image,
+  Table,
+  Type,
+  Strikethrough,
+  Minus,
+  Terminal,
+  PartyPopper,
+  HelpCircle,
+} from "lucide-react";
 
 export const ContentEditor: React.FC<ContentEditorProps> = ({
   value,
@@ -10,6 +28,91 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
   placeholder = "Start typing your markdown here...",
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isHeadingDropdownOpen, setIsHeadingDropdownOpen] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Helper function to insert text at cursor position
+  const insertText = (
+    before: string,
+    after: string = "",
+    placeholder: string = ""
+  ) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = value.substring(start, end);
+    const textToInsert = selectedText || placeholder;
+
+    const newText =
+      value.substring(0, start) +
+      before +
+      textToInsert +
+      after +
+      value.substring(end);
+    onChange(newText);
+
+    // Set cursor position after inserted text
+    setTimeout(() => {
+      const newCursorPos =
+        start + before.length + textToInsert.length + after.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+      textarea.focus();
+    }, 0);
+  };
+
+  // Markdown formatting functions
+  const formatBold = () => insertText("**", "**", "bold text");
+  const formatItalic = () => insertText("*", "*", "italic text");
+  const formatH1 = () => insertText("# ", "", "H1 Heading");
+  const formatH2 = () => insertText("## ", "", "H2 Heading");
+  const formatH3 = () => insertText("### ", "", "H3 Heading");
+  const formatH4 = () => insertText("#### ", "", "H4 Heading");
+  const formatH5 = () => insertText("##### ", "", "H5 Heading");
+  const formatH6 = () => insertText("###### ", "", "H6 Heading");
+  const formatQuote = () => insertText("> ", "", "Quote");
+  const formatCode = () => insertText("`", "`", "code");
+  const formatLink = () => insertText("[", "](url)", "link text");
+  const formatImage = () => insertText("![", "](url)", "alt text");
+  const formatTable = () => {
+    const tableText = `| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |`;
+    insertText(tableText, "", "");
+  };
+  const formatList = () => insertText("- ", "", "List item");
+  const formatOrderedList = () => insertText("1. ", "", "List item");
+  const formatTaskList = () => insertText("- [ ] ", "", "Task item");
+
+  // Additional formatting functions
+  const formatStrikethrough = () =>
+    insertText("~~", "~~", "strikethrough text");
+  const formatCodeBlock = () => insertText("```\n", "\n```", "code block");
+  const formatConfetti = () => insertText("\n<!-- confetti -->\n", "", "");
+  const formatHorizontalRule = () => insertText("\n---\n", "", "");
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsHeadingDropdownOpen(false);
+      }
+    };
+
+    if (isHeadingDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isHeadingDropdownOpen]);
 
   return (
     <div className="h-full flex flex-col border-b border-input bg-muted">
@@ -31,13 +134,219 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
 
       {/* Collapsible Content */}
       {isExpanded && (
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden flex flex-col">
+          {/* Markdown Toolbar */}
+          <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
+            {/* Heading Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsHeadingDropdownOpen(!isHeadingDropdownOpen)}
+                className="flex items-center gap-1 px-2 py-1 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+                title="Headings"
+              >
+                <Type className="w-4 h-4" />
+                <ChevronDown className="w-3 h-3" />
+              </button>
+
+              {isHeadingDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 bg-card border border-input rounded-sm shadow-lg z-10 min-w-[120px]">
+                  <button
+                    onClick={() => {
+                      formatH1();
+                      setIsHeadingDropdownOpen(false);
+                    }}
+                    className="w-full px-3 py-2 text-left text-sm text-card-foreground hover:bg-secondary transition-colors"
+                  >
+                    Heading 1
+                  </button>
+                  <button
+                    onClick={() => {
+                      formatH2();
+                      setIsHeadingDropdownOpen(false);
+                    }}
+                    className="w-full px-3 py-2 text-left text-sm text-card-foreground hover:bg-secondary transition-colors"
+                  >
+                    Heading 2
+                  </button>
+                  <button
+                    onClick={() => {
+                      formatH3();
+                      setIsHeadingDropdownOpen(false);
+                    }}
+                    className="w-full px-3 py-2 text-left text-sm text-card-foreground hover:bg-secondary transition-colors"
+                  >
+                    Heading 3
+                  </button>
+                  <button
+                    onClick={() => {
+                      formatH4();
+                      setIsHeadingDropdownOpen(false);
+                    }}
+                    className="w-full px-3 py-2 text-left text-sm text-card-foreground hover:bg-secondary transition-colors"
+                  >
+                    Heading 4
+                  </button>
+                  <button
+                    onClick={() => {
+                      formatH5();
+                      setIsHeadingDropdownOpen(false);
+                    }}
+                    className="w-full px-3 py-2 text-left text-sm text-card-foreground hover:bg-secondary transition-colors"
+                  >
+                    Heading 5
+                  </button>
+                  <button
+                    onClick={() => {
+                      formatH6();
+                      setIsHeadingDropdownOpen(false);
+                    }}
+                    className="w-full px-3 py-2 text-left text-sm text-card-foreground hover:bg-secondary transition-colors"
+                  >
+                    Heading 6
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="w-px h-6 bg-input mx-1" />
+
+            <button
+              onClick={formatBold}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Bold"
+            >
+              <Bold className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatItalic}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Italic"
+            >
+              <Italic className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatStrikethrough}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Strikethrough"
+            >
+              <Strikethrough className="w-4 h-4" />
+            </button>
+
+            <div className="w-px h-6 bg-input mx-1" />
+
+            <button
+              onClick={formatQuote}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Quote"
+            >
+              <Quote className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatCode}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Inline Code"
+            >
+              <Code className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatCodeBlock}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Code Block"
+            >
+              <Terminal className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatLink}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Link"
+            >
+              <Link className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatImage}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Image"
+            >
+              <Image className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatTable}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Table"
+            >
+              <Table className="w-4 h-4" />
+            </button>
+
+            <div className="w-px h-6 bg-input mx-1" />
+
+            <button
+              onClick={formatList}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Unordered List"
+            >
+              <List className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatOrderedList}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Ordered List"
+            >
+              <ListOrdered className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatTaskList}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Task List"
+            >
+              <CheckSquare className="w-4 h-4" />
+            </button>
+            <div className="w-px h-6 bg-input mx-1" />
+
+            <button
+              onClick={formatConfetti}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Confetti"
+            >
+              <PartyPopper className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={formatHorizontalRule}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="New Slide"
+            >
+              <Minus className="w-4 h-4" />
+            </button>
+
+            <div className="w-px h-6 bg-input mx-1" />
+
+            <a
+              href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="GitHub Markdown Help (opens in new tab)"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </a>
+          </div>
+
           <textarea
+            ref={textareaRef}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
             className="
-              h-full w-full p-4 border-0 resize-none outline-none
+              flex-1 w-full p-4 border-0 resize-none outline-none
               bg-background text-foreground
               font-mono text-sm leading-relaxed
               placeholder-muted-foreground
