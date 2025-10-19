@@ -12,18 +12,18 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div className="h-full flex flex-col border-b border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-slate-900">
+    <div className="h-full flex flex-col border-b border-input bg-muted">
       {/* Content Editor Header */}
       <div
-        className="flex items-center justify-between p-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+        className="flex items-center justify-between p-3 cursor-pointer hover:bg-secondary/50 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
         title={isExpanded ? "Collapse editor" : "Expand editor"}
       >
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <h3 className="text-sm font-semibold text-card-foreground">
           Content Editor
         </h3>
         <ChevronDown
-          className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${
+          className={`w-4 h-4 text-muted-foreground transition-transform ${
             isExpanded ? "rotate-180" : ""
           }`}
         />
@@ -38,9 +38,9 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             placeholder={placeholder}
             className="
               h-full w-full p-4 border-0 resize-none outline-none
-              bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100
+              bg-background text-foreground
               font-mono text-sm leading-relaxed
-              placeholder-gray-400 dark:placeholder-gray-500
+              placeholder-muted-foreground
             "
             style={{
               fontFamily:

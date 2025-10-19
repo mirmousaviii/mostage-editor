@@ -82,7 +82,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 setError(""); // Clear error when closing modal
                 onClose();
               }}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             >
               <X className="w-6 h-6" />
             </button>
@@ -148,7 +148,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -162,7 +162,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-md transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
+              className="w-full bg-primary hover:bg-primary/90 disabled:bg-primary/50 disabled:cursor-not-allowed text-primary-foreground font-medium py-2 px-4 rounded-md transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2 flex items-center justify-center cursor-pointer"
             >
               {isLoading ? (
                 <>
@@ -187,7 +187,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   setIsSignUp(!isSignUp);
                   setError(""); // Clear error when switching modes
                 }}
-                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors"
+                className="text-primary hover:text-primary/80 font-medium transition-colors cursor-pointer"
               >
                 {isSignUp ? "Sign In" : "Sign Up"}
               </button>

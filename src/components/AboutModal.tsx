@@ -32,7 +32,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             >
               <X className="w-6 h-6" />
             </button>
@@ -115,7 +115,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 href="https://github.com/mirmousaviii/mostage"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-sm cursor-pointer"
               >
                 <Github className="w-4 h-4" />
                 GitHub
@@ -124,7 +124,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 href="https://mo.js.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-sm cursor-pointer"
               >
                 <ExternalLink className="w-4 h-4" />
                 Website

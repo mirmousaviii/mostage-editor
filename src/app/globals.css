@@ -1,122 +1,120 @@
 @import "tailwindcss";
 
-/* CSS Variables */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* CSS Variables - Light Theme */
 :root {
+  /* Primary Colors */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+
+  /* Secondary Colors */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* Accent Colors */
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  /* Border & Input */
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+
+  /* Status Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  /* Interactive States */
+  --ring: #3b82f6;
+  --hover: #f8fafc;
+  --active: #e2e8f0;
+}
+
+/* Dark Theme */
+.dark {
+  /* Primary Colors */
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+
+  /* Secondary Colors */
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+
+  /* Accent Colors */
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #334155;
+  --secondary-foreground: #f8fafc;
+
+  /* Border & Input */
+  --border: #334155;
+  --input: #334155;
+
+  /* Status Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  /* Interactive States */
+  --ring: #3b82f6;
+  --hover: #1e293b;
+  --active: #334155;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-/* Theme Classes */
-.light {
-  --background: #ffffff;
-  --foreground: #171717;
-  color-scheme: light;
-}
-
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  color-scheme: dark;
 }
 
 /* System Theme Preference */
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --card: #1e293b;
+    --card-foreground: #f8fafc;
+    --popover: #1e293b;
+    --popover-foreground: #f8fafc;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --secondary: #334155;
+    --secondary-foreground: #f8fafc;
+    --border: #334155;
+    --input: #334155;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --ring: #3b82f6;
+    --hover: #1e293b;
+    --active: #334155;
     color-scheme: dark;
   }
-}
-
-/* Theme Overrides */
-.light * {
-  color-scheme: light;
-}
-
-.dark * {
-  color-scheme: dark;
-}
-
-/* Light Theme Overrides */
-.light .dark\:bg-gray-800,
-.light .dark\:bg-gray-900,
-.light .dark\:bg-slate-800,
-.light .dark\:bg-slate-900 {
-  background-color: #ffffff;
-}
-
-.light .dark\:bg-gray-700,
-.light .dark\:bg-slate-700 {
-  background-color: #f3f4f6;
-}
-
-.light .dark\:text-gray-300,
-.light .dark\:text-slate-300 {
-  color: #374151;
-}
-
-.light .dark\:text-gray-400,
-.light .dark\:text-slate-400 {
-  color: #6b7280;
-}
-
-.light .dark\:text-gray-100 {
-  color: #111827;
-}
-
-.light .dark\:border-gray-600,
-.light .dark\:border-slate-600 {
-  border-color: #d1d5db;
-}
-
-.light .dark\:border-gray-700,
-.light .dark\:border-slate-700 {
-  border-color: #9ca3af;
-}
-
-/* Dark Theme Overrides */
-.dark .bg-white {
-  background-color: #1f2937;
-}
-
-.dark .bg-gray-100,
-.dark .bg-slate-50 {
-  background-color: #374151;
-}
-
-.dark .bg-gray-50 {
-  background-color: #4b5563;
-}
-
-.dark .text-gray-700,
-.dark .text-slate-700 {
-  color: #d1d5db;
-}
-
-.dark .text-gray-500,
-.dark .text-slate-500 {
-  color: #9ca3af;
-}
-
-.dark .text-gray-900 {
-  color: #f9fafb;
-}
-
-.dark .border-gray-300,
-.dark .border-slate-300 {
-  border-color: #4b5563;
-}
-
-.dark .border-gray-200,
-.dark .border-slate-200 {
-  border-color: #6b7280;
 }
 
 /* Base Styles */
@@ -163,8 +161,8 @@ body {
 /* Accessibility */
 button:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+  outline: 1px solid #3b82f6;
+  outline-offset: 1px;
 }
 
 /* Transitions */
@@ -179,6 +177,101 @@ textarea:focus-visible {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+/* Color Utility Classes */
+.bg-primary {
+  background-color: var(--primary);
+}
+.bg-primary-foreground {
+  background-color: var(--primary-foreground);
+}
+.bg-secondary {
+  background-color: var(--secondary);
+}
+.bg-secondary-foreground {
+  background-color: var(--secondary-foreground);
+}
+.bg-muted {
+  background-color: var(--muted);
+}
+.bg-card {
+  background-color: var(--card);
+}
+.bg-popover {
+  background-color: var(--popover);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+.text-secondary {
+  color: var(--secondary);
+}
+.text-secondary-foreground {
+  color: var(--secondary-foreground);
+}
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+.text-card-foreground {
+  color: var(--card-foreground);
+}
+.text-popover-foreground {
+  color: var(--popover-foreground);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+.border-secondary {
+  border-color: var(--secondary);
+}
+.border-muted {
+  border-color: var(--muted);
+}
+.border-input {
+  border-color: var(--input);
+}
+
+.ring-primary {
+  --tw-ring-color: var(--ring);
+}
+
+.hover\:bg-hover:hover {
+  background-color: var(--hover);
+}
+.hover\:bg-primary:hover {
+  background-color: var(--primary);
+}
+.hover\:bg-primary-foreground:hover {
+  background-color: var(--primary-foreground);
+}
+.hover\:bg-secondary:hover {
+  background-color: var(--secondary);
+}
+.hover\:bg-muted:hover {
+  background-color: var(--muted);
+}
+
+.hover\:text-primary:hover {
+  color: var(--primary);
+}
+.hover\:text-primary-foreground:hover {
+  color: var(--primary-foreground);
+}
+.hover\:text-secondary:hover {
+  color: var(--secondary);
+}
+.hover\:text-muted-foreground:hover {
+  color: var(--muted-foreground);
+}
+
+.focus\:ring-primary:focus {
+  --tw-ring-color: var(--ring);
 }
 
 .cursor-col-resize {

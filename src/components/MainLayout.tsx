@@ -90,7 +90,7 @@ export const MainLayout: React.FC<EditorProps> = ({
   return (
     <div className="h-full flex flex-col">
       {/* Toolbar */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-blue-50 dark:bg-gray-900">
+      <div className="flex items-center justify-between p-3 border-b border-input bg-muted">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3">
             <Image
@@ -100,11 +100,11 @@ export const MainLayout: React.FC<EditorProps> = ({
               height={32}
               className="w-8 h-8"
             />
-            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            <h1 className="text-xl font-bold text-foreground">
               Mostage Editor
             </h1>
           </div>
-          <span className="text-xs text-gray-500 dark:text-gray-400 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-md font-medium">
+          <span className="text-xs text-muted-foreground bg-secondary text-secondary-foreground px-2 py-1 rounded-md font-medium">
             Beta Version
           </span>
         </div>

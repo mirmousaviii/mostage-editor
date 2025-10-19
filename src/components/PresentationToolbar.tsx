@@ -120,18 +120,18 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
   };
 
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-slate-900">
+    <div className="border-b border-input bg-muted">
       {/* Toolbar Header */}
       <div
-        className="flex items-center justify-between p-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+        className="flex items-center justify-between p-3 cursor-pointer hover:bg-secondary/50 transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
         title={isExpanded ? "Collapse settings" : "Expand settings"}
       >
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <h3 className="text-sm font-semibold text-card-foreground">
           Presentation Settings
         </h3>
         <ChevronDown
-          className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${
+          className={`w-4 h-4 text-muted-foreground transition-transform ${
             isExpanded ? "rotate-180" : ""
           }`}
         />
@@ -225,7 +225,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                     Navigation
                   </label>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                    <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.loop}
@@ -250,7 +250,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                    <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.keyboard}
@@ -275,7 +275,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                    <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.touch}
@@ -300,7 +300,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                    <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.urlHash}
@@ -396,7 +396,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                     Center Content
                   </label>
                   <div className="grid grid-cols-2 gap-4">
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                    <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.centerContent.vertical}
@@ -424,7 +424,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                       </span>
                     </label>
 
-                    <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                    <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                       <input
                         type="checkbox"
                         checked={config.centerContent.horizontal}
@@ -772,7 +772,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                         />
                       </div>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                        <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                           <input
                             type="checkbox"
                             checked={config.header.showOnFirstSlide}
@@ -865,7 +865,7 @@ export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
                         />
                       </div>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        <label className="flex items-center p-3 bg-slate-50 dark:bg-slate-700 rounded-md border border-gray-200 dark:border-gray-600 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                        <label className="flex items-center p-3 bg-secondary rounded-md border border-input cursor-pointer hover:bg-secondary/80 transition-colors">
                           <input
                             type="checkbox"
                             checked={config.footer.showOnFirstSlide}

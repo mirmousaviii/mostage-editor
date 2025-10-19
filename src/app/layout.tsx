@@ -37,16 +37,13 @@ export default function RootLayout({
                   
                   if (theme === 'light' || theme === 'dark') {
                     root.classList.add(theme);
-                    root.style.colorScheme = theme;
                   } else {
                     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                     root.classList.add(systemTheme);
-                    root.style.colorScheme = systemTheme;
                   }
                 } catch (e) {
                   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                   document.documentElement.classList.add(systemTheme);
-                  document.documentElement.style.colorScheme = systemTheme;
                 }
               })();
             `,

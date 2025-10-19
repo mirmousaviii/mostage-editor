@@ -120,7 +120,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
           </div>
           <button
             onClick={handleFullscreen}
-            className="flex items-center justify-center w-8 h-8 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 cursor-pointer"
             title="Enter fullscreen mode"
           >
             <Maximize className="w-4 h-4" />
