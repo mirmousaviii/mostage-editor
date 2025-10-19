@@ -17,15 +17,76 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
   const updateMostage = useCallback(
     (content: string, presentationConfig: PresentationConfig) => {
       if (containerRef.current) {
-        // Clean up previous instance
+        // Use default content if empty
+        const displayContent =
+          content.trim() ||
+          `
+## No content
+
+<br/>
+
+#### Add content manually or generate with AI`;
+
+        // If Mostage instance exists, update content
+        if (mostageRef.current) {
+          mostageRef.current.updateContent(displayContent).then(() => {
+            if (mostageRef.current) {
+              setSlideCount(mostageRef.current.getTotalSlides());
+            }
+          });
+        } else {
+          // Create new Mostage instance only if it doesn't exist
+          mostageRef.current = new Mostage({
+            element: containerRef.current,
+            content: displayContent,
+            theme: presentationConfig.theme,
+            scale: presentationConfig.scale,
+            loop: presentationConfig.loop,
+            keyboard: presentationConfig.keyboard,
+            touch: presentationConfig.touch,
+            urlHash: presentationConfig.urlHash,
+            transition: presentationConfig.transition,
+            centerContent: presentationConfig.centerContent,
+            header: presentationConfig.header,
+            footer: presentationConfig.footer,
+            plugins: presentationConfig.plugins,
+          });
+
+          mostageRef.current.start().then(() => {
+            // Get slide count after presentation is initialized
+            if (mostageRef.current) {
+              setSlideCount(mostageRef.current.getTotalSlides());
+            }
+          });
+        }
+      }
+    },
+    []
+  );
+
+  const recreateMostage = useCallback(
+    (content: string, presentationConfig: PresentationConfig) => {
+      if (containerRef.current) {
+        // Clean up existing instance
         if (mostageRef.current) {
           mostageRef.current.destroy();
+          mostageRef.current = null;
         }
 
-        // Create new Mostage instance
+        // Use default content if empty
+        const displayContent =
+          content.trim() ||
+          `
+## No content
+
+<br/>
+
+#### Add content manually or generate with AI`;
+
+        // Create new Mostage instance with updated config
         mostageRef.current = new Mostage({
           element: containerRef.current,
-          content: content,
+          content: displayContent,
           theme: presentationConfig.theme,
           scale: presentationConfig.scale,
           loop: presentationConfig.loop,
@@ -40,7 +101,6 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         });
 
         mostageRef.current.start().then(() => {
-          // Get slide count after presentation is initialized
           if (mostageRef.current) {
             setSlideCount(mostageRef.current.getTotalSlides());
           }
@@ -50,6 +110,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
     []
   );
 
+  // Handle content changes with debounce
   useEffect(() => {
     // Clear previous timeout
     if (debounceTimeoutRef.current) {
@@ -66,21 +127,14 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [markdown, config, updateMostage]);
+  }, [markdown, updateMostage, config]);
 
-  // Handle theme changes without recreating Mostage instance
+  // Handle config changes by recreating Mostage instance
   useEffect(() => {
     if (mostageRef.current && containerRef.current) {
-      // Just update the theme without recreating the instance
-      const root = document.documentElement;
-      const currentTheme = root.classList.contains("dark") ? "dark" : "light";
-
-      // Apply theme to Mostage container
-      if (containerRef.current) {
-        containerRef.current.style.colorScheme = currentTheme;
-      }
+      recreateMostage(markdown, config);
     }
-  }, [config.theme]);
+  }, [config, markdown, recreateMostage]);
 
   // Cleanup on unmount
   useEffect(() => {

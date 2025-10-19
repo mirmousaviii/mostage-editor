@@ -11,7 +11,6 @@ import {
   Link,
   List,
   ListOrdered,
-  CheckSquare,
   Image,
   Table,
   Type,
@@ -22,6 +21,7 @@ import {
   FolderOpen,
   Save,
   Sparkles,
+  FileText,
 } from "lucide-react";
 import { AIModal } from "./AIModal";
 
@@ -90,7 +90,6 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
   };
   const formatList = () => insertText("- ", "", "List item");
   const formatOrderedList = () => insertText("1. ", "", "List item");
-  const formatTaskList = () => insertText("- [ ] ", "", "Task item");
 
   // Additional formatting functions
   const formatStrikethrough = () =>
@@ -128,6 +127,10 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleNewFile = () => {
+    onChange("");
   };
 
   // Close dropdown when clicking outside
@@ -171,8 +174,17 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       {/* Collapsible Content */}
       {isExpanded && (
         <div className="flex-1 overflow-hidden flex flex-col">
-          {/* Markdown Toolbar */}
+          {/* File Operations Toolbar */}
           <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
+            {/* New File Button */}
+            <button
+              onClick={handleNewFile}
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="New File"
+            >
+              <FileText className="w-4 h-4" />
+            </button>
+
             {/* Open File Button */}
             <button
               onClick={handleFileOpen}
@@ -191,6 +203,8 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
               <Save className="w-4 h-4" />
             </button>
 
+            <div className="w-px h-6 bg-input mx-1" />
+
             {/* AI Generate Button */}
             <button
               onClick={() => setShowAIModal(true)}
@@ -199,9 +213,10 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             >
               <Sparkles className="w-4 h-4" />
             </button>
+          </div>
 
-            <div className="w-px h-6 bg-input mx-1" />
-
+          {/* Markdown Formatting Toolbar */}
+          <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
             {/* Heading Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
@@ -367,13 +382,6 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
               <ListOrdered className="w-4 h-4" />
             </button>
 
-            <button
-              onClick={formatTaskList}
-              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
-              title="Task List"
-            >
-              <CheckSquare className="w-4 h-4" />
-            </button>
             <div className="w-px h-6 bg-input mx-1" />
 
             <button
