@@ -353,6 +353,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
               className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
               title="Image"
             >
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image className="w-4 h-4" />
             </button>
 

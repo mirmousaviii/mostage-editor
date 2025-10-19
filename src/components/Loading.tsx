@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import logo from "@/assets/images/logo.svg";
 
 export function Loading() {
   return (
@@ -9,7 +10,7 @@ export function Loading() {
         {/* Logo */}
         <div className="mb-6">
           <Image
-            src="/logo.svg"
+            src={logo}
             alt="Mostage Logo"
             width={64}
             height={64}

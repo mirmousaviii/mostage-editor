@@ -14,6 +14,7 @@ import { PreviewToggle } from "./PreviewToggle";
 import { AboutButton } from "./AboutButton";
 import { useState } from "react";
 import Image from "next/image";
+import logo from "@/assets/images/logo.svg";
 import { FileText } from "lucide-react";
 
 export const MainLayout: React.FC<EditorProps> = ({
@@ -96,7 +97,7 @@ export const MainLayout: React.FC<EditorProps> = ({
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3">
             <Image
-              src="/logo.svg"
+              src={logo}
               alt="Mostage Logo"
               width={32}
               height={32}
