@@ -6,14 +6,26 @@ import { ContentPreview } from "./ContentPreview";
 import { PresentationSettings } from "./PresentationSettings";
 import { ResizableSplitPane } from "./ResizableSplitPane";
 import { ThemeToggle } from "./ThemeToggle";
-import { AuthButton } from "./AuthButton";
 import { AuthModal } from "./AuthModal";
 import { AboutModal } from "./AboutModal";
-import { AboutButton } from "./AboutButton";
+import { ExportModal } from "./ExportModal";
+import { ImportModal } from "./ImportModal";
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import logo from "@/assets/images/logo.svg";
-import { FileText } from "lucide-react";
+import { FileText, Download, Upload, User, Info } from "lucide-react";
+import {
+  exportToHTML,
+  exportToPDF,
+  exportToMostage,
+  exportToPPTX,
+  exportToJPG,
+} from "@/utils/exportUtils";
+import {
+  handleFileImportWithConfig,
+  handleMultipleFilesImport,
+  validateFile,
+} from "@/utils/importUtils";
 
 // Constants
 const COLLAPSE_THRESHOLD = 5; // Percentage threshold for collapse state
@@ -94,6 +106,8 @@ export const MainLayout: React.FC<EditorProps> = ({
   // Modal states
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
 
   // Split pane states
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -133,6 +147,129 @@ export const MainLayout: React.FC<EditorProps> = ({
     setShowAboutModal(true);
   }, []);
 
+  const handleOpenExportModal = useCallback(() => {
+    setShowExportModal(true);
+  }, []);
+
+  const handleOpenImportModal = useCallback(() => {
+    setShowImportModal(true);
+  }, []);
+
+  const handleExport = useCallback(
+    async (format: string) => {
+      try {
+        const options = {
+          filename: "presentation",
+          theme: presentationConfig.theme,
+        };
+
+        switch (format) {
+          case "mostage":
+            await exportToMostage(
+              markdown,
+              presentationConfig as unknown as Record<string, unknown>,
+              options
+            );
+            break;
+          case "html":
+            await exportToHTML(
+              markdown,
+              presentationConfig as unknown as Record<string, unknown>,
+              options
+            );
+            break;
+          case "pdf":
+            await exportToPDF(
+              markdown,
+              presentationConfig as unknown as Record<string, unknown>,
+              options
+            );
+            break;
+          case "pptx":
+            await exportToPPTX(
+              markdown,
+              presentationConfig as unknown as Record<string, unknown>,
+              options
+            );
+            break;
+          case "jpg":
+            await exportToJPG(
+              markdown,
+              presentationConfig as unknown as Record<string, unknown>,
+              options
+            );
+            break;
+          default:
+            console.error("Unknown export format:", format);
+        }
+
+        setShowExportModal(false);
+      } catch (error) {
+        console.error("Export failed:", error);
+      }
+    },
+    [markdown, presentationConfig]
+  );
+
+  const handleImport = useCallback(
+    async (file: File) => {
+      try {
+        const validation = validateFile(file);
+        if (!validation.valid) {
+          throw new Error(validation.error);
+        }
+
+        const result = await handleFileImportWithConfig(file);
+
+        // Update content if available
+        if (result.content) {
+          onChange(result.content);
+        }
+
+        // Update config if available
+        if (result.config) {
+          setPresentationConfig(result.config as unknown as PresentationConfig);
+        }
+
+        setShowImportModal(false);
+      } catch (error) {
+        console.error("Import failed:", error);
+      }
+    },
+    [onChange]
+  );
+
+  const handleImportMultiple = useCallback(
+    async (files: File[]) => {
+      try {
+        // Validate all files
+        for (const file of files) {
+          const validation = validateFile(file);
+          if (!validation.valid) {
+            throw new Error(validation.error);
+          }
+        }
+
+        const result = await handleMultipleFilesImport(files);
+
+        // Update content if available
+        if (result.content) {
+          onChange(result.content);
+        }
+
+        // Update config if available
+        if (result.config) {
+          setPresentationConfig(result.config as unknown as PresentationConfig);
+        }
+
+        setShowImportModal(false);
+      } catch (error) {
+        console.error("Import failed:", error);
+      }
+    },
+    [onChange]
+  );
+
   // Render helpers
   const renderToolbar = () => (
     <div className="flex items-center justify-between p-3 border-b border-input bg-muted">
@@ -154,9 +291,42 @@ export const MainLayout: React.FC<EditorProps> = ({
 
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
-          <AboutButton onClick={handleOpenAboutModal} />
+          <button
+            onClick={handleOpenImportModal}
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
+            title="Import presentation"
+          >
+            <Upload className="w-4 h-4" />
+            <span className="hidden sm:inline">Import</span>
+          </button>
+          <button
+            onClick={handleOpenExportModal}
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
+            title="Export presentation"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">Export</span>
+          </button>
+
+          <div className="w-px h-6 bg-input mx-1" />
+
+          <button
+            onClick={handleOpenAboutModal}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
+            title="About Mostage Editor"
+          >
+            <Info className="w-4 h-4" />
+            <span className="hidden sm:inline">About</span>
+          </button>
           <ThemeToggle />
-          <AuthButton />
+          <button
+            onClick={handleOpenAuthModal}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
+            title="Sign In / Sign Up"
+          >
+            <User className="w-4 h-4" />
+            <span className="hidden sm:inline">Sign In</span>
+          </button>
         </div>
       </div>
     </div>
@@ -258,6 +428,20 @@ export const MainLayout: React.FC<EditorProps> = ({
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
+      />
+
+      <ExportModal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+        onExport={handleExport}
+        onOpenAuthModal={handleOpenAuthModal}
+      />
+
+      <ImportModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onImport={handleImport}
+        onImportMultiple={handleImportMultiple}
       />
     </div>
   );

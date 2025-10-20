@@ -208,10 +208,11 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             {/* AI Generate Button */}
             <button
               onClick={() => setShowAIModal(true)}
-              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 dark:text-purple-400 dark:hover:text-purple-300 dark:hover:bg-purple-900/20 rounded transition-all duration-300 hover:scale-105 group"
               title="Generate presentation content with AI"
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 group-hover:animate-pulse group-hover:rotate-12 transition-all duration-300" />
+              <span className="hidden sm:inline">AI</span>
             </button>
           </div>
 

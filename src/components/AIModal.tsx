@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, Sparkles } from "lucide-react";
 
 interface AIModalProps {
   isOpen: boolean;
@@ -96,9 +96,12 @@ export const AIModal: React.FC<AIModalProps> = ({
               <button
                 onClick={handleAIGenerate}
                 disabled={!aiPrompt.trim()}
-                className="flex-1 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 disabled:bg-primary/50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-md hover:from-purple-700 hover:to-pink-700 disabled:from-purple-400 disabled:to-pink-400 disabled:cursor-not-allowed transition-all duration-200 cursor-pointer shadow-lg hover:shadow-xl"
               >
-                Generate Content
+                <div className="flex items-center justify-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Generate Content
+                </div>
               </button>
             </div>
           </div>
