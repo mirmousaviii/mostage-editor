@@ -2,7 +2,7 @@
 
 import { ContentPreviewProps, PresentationConfig } from "@/types";
 import { useEffect, useRef, useState, useCallback } from "react";
-import Mostage from "mostage";
+import { Mostage } from "mostage";
 import { Maximize } from "lucide-react";
 
 export const ContentPreview: React.FC<ContentPreviewProps> = ({

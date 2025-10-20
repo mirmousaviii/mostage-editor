@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
 
 export const MobileWarning = () => {
   const [isMobile, setIsMobile] = useState(false);

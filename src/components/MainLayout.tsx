@@ -189,15 +189,13 @@ export const MainLayout: React.FC<EditorProps> = ({
           case "pptx":
             await exportToPPTX(
               markdown,
-              presentationConfig as unknown as Record<string, unknown>,
-              options
+              presentationConfig as unknown as Record<string, unknown>
             );
             break;
           case "jpg":
             await exportToJPG(
               markdown,
-              presentationConfig as unknown as Record<string, unknown>,
-              options
+              presentationConfig as unknown as Record<string, unknown>
             );
             break;
           default:
