@@ -1,7 +1,7 @@
 export { MainLayout } from "./MainLayout";
 export { ContentEditor } from "./ContentEditor";
 export { ContentPreview } from "./ContentPreview";
-export { PresentationToolbar } from "./PresentationToolbar";
+export { PresentationSettings } from "./PresentationSettings";
 export { ToggleButton } from "./ToggleButton";
 export { ResizableSplitPane } from "./ResizableSplitPane";
 export { ThemeToggle } from "./ThemeToggle";

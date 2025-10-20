@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 
-export const PresentationToolbar: React.FC<PresentationToolbarProps> = ({
+export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
   config,
   onConfigChange,
 }) => {
