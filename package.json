@@ -6,11 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "export": "next build && next export"
   },
   "dependencies": {
     "lucide-react": "^0.546.0",
-    "mostage": "^1.5.9",
+    "mostage": "^1.5.12",
     "next": "15.5.5",
     "react": "19.1.0",
     "react-dom": "19.1.0"
