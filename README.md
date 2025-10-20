@@ -1,65 +1,18 @@
 # Mostage Editor
 
-A presentation editor based on Mostage
+A presentation editor based powered by [Mostage](https://github.com/mirmousaviii/mostage) - the markdown-based presentation framework.
 
-## Getting Started
+## Live Demo
 
-### Prerequisites
+Visit the live demo: [https://mirmousaviii.github.io/mostage-editor](https://mirmousaviii.github.io/mostage-editor)
 
-- Node.js 18+ 
-- npm or yarn
+## Documentation
 
-### Installation
+**Documentation is coming soon!** We're working on comprehensive guides and tutorials.
 
-1. Clone the repository:
+## Contributing
 
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Project Structure
-
-```
-src/
-├── app/                    # Next.js app directory
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Main page
-├── components/            # React components
-│   ├── Editor.tsx         # Main editor component
-│   ├── MarkdownEditor.tsx # Markdown text editor
-│   ├── MarkdownPreview.tsx # Mostage presentation preview
-│   ├── ToggleButton.tsx   # Toggle button component
-│   └── index.ts           # Component exports
-├── hooks/                 # Custom React hooks
-│   └── useEditor.ts       # Editor state management
-├── types/                 # TypeScript type definitions
-│   └── index.ts           # Type definitions
-└── utils/                 # Utility functions
-```
-
-## Usage
-
-1. **Split View**: By default, both editor and preview are visible side by side
-2. **Editor Only**: Click the editor toggle button to hide the preview
-3. **Preview Only**: Click the preview toggle button to hide the editor
-4. **Live Updates**: Changes in the editor are immediately reflected in the preview
-
-## Technologies Used
-
-- **Next.js 15**: React framework with App Router
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
-- **Mostage**: Markdown-based presentation framework
-- **React Hooks**: State management and side effects
+This project is part of the Mostage ecosystem. For contributions, please refer to the main [Mostage repository](https://github.com/mirmousaviii/mostage).
 
 ## Available Scripts
 
