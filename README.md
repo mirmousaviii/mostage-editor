@@ -1,6 +1,6 @@
 # Mostage Editor
 
-A presentation editor based powered by [Mostage](https://github.com/mirmousaviii/mostage) - the markdown-based presentation framework.
+A presentation editor powered by [Mostage](https://github.com/mirmousaviii/mostage) - the markdown-based presentation framework.
 
 ## Live Demo
 

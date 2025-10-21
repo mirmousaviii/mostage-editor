@@ -14,9 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mostage Editor - Professional Content Editor",
-  description:
-    "A modern, professional content editor with live preview built with Mostage",
+  title: "Mostage Editor",
+  description: "Presentation Editor powered by Mostage",
 };
 
 export default function RootLayout({
