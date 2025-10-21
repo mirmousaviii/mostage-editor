@@ -9,8 +9,6 @@ export interface EditorProps {
   onChange: (markdown: string) => void;
   showEditor: boolean;
   showPreview: boolean;
-  onToggleEditor: () => void;
-  onTogglePreview: () => void;
 }
 
 export interface ContentEditorProps {

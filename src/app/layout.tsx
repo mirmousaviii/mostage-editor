@@ -26,11 +26,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* JUST FOR TESTING IN BETA VERSION */}
-        <meta
-          name="viewport"
-          content="width=1024, initial-scale=0.3, user-scalable=no"
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

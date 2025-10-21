@@ -10,7 +10,6 @@ import { AuthModal } from "./AuthModal";
 import { AboutModal } from "./AboutModal";
 import { ExportModal } from "./ExportModal";
 import { ImportModal } from "./ImportModal";
-import { MobileWarning } from "./MobileWarning";
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import logo from "@/assets/images/logo.svg";
@@ -414,7 +413,6 @@ export const MainLayout: React.FC<EditorProps> = ({
 
   return (
     <div className="h-full flex flex-col">
-      <MobileWarning />
       {renderToolbar()}
 
       <div className="flex-1 overflow-hidden">{renderMainContent()}</div>

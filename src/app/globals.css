@@ -2,13 +2,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Force desktop layout on mobile */
-/* JUST FOR TESTING IN BETA VERSION */
-html,
-body {
-  min-width: 1024px !important;
-}
-
 /* CSS Variables - Light Theme */
 :root {
   /* Primary Colors */

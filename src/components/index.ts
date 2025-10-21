@@ -10,6 +10,4 @@ export { AboutModal } from "./AboutModal";
 export { AIModal } from "./AIModal";
 export { ExportModal } from "./ExportModal";
 export { ImportModal } from "./ImportModal";
-export { EditorToggle } from "./EditorToggle";
-export { PreviewToggle } from "./PreviewToggle";
 export { Loading } from "./Loading";

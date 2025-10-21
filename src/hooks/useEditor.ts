@@ -50,18 +50,8 @@ export const useEditor = () => {
     setState((prev) => ({ ...prev, markdown }));
   }, []);
 
-  const toggleEditor = useCallback(() => {
-    setState((prev) => ({ ...prev, showEditor: !prev.showEditor }));
-  }, []);
-
-  const togglePreview = useCallback(() => {
-    setState((prev) => ({ ...prev, showPreview: !prev.showPreview }));
-  }, []);
-
   return {
     ...state,
     updateMarkdown,
-    toggleEditor,
-    togglePreview,
   };
 };

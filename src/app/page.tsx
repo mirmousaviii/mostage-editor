@@ -6,14 +6,7 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const {
-    markdown,
-    showEditor,
-    showPreview,
-    updateMarkdown,
-    toggleEditor,
-    togglePreview,
-  } = useEditor();
+  const { markdown, showEditor, showPreview, updateMarkdown } = useEditor();
 
   useEffect(() => {
     // Simulate loading time
@@ -35,8 +28,6 @@ export default function Home() {
         onChange={updateMarkdown}
         showEditor={showEditor}
         showPreview={showPreview}
-        onToggleEditor={toggleEditor}
-        onTogglePreview={togglePreview}
       />
     </div>
   );
