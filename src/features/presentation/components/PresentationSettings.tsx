@@ -273,10 +273,10 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
       {isExpanded && (
         <div className="px-3 pb-3">
           {/* Tab Navigation */}
-          <div className="flex border-b border-gray-200 dark:border-gray-600">
+          <div className="flex flex-wrap border-b border-gray-200 dark:border-gray-600 overflow-x-auto">
             <button
               onClick={() => setActiveTab("general")}
-              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === "general"
                   ? "border-blue-500 text-blue-600 dark:text-blue-400"
                   : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
@@ -286,7 +286,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
             </button>
             <button
               onClick={() => setActiveTab("header-footer")}
-              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === "header-footer"
                   ? "border-blue-500 text-blue-600 dark:text-blue-400"
                   : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
@@ -296,7 +296,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
             </button>
             <button
               onClick={() => setActiveTab("plugins")}
-              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === "plugins"
                   ? "border-blue-500 text-blue-600 dark:text-blue-400"
                   : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
@@ -307,18 +307,23 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
           </div>
 
           {/* Tab Content */}
-          <div className="p-5 rounded-b-md border border-gray-200 dark:border-gray-600 border-t-0">
+          <div className="p-2 rounded-b-md border border-gray-200 dark:border-gray-600 border-t-0">
             {activeTab === "general" && (
-              <div className="space-y-5">
+              <div
+                className="grid grid-cols-1 gap-3"
+                style={{
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                }}
+              >
                 {/* Basic Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                       Basic Settings
                     </span>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
+                        <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                           Scale: {config.scale}x
                         </label>
                         <input
@@ -330,12 +335,12 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           onChange={(e) =>
                             handleScaleChange(parseFloat(e.target.value))
                           }
-                          className="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
+                          className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                         />
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
+                        <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                           Theme:
                         </label>
                         <select
@@ -345,7 +350,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                               e.target.value as typeof config.theme
                             )
                           }
-                          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
                         >
                           <option value="light">Light</option>
                           <option value="dark">Dark</option>
@@ -359,12 +364,12 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Navigation Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                       Navigation
                     </span>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       <label className="flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -375,70 +380,20 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           className="sr-only"
                         />
                         <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                          className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                             config.loop
                               ? "bg-blue-500 border-blue-500"
                               : "border-gray-300 dark:border-gray-500"
                           }`}
                         >
                           {config.loop && (
-                            <Check className="w-3 h-3 text-white" />
+                            <Check className="w-2 h-2 text-white" />
                           )}
                         </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-xs text-gray-700 dark:text-gray-300">
                           Loop
                         </span>
                       </label>
-
-                      {/* <label className="flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={config.keyboard}
-                          onChange={(e) =>
-                            handleBooleanChange("keyboard", e.target.checked)
-                          }
-                          className="sr-only"
-                        />
-                        <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
-                            config.keyboard
-                              ? "bg-blue-500 border-blue-500"
-                              : "border-gray-300 dark:border-gray-500"
-                          }`}
-                        >
-                          {config.keyboard && (
-                            <Check className="w-3 h-3 text-white" />
-                          )}
-                        </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
-                          Keyboard
-                        </span>
-                      </label> */}
-
-                      {/* <label className="flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={config.touch}
-                          onChange={(e) =>
-                            handleBooleanChange("touch", e.target.checked)
-                          }
-                          className="sr-only"
-                        />
-                        <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
-                            config.touch
-                              ? "bg-blue-500 border-blue-500"
-                              : "border-gray-300 dark:border-gray-500"
-                          }`}
-                        >
-                          {config.touch && (
-                            <Check className="w-3 h-3 text-white" />
-                          )}
-                        </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
-                          Touch
-                        </span>
-                      </label> */}
 
                       <label className="flex items-center cursor-pointer">
                         <input
@@ -450,17 +405,17 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           className="sr-only"
                         />
                         <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                          className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                             config.urlHash
                               ? "bg-blue-500 border-blue-500"
                               : "border-gray-300 dark:border-gray-500"
                           }`}
                         >
                           {config.urlHash && (
-                            <Check className="w-3 h-3 text-white" />
+                            <Check className="w-2 h-2 text-white" />
                           )}
                         </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-xs text-gray-700 dark:text-gray-300">
                           URL Hash
                         </span>
                       </label>
@@ -469,14 +424,14 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Transition Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                       Transition
                     </span>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
+                        <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                           Duration: {config.transition.duration}ms
                         </label>
                         <input
@@ -491,12 +446,12 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                               parseInt(e.target.value)
                             )
                           }
-                          className="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
+                          className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                         />
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
+                        <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                           Type:
                         </label>
                         <select
@@ -504,7 +459,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           onChange={(e) =>
                             handleTransitionChange("type", e.target.value)
                           }
-                          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
                         >
                           <option value="horizontal">Horizontal</option>
                           <option value="vertical">Vertical</option>
@@ -512,36 +467,17 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           <option value="slide">Slide</option>
                         </select>
                       </div>
-
-                      {/* <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
-                          Easing:
-                        </label>
-                        <select
-                          value={config.transition.easing}
-                          onChange={(e) =>
-                            handleTransitionChange("easing", e.target.value)
-                          }
-                          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                          <option value="ease">Ease</option>
-                          <option value="ease-in">Ease In</option>
-                          <option value="ease-out">Ease Out</option>
-                          <option value="ease-in-out">Ease In Out</option>
-                          <option value="linear">Linear</option>
-                        </select>
-                      </div> */}
                     </div>
                   </div>
                 </div>
 
                 {/* Center Content Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                       Center Content
                     </span>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       <label className="flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -555,17 +491,17 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           className="sr-only"
                         />
                         <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                          className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                             config.centerContent.vertical
                               ? "bg-blue-500 border-blue-500"
                               : "border-gray-300 dark:border-gray-500"
                           }`}
                         >
                           {config.centerContent.vertical && (
-                            <Check className="w-3 h-3 text-white" />
+                            <Check className="w-2 h-2 text-white" />
                           )}
                         </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-xs text-gray-700 dark:text-gray-300">
                           Vertical
                         </span>
                       </label>
@@ -583,17 +519,17 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           className="sr-only"
                         />
                         <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                          className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                             config.centerContent.horizontal
                               ? "bg-blue-500 border-blue-500"
                               : "border-gray-300 dark:border-gray-500"
                           }`}
                         >
                           {config.centerContent.horizontal && (
-                            <Check className="w-3 h-3 text-white" />
+                            <Check className="w-2 h-2 text-white" />
                           )}
                         </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-xs text-gray-700 dark:text-gray-300">
                           Horizontal
                         </span>
                       </label>
@@ -604,10 +540,15 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
             )}
 
             {activeTab === "plugins" && (
-              <div className="space-y-5">
+              <div
+                className="grid grid-cols-1 gap-3"
+                style={{
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                }}
+              >
                 {/* Progress Bar */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -616,24 +557,24 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         className="sr-only"
                       />
                       <div
-                        className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                        className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                           config.plugins.ProgressBar.enabled
                             ? "bg-blue-500 border-blue-500"
                             : "border-gray-300 dark:border-gray-500"
                         }`}
                       >
                         {config.plugins.ProgressBar.enabled && (
-                          <Check className="w-3 h-3 text-white" />
+                          <Check className="w-2 h-2 text-white" />
                         )}
                       </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Progress Bar
                       </span>
                     </label>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       {config.plugins.ProgressBar.enabled && (
                         <div className="flex items-center gap-2">
-                          <label className="text-sm text-gray-600 dark:text-gray-400">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                             Position:
                           </label>
                           <select
@@ -645,61 +586,41 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                                 e.target.value
                               )
                             }
-                            className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
                           >
                             <option value="top">Top</option>
                             <option value="bottom">Bottom</option>
                           </select>
                         </div>
                       )}
+
+                      {config.plugins.ProgressBar.enabled && (
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            Height:
+                          </label>
+                          <input
+                            type="text"
+                            value={config.plugins.ProgressBar.height}
+                            onChange={(e) =>
+                              handlePluginConfigChange(
+                                "ProgressBar",
+                                "height",
+                                e.target.value
+                              )
+                            }
+                            className="w-24 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="12px"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
-
-                  {config.plugins.ProgressBar.enabled && (
-                    <div className="flex items-center gap-4 justify-end">
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
-                          Height:
-                        </label>
-                        <input
-                          type="text"
-                          value={config.plugins.ProgressBar.height}
-                          onChange={(e) =>
-                            handlePluginConfigChange(
-                              "ProgressBar",
-                              "height",
-                              e.target.value
-                            )
-                          }
-                          className="w-20 text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="12px"
-                        />
-                      </div>
-
-                      {/* <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
-                          Color:
-                        </label>
-                        <input
-                          type="color"
-                          value={config.plugins.ProgressBar.color}
-                          onChange={(e) =>
-                            handlePluginConfigChange(
-                              "ProgressBar",
-                              "color",
-                              e.target.value
-                            )
-                          }
-                          className="w-12 h-8 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
-                        />
-                      </div> */}
-                    </div>
-                  )}
                 </div>
 
                 {/* Slide Number */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -708,24 +629,24 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         className="sr-only"
                       />
                       <div
-                        className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                        className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                           config.plugins.SlideNumber.enabled
                             ? "bg-blue-500 border-blue-500"
                             : "border-gray-300 dark:border-gray-500"
                         }`}
                       >
                         {config.plugins.SlideNumber.enabled && (
-                          <Check className="w-3 h-3 text-white" />
+                          <Check className="w-2 h-2 text-white" />
                         )}
                       </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Slide Number
                       </span>
                     </label>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       {config.plugins.SlideNumber.enabled && (
                         <div className="flex items-center gap-2">
-                          <label className="text-sm text-gray-600 dark:text-gray-400">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                             Position:
                           </label>
                           <select
@@ -737,7 +658,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                                 e.target.value
                               )
                             }
-                            className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
                           >
                             <option value="bottom-left">Bottom Left</option>
                             <option value="bottom-right">Bottom Right</option>
@@ -745,36 +666,34 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           </select>
                         </div>
                       )}
+
+                      {config.plugins.SlideNumber.enabled && (
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            Format:
+                          </label>
+                          <input
+                            type="text"
+                            value={config.plugins.SlideNumber.format}
+                            onChange={(e) =>
+                              handlePluginConfigChange(
+                                "SlideNumber",
+                                "format",
+                                e.target.value
+                              )
+                            }
+                            className="w-24 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="current/total"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
-
-                  {config.plugins.SlideNumber.enabled && (
-                    <div className="flex items-center gap-4 justify-end">
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
-                          Format:
-                        </label>
-                        <input
-                          type="text"
-                          value={config.plugins.SlideNumber.format}
-                          onChange={(e) =>
-                            handlePluginConfigChange(
-                              "SlideNumber",
-                              "format",
-                              e.target.value
-                            )
-                          }
-                          className="w-40 text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="current/total"
-                        />
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 {/* Controller */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -783,24 +702,24 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         className="sr-only"
                       />
                       <div
-                        className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                        className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                           config.plugins.Controller.enabled
                             ? "bg-blue-500 border-blue-500"
                             : "border-gray-300 dark:border-gray-500"
                         }`}
                       >
                         {config.plugins.Controller.enabled && (
-                          <Check className="w-3 h-3 text-white" />
+                          <Check className="w-2 h-2 text-white" />
                         )}
                       </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Controller
                       </span>
                     </label>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       {config.plugins.Controller.enabled && (
                         <div className="flex items-center gap-2">
-                          <label className="text-sm text-gray-600 dark:text-gray-400">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                             Position:
                           </label>
                           <select
@@ -812,7 +731,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                                 e.target.value
                               )
                             }
-                            className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
                           >
                             <option value="bottom-left">Bottom Left</option>
                             <option value="bottom-right">Bottom Right</option>
@@ -825,8 +744,8 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Confetti */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -835,25 +754,25 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         className="sr-only"
                       />
                       <div
-                        className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                        className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                           config.plugins.Confetti.enabled
                             ? "bg-blue-500 border-blue-500"
                             : "border-gray-300 dark:border-gray-500"
                         }`}
                       >
                         {config.plugins.Confetti.enabled && (
-                          <Check className="w-3 h-3 text-white" />
+                          <Check className="w-2 h-2 text-white" />
                         )}
                       </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Confetti
                       </span>
                     </label>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       {config.plugins.Confetti.enabled && (
-                        <div className="flex items-center gap-4">
+                        <div className="flex flex-col gap-2">
                           <div className="flex items-center gap-2">
-                            <label className="text-sm text-gray-600 dark:text-gray-400">
+                            <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                               Particles: {config.plugins.Confetti.particleCount}
                             </label>
                             <input
@@ -869,12 +788,12 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                                   parseInt(e.target.value)
                                 )
                               }
-                              className="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
+                              className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                             />
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <label className="text-sm text-gray-600 dark:text-gray-400">
+                            <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                               Duration: {config.plugins.Confetti.duration}ms
                             </label>
                             <input
@@ -890,7 +809,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                                   parseInt(e.target.value)
                                 )
                               }
-                              className="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
+                              className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-md appearance-none cursor-pointer slider"
                             />
                           </div>
                         </div>
@@ -902,10 +821,15 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
             )}
 
             {activeTab === "header-footer" && (
-              <div className="space-y-5">
+              <div
+                className="grid grid-cols-1 gap-3"
+                style={{
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                }}
+              >
                 {/* Header Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -916,21 +840,21 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         className="sr-only"
                       />
                       <div
-                        className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                        className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                           config.header.enabled
                             ? "bg-blue-500 border-blue-500"
                             : "border-gray-300 dark:border-gray-500"
                         }`}
                       >
                         {config.header.enabled && (
-                          <Check className="w-3 h-3 text-white" />
+                          <Check className="w-2 h-2 text-white" />
                         )}
                       </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Header
                       </span>
                     </label>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       <label className="flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -944,23 +868,23 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           className="sr-only"
                         />
                         <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                          className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                             config.header.showOnFirstSlide
                               ? "bg-blue-500 border-blue-500"
                               : "border-gray-300 dark:border-gray-500"
                           }`}
                         >
                           {config.header.showOnFirstSlide && (
-                            <Check className="w-3 h-3 text-white" />
+                            <Check className="w-2 h-2 text-white" />
                           )}
                         </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-xs text-gray-700 dark:text-gray-300">
                           Show on First Slide
                         </span>
                       </label>
 
                       <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
+                        <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                           Position:
                         </label>
                         <select
@@ -968,7 +892,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           onChange={(e) =>
                             handleHeaderChange("position", e.target.value)
                           }
-                          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
                         >
                           <option value="top-left">Top Left</option>
                           <option value="top-center">Top Center</option>
@@ -979,7 +903,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-600 dark:text-gray-400 mb-2 block">
+                    <label className="text-xs text-gray-600 dark:text-gray-400 mb-2 block">
                       Content
                     </label>
                     <textarea
@@ -987,7 +911,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                       onChange={(e) =>
                         handleHeaderChange("content", e.target.value)
                       }
-                      className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full text-xs border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter header content (Markdown, HTML, or Text)"
                       rows={3}
                     />
@@ -995,8 +919,8 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 </div>
 
                 {/* Footer Settings */}
-                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
+                  <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -1007,21 +931,21 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         className="sr-only"
                       />
                       <div
-                        className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                        className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                           config.footer.enabled
                             ? "bg-blue-500 border-blue-500"
                             : "border-gray-300 dark:border-gray-500"
                         }`}
                       >
                         {config.footer.enabled && (
-                          <Check className="w-3 h-3 text-white" />
+                          <Check className="w-2 h-2 text-white" />
                         )}
                       </div>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Footer
                       </span>
                     </label>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-2">
                       <label className="flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -1035,23 +959,23 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           className="sr-only"
                         />
                         <div
-                          className={`w-5 h-5 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                          className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
                             config.footer.showOnFirstSlide
                               ? "bg-blue-500 border-blue-500"
                               : "border-gray-300 dark:border-gray-500"
                           }`}
                         >
                           {config.footer.showOnFirstSlide && (
-                            <Check className="w-3 h-3 text-white" />
+                            <Check className="w-2 h-2 text-white" />
                           )}
                         </div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-xs text-gray-700 dark:text-gray-300">
                           Show on First Slide
                         </span>
                       </label>
 
                       <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600 dark:text-gray-400">
+                        <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
                           Position:
                         </label>
                         <select
@@ -1059,7 +983,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                           onChange={(e) =>
                             handleFooterChange("position", e.target.value)
                           }
-                          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
                         >
                           <option value="bottom-left">Bottom Left</option>
                           <option value="bottom-center">Bottom Center</option>
@@ -1070,7 +994,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-600 dark:text-gray-400 mb-2 block">
+                    <label className="text-xs text-gray-600 dark:text-gray-400 mb-2 block">
                       Content
                     </label>
                     <textarea
@@ -1078,7 +1002,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                       onChange={(e) =>
                         handleFooterChange("content", e.target.value)
                       }
-                      className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full text-xs border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter footer content (Markdown, HTML, or Text)"
                       rows={3}
                     />
@@ -1089,28 +1013,33 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
           </div>
 
           {/* Configuration Actions */}
-          <div className="mt-6">
-            <div className="flex flex-col sm:flex-row gap-3 justify-end">
+          <div className="mt-3">
+            <div
+              className="grid grid-cols-1 gap-2"
+              style={{
+                gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+              }}
+            >
               <button
                 onClick={() => setShowResetModal(true)}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-muted text-muted-foreground border border-input rounded-md hover:bg-muted/80 transition-colors text-sm font-medium"
+                className="flex items-center justify-center gap-2 px-3 py-2 bg-muted text-muted-foreground border border-input rounded-md hover:bg-muted/80 transition-colors text-xs font-medium"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3 h-3" />
                 Reset to Default
               </button>
               <button
                 onClick={() => setShowImportModal(true)}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-sm font-medium"
+                className="flex items-center justify-center gap-2 px-3 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-xs font-medium"
               >
-                <Upload className="w-4 h-4" />
+                <Upload className="w-3 h-3" />
                 Import Configuration
               </button>
 
               <button
                 onClick={handleExportConfig}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm font-medium"
+                className="flex items-center justify-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-xs font-medium"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-3 h-3" />
                 Export Configuration
               </button>
             </div>
@@ -1130,19 +1059,19 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
       {/* Import Modal */}
       {showImportModal && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           onClick={() => {
             setShowImportModal(false);
             setImportError("");
           }}
         >
           <div
-            className="bg-card border border-input rounded-lg shadow-lg max-w-md w-full mx-4"
+            className="bg-card border border-input rounded-lg shadow-lg max-w-md w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-card-foreground">
+                <h3 className="text-base sm:text-lg font-semibold text-card-foreground">
                   Import Configuration
                 </h3>
                 <button
@@ -1152,19 +1081,19 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                   }}
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
 
               <div className="space-y-4">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Select a configuration file (.json) to import your
                   presentation settings.
                 </p>
 
                 {importError && (
                   <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-                    <p className="text-sm text-red-600 dark:text-red-400">
+                    <p className="text-xs sm:text-sm text-red-600 dark:text-red-400">
                       {importError}
                     </p>
                   </div>
@@ -1173,7 +1102,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 <div className="flex gap-3">
                   <button
                     onClick={handleOpenFileInput}
-                    className="flex-1 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
+                    className="flex-1 bg-primary text-primary-foreground px-3 sm:px-4 py-2 rounded-md hover:bg-primary/90 transition-colors text-xs sm:text-sm"
                   >
                     Choose File
                   </button>
@@ -1187,28 +1116,28 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
       {/* Reset Modal */}
       {showResetModal && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           onClick={() => setShowResetModal(false)}
         >
           <div
-            className="bg-card border border-input rounded-lg shadow-lg max-w-md w-full mx-4"
+            className="bg-card border border-input rounded-lg shadow-lg max-w-md w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-card-foreground">
+                <h3 className="text-base sm:text-lg font-semibold text-card-foreground">
                   Reset Configuration
                 </h3>
                 <button
                   onClick={() => setShowResetModal(false)}
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
 
               <div className="space-y-4">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Are you sure you want to reset all presentation settings to
                   their default values? This action cannot be undone.
                 </p>
@@ -1216,7 +1145,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 <div className="flex gap-3">
                   <button
                     onClick={handleResetConfig}
-                    className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+                    className="flex-1 bg-red-600 text-white px-3 sm:px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-xs sm:text-sm"
                   >
                     Reset to Default
                   </button>

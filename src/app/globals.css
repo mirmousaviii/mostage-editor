@@ -13,6 +13,7 @@
   /* Secondary Colors */
   --card: #ffffff;
   --card-foreground: #0f172a;
+  --card-secondary: #f8fafc;
   --popover: #ffffff;
   --popover-foreground: #0f172a;
 
@@ -48,6 +49,7 @@
   /* Secondary Colors */
   --card: #1e293b;
   --card-foreground: #f8fafc;
+  --card-secondary: #0f172a;
   --popover: #1e293b;
   --popover-foreground: #f8fafc;
 
@@ -99,6 +101,7 @@
     --muted-foreground: #94a3b8;
     --card: #1e293b;
     --card-foreground: #f8fafc;
+    --card-secondary: #334155;
     --popover: #1e293b;
     --popover-foreground: #f8fafc;
     --primary: #3b82f6;
@@ -197,6 +200,9 @@ textarea:focus-visible {
 }
 .bg-card {
   background-color: var(--card);
+}
+.bg-card-secondary {
+  background-color: var(--card-secondary);
 }
 .bg-popover {
   background-color: var(--popover);
