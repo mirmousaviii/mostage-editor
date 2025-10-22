@@ -6,7 +6,7 @@ export const APP_DESCRIPTION = "A presentation editor powered by Mostage";
 
 export const DEFAULT_MARKDOWN = `# Welcome to Mostage
 
-## Presentation based on Markdown
+### Presentation based on Markdown
 
 ---
 

@@ -1,5 +1,33 @@
 "use client";
 
+/**
+ * MainLayout Component
+ *
+ * The main layout component that provides the core structure for the Mostage Editor application.
+ * It manages the responsive split-pane layout, modal states, and presentation configuration.
+ *
+ * Features:
+ * - Responsive layout that adapts to mobile and desktop screens
+ * - Resizable split-pane with configurable minimum and maximum sizes
+ * - Collapsible sidebar with smart collapse detection
+ * - Modal management for authentication, export, import, and app info
+ * - Mobile warning system for optimal user experience
+ * - Theme support with light/dark mode toggle
+ *
+ * Layout Behavior:
+ * - Desktop: Horizontal split (Settings+Editor | Live Preview)
+ * - Mobile: Vertical split (Live Preview | Settings+Editor)
+ *
+ * Constants:
+ * - COLLAPSE_THRESHOLD: 5% - Threshold for detecting collapsed state
+ * - DEFAULT_LEFT_PANE_SIZE: 30% - Initial pane size on page load
+ * - MIN_PANE_SIZE: 15% - Minimum allowed pane size (prevents unusable small panes)
+ * - MAX_PANE_SIZE: 75% - Maximum allowed pane size (ensures both panes remain visible)
+ *
+ * @component
+ * @returns {JSX.Element} The main layout component
+ */
+
 import { EditorProps } from "@/features/editor/types/editor.types";
 import { PresentationConfig } from "@/features/presentation/types/presentation.types";
 import { ContentEditor } from "@/features/editor/components/ContentEditor";
@@ -11,8 +39,7 @@ import { AuthModal } from "@/features/auth/components/AuthModal";
 import { AboutModal } from "@/features/app-info/components/AboutModal";
 import { ExportModal } from "@/features/export/components/ExportModal";
 import { ImportModal } from "@/features/import/components/ImportModal";
-import { MobileWarning } from "@/shared/components/MobileWarning";
-import { useMobileWarning } from "@/shared/hooks/useMobileWarning";
+import { MobileWarning } from "@/shared/components/ui";
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,13 +58,12 @@ import {
   validateFile,
 } from "@/features/import/services/importUtils";
 
-// Constants
 const COLLAPSE_THRESHOLD = 5; // Percentage threshold for collapse state
-const DEFAULT_LEFT_PANE_SIZE = 30; // Default left pane size percentage
+const DEFAULT_LEFT_PANE_SIZE = 30; // Default left pane size percentage (desktop)
+const DEFAULT_MOBILE_PANE_SIZE = 45; // Default pane size for mobile (vertical layout)
 const MIN_PANE_SIZE = 15; // Minimum pane size percentage
 const MAX_PANE_SIZE = 75; // Maximum pane size percentage
 
-// Default presentation configuration
 const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
   theme: "light",
   scale: 1.0,
@@ -116,14 +142,11 @@ export const MainLayout: React.FC<EditorProps> = ({
   // Split pane states
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [leftPaneSize, setLeftPaneSize] = useState<number>(
-    DEFAULT_LEFT_PANE_SIZE
+    DEFAULT_LEFT_PANE_SIZE // Will be updated based on screen size in useEffect
   );
 
   // Responsive state
   const [isMobile, setIsMobile] = useState(false);
-
-  // Mobile warning
-  const { showWarning, handleContinue, handleDismiss } = useMobileWarning();
 
   // Presentation configuration
   const [presentationConfig, setPresentationConfig] =
@@ -132,7 +155,15 @@ export const MainLayout: React.FC<EditorProps> = ({
   // Handle responsive layout
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+
+      // Set appropriate default pane size based on screen size
+      if (mobile) {
+        setLeftPaneSize(DEFAULT_MOBILE_PANE_SIZE);
+      } else {
+        setLeftPaneSize(DEFAULT_LEFT_PANE_SIZE);
+      }
     };
 
     // Set initial value
@@ -155,15 +186,18 @@ export const MainLayout: React.FC<EditorProps> = ({
 
   const handleCollapseToggle = useCallback(() => {
     if (leftPaneSize <= COLLAPSE_THRESHOLD) {
-      // If panel is small, expand it to default size
-      setLeftPaneSize(DEFAULT_LEFT_PANE_SIZE);
+      // If panel is small, expand it to appropriate default size
+      const defaultSize = isMobile
+        ? DEFAULT_MOBILE_PANE_SIZE
+        : DEFAULT_LEFT_PANE_SIZE;
+      setLeftPaneSize(defaultSize);
       setIsSidebarCollapsed(false);
     } else {
       // If panel is large, collapse it
       setLeftPaneSize(0);
       setIsSidebarCollapsed(true);
     }
-  }, [leftPaneSize]);
+  }, [leftPaneSize, isMobile]);
 
   const handleOpenAuthModal = useCallback(() => {
     setShowAuthModal(true);
@@ -519,9 +553,7 @@ export const MainLayout: React.FC<EditorProps> = ({
       />
 
       {/* Mobile Warning */}
-      {showWarning && (
-        <MobileWarning onContinue={handleContinue} onDismiss={handleDismiss} />
-      )}
+      <MobileWarning />
     </div>
   );
 };
