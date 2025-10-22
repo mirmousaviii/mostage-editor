@@ -11,8 +11,9 @@ import { AuthModal } from "@/features/auth/components/AuthModal";
 import { AboutModal } from "@/features/app-info/components/AboutModal";
 import { ExportModal } from "@/features/export/components/ExportModal";
 import { ImportModal } from "@/features/import/components/ImportModal";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import logo from "@/assets/images/logo.svg";
 import { FileText, Download, Upload, User, Info } from "lucide-react";
 import {
@@ -116,9 +117,28 @@ export const MainLayout: React.FC<EditorProps> = ({
     DEFAULT_LEFT_PANE_SIZE
   );
 
+  // Responsive state
+  const [isMobile, setIsMobile] = useState(false);
+
   // Presentation configuration
   const [presentationConfig, setPresentationConfig] =
     useState<PresentationConfig>(DEFAULT_PRESENTATION_CONFIG);
+
+  // Handle responsive layout
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Event handlers
   const handleSplitPaneSizeChange = useCallback((newSize: number) => {
@@ -281,11 +301,13 @@ export const MainLayout: React.FC<EditorProps> = ({
             height={32}
             className="w-8 h-8"
           />
-          <h1 className="text-xl font-bold text-foreground">Mostage Editor</h1>
+          <Link
+            href="/"
+            className="text-sm sm:text-lg md:text-2xl font-bold text-foreground hover:text-primary transition-colors cursor-pointer"
+          >
+            Mostage Editor
+          </Link>
         </div>
-        <span className="text-xs text-muted-foreground bg-secondary text-secondary-foreground px-2 py-1 rounded-md font-medium">
-          Beta Version
-        </span>
       </div>
 
       <div className="flex items-center gap-2">
@@ -331,39 +353,85 @@ export const MainLayout: React.FC<EditorProps> = ({
     </div>
   );
 
-  const renderSplitPaneContent = () => (
-    <ResizableSplitPane
-      controlledSize={isSidebarCollapsed ? 0 : leftPaneSize}
-      onSizeChange={handleSplitPaneSizeChange}
-      minSize={MIN_PANE_SIZE}
-      maxSize={MAX_PANE_SIZE}
-      direction="horizontal"
-      className="h-full"
-      collapseControl={{
-        isCollapsed: leftPaneSize <= COLLAPSE_THRESHOLD,
-        onToggle: handleCollapseToggle,
-        pane: "first",
-      }}
-    >
-      {/* Left Pane: Presentation Settings + Content Editor */}
-      <div className="relative h-full border-r border-gray-200 dark:border-gray-700 flex flex-col">
-        <PresentationSettings
-          config={presentationConfig}
-          onConfigChange={setPresentationConfig}
-        />
-        <ContentEditor
-          value={markdown}
-          onChange={onChange}
-          onOpenAuthModal={handleOpenAuthModal}
-        />
-      </div>
+  const renderSplitPaneContent = () => {
+    if (isMobile) {
+      // Mobile Layout: Preview on top, Settings+Editor on bottom
+      return (
+        <ResizableSplitPane
+          controlledSize={isSidebarCollapsed ? 0 : leftPaneSize}
+          onSizeChange={handleSplitPaneSizeChange}
+          minSize={MIN_PANE_SIZE}
+          maxSize={MAX_PANE_SIZE}
+          direction="vertical"
+          className="h-full"
+          collapseControl={{
+            isCollapsed: leftPaneSize <= COLLAPSE_THRESHOLD,
+            onToggle: handleCollapseToggle,
+            pane: "first",
+          }}
+        >
+          {/* Top Pane: Live Preview (Mobile) */}
+          <div className="h-full border-b border-gray-200 dark:border-gray-700">
+            <ContentPreview markdown={markdown} config={presentationConfig} />
+          </div>
 
-      {/* Right Pane: Live Preview */}
-      <div className="h-full">
-        <ContentPreview markdown={markdown} config={presentationConfig} />
-      </div>
-    </ResizableSplitPane>
-  );
+          {/* Bottom Pane: Presentation Settings + Content Editor (Mobile) */}
+          <div className="relative h-full overflow-y-auto">
+            <div className="flex flex-col h-full min-h-0">
+              <PresentationSettings
+                config={presentationConfig}
+                onConfigChange={setPresentationConfig}
+              />
+              <div className="min-h-[400px] h-full flex-shrink-0">
+                <ContentEditor
+                  value={markdown}
+                  onChange={onChange}
+                  onOpenAuthModal={handleOpenAuthModal}
+                />
+              </div>
+            </div>
+          </div>
+        </ResizableSplitPane>
+      );
+    }
+
+    // Desktop Layout: Settings+Editor on left, Preview on right
+    return (
+      <ResizableSplitPane
+        controlledSize={isSidebarCollapsed ? 0 : leftPaneSize}
+        onSizeChange={handleSplitPaneSizeChange}
+        minSize={MIN_PANE_SIZE}
+        maxSize={MAX_PANE_SIZE}
+        direction="horizontal"
+        className="h-full"
+        collapseControl={{
+          isCollapsed: leftPaneSize <= COLLAPSE_THRESHOLD,
+          onToggle: handleCollapseToggle,
+          pane: "first",
+        }}
+      >
+        {/* Left Pane: Presentation Settings + Content Editor */}
+        <div className="relative h-full border-r border-gray-200 dark:border-gray-700 flex flex-col">
+          <PresentationSettings
+            config={presentationConfig}
+            onConfigChange={setPresentationConfig}
+          />
+          <div className="min-h-[400px] h-full flex-1 flex-shrink-0">
+            <ContentEditor
+              value={markdown}
+              onChange={onChange}
+              onOpenAuthModal={handleOpenAuthModal}
+            />
+          </div>
+        </div>
+
+        {/* Right Pane: Live Preview */}
+        <div className="h-full">
+          <ContentPreview markdown={markdown} config={presentationConfig} />
+        </div>
+      </ResizableSplitPane>
+    );
+  };
 
   const renderEditorOnly = () => (
     <div className="h-full flex flex-col">
@@ -371,11 +439,13 @@ export const MainLayout: React.FC<EditorProps> = ({
         config={presentationConfig}
         onConfigChange={setPresentationConfig}
       />
-      <ContentEditor
-        value={markdown}
-        onChange={onChange}
-        onOpenAuthModal={handleOpenAuthModal}
-      />
+      <div className="min-h-[400px] h-full flex-1 flex-shrink-0">
+        <ContentEditor
+          value={markdown}
+          onChange={onChange}
+          onOpenAuthModal={handleOpenAuthModal}
+        />
+      </div>
     </div>
   );
 
