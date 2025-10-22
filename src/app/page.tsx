@@ -1,7 +1,8 @@
 "use client";
 
-import { MainLayout, Loading } from "@/components";
-import { useEditor } from "@/hooks/useEditor";
+import { MainLayout } from "@/shared/components/layout";
+import { Loading } from "@/shared/components/ui";
+import { useEditor } from "@/features/editor/hooks/useEditor";
 import { useState, useEffect } from "react";
 
 export default function Home() {
