@@ -81,16 +81,16 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
     [size, minSize, maxSize, getContainerSize]
   );
 
-  // Event handlers
+  // Event handlers - Native DOM Events for better production support
   const startDrag = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
+    (e: MouseEvent | TouchEvent) => {
       e.preventDefault();
+      e.stopPropagation();
+
       setIsDragging(true);
       document.body.classList.add(...DRAG_CLASSES);
 
-      const currentPos = getCurrentPosition(
-        e as unknown as MouseEvent | TouchEvent
-      );
+      const currentPos = getCurrentPosition(e);
       startPosRef.current = currentPos;
       startSizeRef.current = size;
     },
@@ -116,26 +116,43 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
     document.body.classList.remove(...DRAG_CLASSES);
   }, []);
 
-  // Event listeners management
+  // Event listeners management - Optimized for production
   useEffect(() => {
     if (!isDragging) return;
 
-    const handleMouseMove = (e: MouseEvent) => handleDrag(e);
-    const handleTouchMove = (e: TouchEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       e.preventDefault();
       handleDrag(e);
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", endDrag);
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleDrag(e);
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      e.preventDefault();
+      endDrag();
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      endDrag();
+    };
+
+    // Add event listeners with proper options
+    document.addEventListener("mousemove", handleMouseMove, { passive: false });
+    document.addEventListener("mouseup", handleMouseUp, { passive: false });
     document.addEventListener("touchmove", handleTouchMove, { passive: false });
-    document.addEventListener("touchend", endDrag);
+    document.addEventListener("touchend", handleTouchEnd, { passive: false });
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", endDrag);
+      document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", endDrag);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isDragging, handleDrag, endDrag]);
 
@@ -145,6 +162,25 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
       document.body.classList.remove(...DRAG_CLASSES);
     };
   }, []);
+
+  // Native DOM event listeners for better production support
+  useEffect(() => {
+    const resizer = containerRef.current?.querySelector("[data-resizer]");
+    if (!resizer) return;
+
+    const handleMouseDown = (e: Event) => startDrag(e as MouseEvent);
+    const handleTouchStart = (e: Event) => startDrag(e as TouchEvent);
+
+    resizer.addEventListener("mousedown", handleMouseDown, { passive: false });
+    resizer.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+
+    return () => {
+      resizer.removeEventListener("mousedown", handleMouseDown);
+      resizer.removeEventListener("touchstart", handleTouchStart);
+    };
+  }, [startDrag]);
 
   // Sync with controlled size
   useEffect(() => {
@@ -226,6 +262,7 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
 
       {/* Resizer */}
       <div
+        data-resizer
         className={`
           relative z-20 flex items-center justify-center
           ${isHorizontal ? "w-2 h-full sm:w-1" : "h-2 w-full sm:h-1"}
@@ -234,9 +271,13 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
           cursor-${isHorizontal ? "col-resize" : "row-resize"}
           transition-colors duration-200 group
         `}
-        onMouseDown={startDrag}
-        onTouchStart={startDrag}
-        style={{ touchAction: "none" }}
+        style={{
+          touchAction: "none",
+          userSelect: "none",
+          WebkitUserSelect: "none",
+          MozUserSelect: "none",
+          msUserSelect: "none",
+        }}
       >
         {/* Drag Handle */}
         <div className="absolute inset-0 flex items-center justify-center">

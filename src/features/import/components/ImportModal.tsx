@@ -4,7 +4,6 @@ import React, { useState, useRef } from "react";
 import {
   X,
   Upload,
-  FileText,
   FileJson,
   FileCode,
   FileType,

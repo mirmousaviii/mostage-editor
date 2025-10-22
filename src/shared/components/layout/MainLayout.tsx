@@ -33,7 +33,7 @@ import { PresentationConfig } from "@/features/presentation/types/presentation.t
 import { ContentEditor } from "@/features/editor/components/ContentEditor";
 import { ContentPreview } from "@/features/presentation/components/ContentPreview";
 import { PresentationSettings } from "@/features/presentation/components/PresentationSettings";
-import { ResizableSplitPane } from "./ResizableSplitPane";
+import { ResizableSplitPane } from "@/shared/components/layout/ResizableSplitPane";
 import { ThemeToggle } from "@/shared/common/ThemeToggle";
 import { AuthModal } from "@/features/auth/components/AuthModal";
 import { AboutModal } from "@/features/app-info/components/AboutModal";
@@ -60,7 +60,7 @@ import {
 
 const COLLAPSE_THRESHOLD = 5; // Percentage threshold for collapse state
 const DEFAULT_LEFT_PANE_SIZE = 30; // Default left pane size percentage (desktop)
-const DEFAULT_MOBILE_PANE_SIZE = 45; // Default pane size for mobile (vertical layout)
+const DEFAULT_MOBILE_PANE_SIZE = 40; // Default pane size for mobile (vertical layout)
 const MIN_PANE_SIZE = 15; // Minimum pane size percentage
 const MAX_PANE_SIZE = 75; // Maximum pane size percentage
 
