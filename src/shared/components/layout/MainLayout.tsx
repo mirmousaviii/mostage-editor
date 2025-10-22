@@ -11,6 +11,8 @@ import { AuthModal } from "@/features/auth/components/AuthModal";
 import { AboutModal } from "@/features/app-info/components/AboutModal";
 import { ExportModal } from "@/features/export/components/ExportModal";
 import { ImportModal } from "@/features/import/components/ImportModal";
+import { MobileWarning } from "@/shared/components/MobileWarning";
+import { useMobileWarning } from "@/shared/hooks/useMobileWarning";
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -119,6 +121,9 @@ export const MainLayout: React.FC<EditorProps> = ({
 
   // Responsive state
   const [isMobile, setIsMobile] = useState(false);
+
+  // Mobile warning
+  const { showWarning, handleContinue, handleDismiss } = useMobileWarning();
 
   // Presentation configuration
   const [presentationConfig, setPresentationConfig] =
@@ -512,6 +517,11 @@ export const MainLayout: React.FC<EditorProps> = ({
         onImport={handleImport}
         onImportMultiple={handleImportMultiple}
       />
+
+      {/* Mobile Warning */}
+      {showWarning && (
+        <MobileWarning onContinue={handleContinue} onDismiss={handleDismiss} />
+      )}
     </div>
   );
 };

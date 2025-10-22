@@ -228,7 +228,7 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
       <div
         className={`
           relative z-20 flex items-center justify-center
-          ${isHorizontal ? "w-1 h-full" : "h-1 w-full"}
+          ${isHorizontal ? "w-2 h-full sm:w-1" : "h-2 w-full sm:h-1"}
           ${isDragging ? "bg-blue-500" : "bg-gray-300 dark:bg-gray-600"}
           hover:bg-blue-400 dark:hover:bg-blue-500
           cursor-${isHorizontal ? "col-resize" : "row-resize"}
@@ -236,6 +236,7 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
         `}
         onMouseDown={startDrag}
         onTouchStart={startDrag}
+        style={{ touchAction: "none" }}
       >
         {/* Drag Handle */}
         <div className="absolute inset-0 flex items-center justify-center">

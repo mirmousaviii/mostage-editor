@@ -99,7 +99,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -107,18 +107,18 @@ export const ExportModal: React.FC<ExportModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="relative bg-background border border-input rounded-md shadow-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-hidden">
+      <div className="relative bg-background border border-input rounded-md shadow-lg w-full max-w-2xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-input">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-input">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md">
-              <Download className="w-5 h-5 text-blue-600" />
+              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-foreground">
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground">
                 Export Presentation
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Choose a format to export your presentation
               </p>
             </div>
@@ -127,13 +127,13 @@ export const ExportModal: React.FC<ExportModalProps> = ({
             onClick={onClose}
             className="p-2 hover:bg-muted rounded-md transition-colors"
           >
-            <X className="w-5 h-5 text-muted-foreground" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-4 sm:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {EXPORT_FORMATS.map((format) => {
               const Icon = format.icon;
               const isSelected = selectedFormat === format.id;
@@ -145,8 +145,8 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                   onClick={() => handleExport(format.id)}
                   disabled={isExporting}
                   className={`
-                    relative p-6 rounded-md border-2 transition-all duration-200
-                    ${format.isSpecial ? "md:col-span-2" : ""}
+                    relative p-4 sm:p-6 rounded-md border-2 transition-all duration-200
+                    ${format.isSpecial ? "sm:col-span-2" : ""}
                     ${
                       isSelected
                         ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
@@ -160,20 +160,22 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                     group
                   `}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 sm:gap-4">
                     <div
                       className={`
-                      p-3 rounded-md ${format.bgColor}
+                      p-2 sm:p-3 rounded-md ${format.bgColor}
                       ${isSelected ? "scale-110" : "group-hover:scale-105"}
                       transition-transform duration-200
                     `}
                     >
-                      <Icon className={`w-6 h-6 ${format.color}`} />
+                      <Icon
+                        className={`w-5 h-5 sm:w-6 sm:h-6 ${format.color}`}
+                      />
                     </div>
 
                     <div className="flex-1 text-left">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-foreground">
+                        <h3 className="text-sm sm:text-base font-semibold text-foreground">
                           {format.name}
                         </h3>
                         {format.isRecommended && (
@@ -182,7 +184,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         {format.description}
                       </p>
                     </div>
@@ -193,7 +195,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                     <div className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md">
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                        <span className="text-sm text-blue-600 font-medium">
+                        <span className="text-xs sm:text-sm text-blue-600 font-medium">
                           Exporting...
                         </span>
                       </div>
@@ -206,16 +208,16 @@ export const ExportModal: React.FC<ExportModalProps> = ({
 
           {/* Authentication Error */}
           {showAuthError && (
-            <div className="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-              <div className="flex items-start gap-3">
+            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+              <div className="flex items-start gap-2 sm:gap-3">
                 <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded">
                   <X className="w-4 h-4 text-red-600" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-red-800 dark:text-red-200 mb-1">
+                  <h4 className="text-sm sm:text-base font-medium text-red-800 dark:text-red-200 mb-1">
                     Authentication Required
                   </h4>
-                  <p className="text-sm text-red-700 dark:text-red-300">
+                  <p className="text-xs sm:text-sm text-red-700 dark:text-red-300">
                     Export requires authentication. Please{" "}
                     <button
                       onClick={handleSignInClick}
@@ -229,25 +231,6 @@ export const ExportModal: React.FC<ExportModalProps> = ({
               </div>
             </div>
           )}
-
-          {/* Info */}
-          <div className="mt-6 p-4 bg-muted/50 rounded-md">
-            <div className="flex items-start gap-3">
-              <div className="p-1 bg-blue-100 dark:bg-blue-900/30 rounded">
-                <FileText className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="font-medium text-foreground mb-1">
-                  Export Information
-                </h4>
-                <p className="text-sm text-muted-foreground">
-                  Your presentation will be exported with all current settings
-                  including theme, plugins, and configuration. The exported file
-                  will be downloaded automatically.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
