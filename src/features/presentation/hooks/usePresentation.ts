@@ -64,16 +64,24 @@ const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
       ],
     },
   },
-  // background: [
-  //   {
-  //     imagePath: "https://mo.js.org/demo/images/background.svg",
-  //     size: "cover",
-  //     position: "center",
-  //     repeat: "no-repeat",
-  //     bgColor: "#000000",
-  //     allSlidesExcept: [1, 2],
-  //   },
-  // ],
+  background: [
+    {
+      imagePath: "https://mo.js.org/demo/images/background.svg",
+      size: "cover",
+      position: "center",
+      repeat: "no-repeat",
+      bgColor: "#000000",
+      allSlidesExcept: [4, 5],
+    },
+    {
+      imagePath: "https://mo.js.org/demo/images/background-end.svg",
+      size: "cover",
+      position: "center",
+      repeat: "no-repeat",
+      bgColor: "#000000",
+      allSlides: [5],
+    },
+  ],
 };
 
 export const usePresentation = () => {

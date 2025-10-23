@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, X } from "lucide-react";
+
 import { Modal } from "@/shared/components/ui/Modal";
 
 interface AIModalProps {

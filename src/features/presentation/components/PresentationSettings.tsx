@@ -20,12 +20,13 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<
-    "general" | "plugins" | "header-footer"
+    "general" | "plugins" | "header-footer" | "background"
   >("general");
   const [showImportModal, setShowImportModal] = useState(false);
   const [importError, setImportError] = useState("");
   const [showResetModal, setShowResetModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
 
   const handleThemeChange = (theme: typeof config.theme) => {
     onConfigChange({
@@ -319,6 +320,16 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
               }`}
             >
               Header & Footer
+            </button>
+            <button
+              onClick={() => setActiveTab("background")}
+              className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
+                activeTab === "background"
+                  ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                  : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              }`}
+            >
+              Background
             </button>
             <button
               onClick={() => setActiveTab("plugins")}
@@ -857,7 +868,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
                   <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
-                      <input
+                      {/* <input
                         type="checkbox"
                         checked={config.header.enabled}
                         onChange={() =>
@@ -875,7 +886,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         {config.header.enabled && (
                           <Check className="w-2 h-2 text-white" />
                         )}
-                      </div>
+                      </div> */}
                       <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Header
                       </span>
@@ -948,7 +959,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 <div className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm">
                   <div className="flex flex-col gap-3 mb-3">
                     <label className="flex items-center cursor-pointer">
-                      <input
+                      {/* <input
                         type="checkbox"
                         checked={config.footer.enabled}
                         onChange={() =>
@@ -966,7 +977,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         {config.footer.enabled && (
                           <Check className="w-2 h-2 text-white" />
                         )}
-                      </div>
+                      </div> */}
                       <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                         Footer
                       </span>
@@ -1036,6 +1047,348 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                 </div>
               </div>
             )}
+
+            {activeTab === "background" && (
+              <div
+                className="grid grid-cols-1 gap-3"
+                style={{
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                }}
+              >
+                {/* Background Images */}
+                {config.background && config.background.length > 0 ? (
+                  config.background.map((bg, index) => (
+                    <div
+                      key={index}
+                      className="border border-gray-200 dark:border-gray-600 rounded-md p-2 bg-card-secondary shadow-sm"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          Background {index + 1}
+                        </span>
+                        <button
+                          onClick={() => {
+                            const newBackgrounds =
+                              config.background?.filter(
+                                (_, i) => i !== index
+                              ) || [];
+                            onConfigChange({
+                              ...config,
+                              background: newBackgrounds,
+                            });
+                          }}
+                          className="text-red-500 hover:text-red-700 text-xs"
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            Image URL:
+                          </label>
+                          <input
+                            type="text"
+                            value={bg.imagePath}
+                            onChange={(e) => {
+                              const newBackgrounds = [
+                                ...(config.background || []),
+                              ];
+                              newBackgrounds[index] = {
+                                ...newBackgrounds[index],
+                                imagePath: e.target.value,
+                              };
+                              onConfigChange({
+                                ...config,
+                                background: newBackgrounds,
+                              });
+                            }}
+                            className="w-full flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="https://example.com/image.jpg"
+                          />
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            Size:
+                          </label>
+                          <select
+                            value={bg.size}
+                            onChange={(e) => {
+                              const newBackgrounds = [
+                                ...(config.background || []),
+                              ];
+                              newBackgrounds[index] = {
+                                ...newBackgrounds[index],
+                                size: e.target.value,
+                              };
+                              onConfigChange({
+                                ...config,
+                                background: newBackgrounds,
+                              });
+                            }}
+                            className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
+                          >
+                            <option value="cover">Cover</option>
+                            <option value="contain">Contain</option>
+                            <option value="auto">Auto</option>
+                            <option value="100%">100%</option>
+                          </select>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            Position:
+                          </label>
+                          <select
+                            value={bg.position}
+                            onChange={(e) => {
+                              const newBackgrounds = [
+                                ...(config.background || []),
+                              ];
+                              newBackgrounds[index] = {
+                                ...newBackgrounds[index],
+                                position: e.target.value as typeof bg.position,
+                              };
+                              onConfigChange({
+                                ...config,
+                                background: newBackgrounds,
+                              });
+                            }}
+                            className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
+                          >
+                            <option value="top-left">Top Left</option>
+                            <option value="top-center">Top Center</option>
+                            <option value="top-right">Top Right</option>
+                            <option value="center">Center</option>
+                            <option value="bottom-left">Bottom Left</option>
+                            <option value="bottom-center">Bottom Center</option>
+                            <option value="bottom-right">Bottom Right</option>
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                          </select>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            Repeat:
+                          </label>
+                          <select
+                            value={bg.repeat}
+                            onChange={(e) => {
+                              const newBackgrounds = [
+                                ...(config.background || []),
+                              ];
+                              newBackgrounds[index] = {
+                                ...newBackgrounds[index],
+                                repeat: e.target.value as typeof bg.repeat,
+                              };
+                              onConfigChange({
+                                ...config,
+                                background: newBackgrounds,
+                              });
+                            }}
+                            className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24"
+                          >
+                            <option value="no-repeat">No Repeat</option>
+                            <option value="repeat">Repeat</option>
+                            <option value="repeat-x">Repeat X</option>
+                            <option value="repeat-y">Repeat Y</option>
+                          </select>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                            Background Color:
+                          </label>
+                          <input
+                            type="color"
+                            value={bg.bgColor}
+                            onChange={(e) => {
+                              const newBackgrounds = [
+                                ...(config.background || []),
+                              ];
+                              newBackgrounds[index] = {
+                                ...newBackgrounds[index],
+                                bgColor: e.target.value,
+                              };
+                              onConfigChange({
+                                ...config,
+                                background: newBackgrounds,
+                              });
+                            }}
+                            className="w-8 h-6 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-2">
+                            <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                              Apply to slides:
+                            </label>
+                            <input
+                              type="text"
+                              value={
+                                inputValues[`allSlides-${index}`] !== undefined
+                                  ? inputValues[`allSlides-${index}`]
+                                  : bg.allSlides
+                                  ? bg.allSlides.join(", ")
+                                  : ""
+                              }
+                              onChange={(e) => {
+                                setInputValues((prev) => ({
+                                  ...prev,
+                                  [`allSlides-${index}`]: e.target.value,
+                                }));
+                              }}
+                              onBlur={(e) => {
+                                const inputValue = e.target.value.trim();
+                                if (inputValue === "") {
+                                  const newBackgrounds = [
+                                    ...(config.background || []),
+                                  ];
+                                  newBackgrounds[index] = {
+                                    ...newBackgrounds[index],
+                                    allSlides: undefined,
+                                  };
+                                  onConfigChange({
+                                    ...config,
+                                    background: newBackgrounds,
+                                  });
+                                  setInputValues((prev) => ({
+                                    ...prev,
+                                    [`allSlides-${index}`]: "",
+                                  }));
+                                  return;
+                                }
+
+                                const slides = inputValue
+                                  .split(/[,\s]+/)
+                                  .map((s) => parseInt(s.trim()))
+                                  .filter((n) => !isNaN(n) && n > 0);
+
+                                const newBackgrounds = [
+                                  ...(config.background || []),
+                                ];
+                                newBackgrounds[index] = {
+                                  ...newBackgrounds[index],
+                                  allSlides:
+                                    slides.length > 0 ? slides : undefined,
+                                };
+                                onConfigChange({
+                                  ...config,
+                                  background: newBackgrounds,
+                                });
+                              }}
+                              className="w-full flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              placeholder="1, 2, 3 (slide numbers)"
+                            />
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                              Apply to all except:
+                            </label>
+                            <input
+                              type="text"
+                              value={
+                                inputValues[`allSlidesExcept-${index}`] !==
+                                undefined
+                                  ? inputValues[`allSlidesExcept-${index}`]
+                                  : bg.allSlidesExcept
+                                  ? bg.allSlidesExcept.join(", ")
+                                  : ""
+                              }
+                              onChange={(e) => {
+                                setInputValues((prev) => ({
+                                  ...prev,
+                                  [`allSlidesExcept-${index}`]: e.target.value,
+                                }));
+                              }}
+                              onBlur={(e) => {
+                                const inputValue = e.target.value.trim();
+                                if (inputValue === "") {
+                                  const newBackgrounds = [
+                                    ...(config.background || []),
+                                  ];
+                                  newBackgrounds[index] = {
+                                    ...newBackgrounds[index],
+                                    allSlidesExcept: undefined,
+                                  };
+                                  onConfigChange({
+                                    ...config,
+                                    background: newBackgrounds,
+                                  });
+                                  setInputValues((prev) => ({
+                                    ...prev,
+                                    [`allSlidesExcept-${index}`]: "",
+                                  }));
+                                  return;
+                                }
+
+                                const slides = inputValue
+                                  .split(/[,\s]+/)
+                                  .map((s) => parseInt(s.trim()))
+                                  .filter((n) => !isNaN(n) && n > 0);
+
+                                const newBackgrounds = [
+                                  ...(config.background || []),
+                                ];
+                                newBackgrounds[index] = {
+                                  ...newBackgrounds[index],
+                                  allSlidesExcept:
+                                    slides.length > 0 ? slides : undefined,
+                                };
+                                onConfigChange({
+                                  ...config,
+                                  background: newBackgrounds,
+                                });
+                              }}
+                              className="w-full flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              placeholder="1, 2, 3 (exclude these)"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-full border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-card-secondary shadow-sm">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 text-center py-4">
+                      No background images configured
+                    </div>
+                  </div>
+                )}
+
+                {/* Add Background Button */}
+                <div className="col-span-full">
+                  <button
+                    onClick={() => {
+                      const newBackground = {
+                        imagePath: "",
+                        size: "cover" as const,
+                        position: "center" as const,
+                        repeat: "no-repeat" as const,
+                        bgColor: "#000000",
+                        allSlides: undefined,
+                      };
+                      onConfigChange({
+                        ...config,
+                        background: [
+                          ...(config.background || []),
+                          newBackground,
+                        ],
+                      });
+                    }}
+                    className="flex items-center justify-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-xs font-medium w-full"
+                  >
+                    <span>+</span>
+                    Add Background
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Configuration Actions */}
@@ -1048,7 +1401,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
             >
               <button
                 onClick={() => setShowResetModal(true)}
-                className="flex items-center justify-center gap-2 px-3 py-2 bg-muted text-muted-foreground border border-input rounded-md hover:bg-muted/80 transition-colors text-xs font-medium"
+                className="flex items-center justify-center gap-2 px-3 py-2 bg-muted text-red-500 border border-input rounded-md hover:bg-muted/80 transition-colors text-xs font-medium"
               >
                 <RotateCcw className="w-3 h-3" />
                 Reset to Default

@@ -18,6 +18,8 @@ const defaultMarkdown = `# Welcome to Mostage
 
 ---
 
+![LOGO](https://mo.js.org/demo/images/logo.svg)
+
 ## Key Features
 
 - **Markdown Support** - Write in Markdown
