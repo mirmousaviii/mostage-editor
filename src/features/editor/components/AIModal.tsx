@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Sparkles, Loader2 } from "lucide-react";
 
 interface AIModalProps {
@@ -10,63 +10,74 @@ interface AIModalProps {
   onOpenAuthModal?: () => void;
 }
 
-export function AIModal({ isOpen, onClose, onInsertContent }: AIModalProps) {
+export function AIModal({
+  isOpen,
+  onClose,
+  onInsertContent,
+  onOpenAuthModal,
+}: AIModalProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [generatedContent, setGeneratedContent] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
+  const [showAuthError, setShowAuthError] = useState(false);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
 
-    setIsGenerating(true);
-    setError("");
+    // Show authentication error instead of generating content
+    setShowAuthError(true);
+    return;
 
-    try {
-      // Simulate AI generation with realistic delay
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+    // Original generation logic (commented out for now)
+    // setIsGenerating(true);
+    // setError("");
 
-      // Generate more realistic content based on prompt
-      const keywords = prompt
-        .toLowerCase()
-        .split(" ")
-        .filter((word) => word.length > 3);
-      const mainTopic = keywords[0] || "presentation";
+    // try {
+    //   // Simulate AI generation with realistic delay
+    //   await new Promise((resolve) => setTimeout(resolve, 3000));
 
-      setGeneratedContent(`# ${
-        mainTopic.charAt(0).toUpperCase() + mainTopic.slice(1)
-      } Presentation
+    //   // Generate more realistic content based on prompt
+    //   const keywords = prompt
+    //     .toLowerCase()
+    //     .split(" ")
+    //     .filter((word) => word.length > 3);
+    //   const mainTopic = keywords[0] || "presentation";
 
-## Overview
-${prompt}
+    //   setGeneratedContent(`# ${
+    //     mainTopic.charAt(0).toUpperCase() + mainTopic.slice(1)
+    //   } Presentation
 
----
+    // ## Overview
+    // ${prompt}
 
-## Introduction
+    // ---
 
-### This is test
+    // ## Introduction
 
----
+    // ### This is test
 
-## Key Points
+    // ---
 
-### This is another test
+    // ## Key Points
 
----
+    // ### This is another test
 
-## Next Steps
-1. Review and refine the content
-2. Add your specific examples
-3. Include relevant data and statistics
-4. Practice your delivery
-`);
-    } catch (err) {
-      setError("Failed to generate content. Please try again.");
-      console.error("AI generation failed:", err);
-    } finally {
-      setIsGenerating(false);
-    }
+    // ---
+
+    // ## Next Steps
+    // 1. Review and refine the content
+    // 2. Add your specific examples
+    // 3. Include relevant data and statistics
+    // 4. Practice your delivery
+    // `);
+    // } catch (err) {
+    //   setError("Failed to generate content. Please try again.");
+    //   console.error("AI generation failed:", err);
+    // } finally {
+    //   setIsGenerating(false);
+    // }
   };
 
   const handleInsert = () => {
@@ -86,6 +97,13 @@ ${prompt}
     }
   };
 
+  const handleSignInClick = () => {
+    setShowAuthError(false);
+    setPrompt("");
+    onClose();
+    onOpenAuthModal?.();
+  };
+
   const handleClose = () => {
     // Reset all states when modal closes
     setGeneratedContent("");
@@ -93,8 +111,16 @@ ${prompt}
     setError("");
     setCopied(false);
     setIsGenerating(false);
+    setShowAuthError(false);
     onClose();
   };
+
+  // Reset error when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setShowAuthError(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -180,6 +206,32 @@ ${prompt}
                 </>
               )}
             </button>
+
+            {/* Authentication Error */}
+            {showAuthError && (
+              <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded">
+                    <X className="w-4 h-4 text-red-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm sm:text-base font-medium text-red-800 dark:text-red-200 mb-1">
+                      Authentication Required
+                    </h4>
+                    <p className="text-xs sm:text-sm text-red-700 dark:text-red-300">
+                      AI Content Generation requires authentication. Please{" "}
+                      <button
+                        onClick={handleSignInClick}
+                        className="underline hover:no-underline font-medium"
+                      >
+                        sign in
+                      </button>{" "}
+                      to continue.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Error Message */}
             {error && (
