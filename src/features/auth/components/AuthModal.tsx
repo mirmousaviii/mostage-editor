@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { X, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 import { AuthModalProps } from "../types/auth.types";
+import { Modal } from "@/shared/components/ui/Modal";
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -44,157 +45,123 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     });
   };
 
-  if (!isOpen) return null;
+  const handleClose = () => {
+    setError(""); // Clear error when closing modal
+    onClose();
+  };
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/95 z-[9998]"
-        onClick={() => {
-          setError(""); // Clear error when closing modal
-          onClose();
-        }}
-      />
-
-      {/* Modal */}
-      <div
-        className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-        onClick={() => {
-          setError(""); // Clear error when closing modal
-          onClose();
-        }}
-      >
-        <div
-          className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">
-              {isSignUp ? "Create Account" : "Sign In"}
-            </h2>
-            <button
-              onClick={() => {
-                setError(""); // Clear error when closing modal
-                onClose();
-              }}
-              className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5 sm:w-6 sm:h-6" />
-            </button>
-          </div>
-
-          {/* Form */}
-          <form
-            onSubmit={handleSubmit}
-            className="p-4 sm:p-6 space-y-3 sm:space-y-4"
-          >
-            {/* Error Message */}
-            {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-2 sm:p-3">
-                <p className="text-xs sm:text-sm text-red-800 dark:text-red-200">
-                  {error}
-                </p>
-              </div>
-            )}
-
-            {isSignUp && (
-              <div>
-                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter your full name"
-                  required={isSignUp}
-                />
-              </div>
-            )}
-
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="w-full px-2 sm:px-3 py-2 pr-8 sm:pr-10 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter your password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" />
-                  ) : (
-                    <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-primary hover:bg-primary/90 disabled:bg-primary/50 disabled:cursor-not-allowed text-primary-foreground font-medium py-2 px-3 sm:px-4 text-sm sm:text-base rounded-md transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2 flex items-center justify-center cursor-pointer"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="animate-spin -ml-1 mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white" />
-                  <span className="text-xs sm:text-sm">Processing...</span>
-                </>
-              ) : isSignUp ? (
-                "Create Account"
-              ) : (
-                "Sign In"
-              )}
-            </button>
-          </form>
-
-          {/* Footer */}
-          <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSignUp(!isSignUp);
-                  setError(""); // Clear error when switching modes
-                }}
-                className="text-primary hover:text-primary/80 font-medium transition-colors cursor-pointer"
-              >
-                {isSignUp ? "Sign In" : "Sign Up"}
-              </button>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      title={isSignUp ? "Create Account" : "Sign In"}
+      maxWidth="md"
+    >
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-2 sm:p-3">
+            <p className="text-xs sm:text-sm text-red-800 dark:text-red-200">
+              {error}
             </p>
           </div>
+        )}
+
+        {isSignUp && (
+          <div>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Full Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter your full name"
+              required={isSignUp}
+            />
+          </div>
+        )}
+
+        <div>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            className="w-full px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter your email"
+            required
+          />
         </div>
+
+        <div>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Password
+          </label>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className="w-full px-2 sm:px-3 py-2 pr-8 sm:pr-10 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter your password"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-2 sm:pr-3 flex items-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            >
+              {showPassword ? (
+                <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" />
+              ) : (
+                <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full bg-primary hover:bg-primary/90 disabled:bg-primary/50 disabled:cursor-not-allowed text-primary-foreground font-medium py-2 px-3 sm:px-4 text-sm sm:text-base rounded-md transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2 flex items-center justify-center cursor-pointer"
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="animate-spin -ml-1 mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              <span className="text-xs sm:text-sm">Processing...</span>
+            </>
+          ) : isSignUp ? (
+            "Create Account"
+          ) : (
+            "Sign In"
+          )}
+        </button>
+      </form>
+
+      {/* Footer */}
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700 -mx-4 sm:-mx-6 -mb-4 sm:-mb-6">
+        <p className="text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+          {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+          <button
+            type="button"
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError(""); // Clear error when switching modes
+            }}
+            className="text-primary hover:text-primary/80 font-medium transition-colors cursor-pointer"
+          >
+            {isSignUp ? "Sign In" : "Sign Up"}
+          </button>
+        </p>
       </div>
-    </>
+    </Modal>
   );
 }

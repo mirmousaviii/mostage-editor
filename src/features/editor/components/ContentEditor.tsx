@@ -22,6 +22,7 @@ import {
   Save,
   Sparkles,
   FileText,
+  HelpCircle,
 } from "lucide-react";
 import { AIModal } from "./AIModal";
 
@@ -202,6 +203,19 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             >
               <Save className="w-4 h-4" />
             </button>
+
+            <div className="w-px h-6 bg-input mx-1" />
+
+            {/* Markdown Help Button */}
+            <a
+              href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+              title="Markdown syntax help"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </a>
 
             <div className="w-px h-6 bg-input mx-1" />
 

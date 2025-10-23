@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Download, FileText, FileImage, FileCode } from "lucide-react";
+import { Download, FileText, FileImage, FileCode, X } from "lucide-react";
 
 import { ExportModalProps } from "../types/export.types";
+import { Modal } from "@/shared/components/ui/Modal";
 
 const EXPORT_FORMATS = [
   {
@@ -96,143 +97,126 @@ export const ExportModal: React.FC<ExportModalProps> = ({
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  const headerContent = (
+    <div className="flex items-center gap-2 sm:gap-3">
+      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md">
+        <Download className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+      </div>
+      <div>
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+          Export Presentation
+        </h2>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          Choose a format to export your presentation
+        </p>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      headerContent={headerContent}
+      maxWidth="2xl"
+      className="bg-background border border-input"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        {EXPORT_FORMATS.map((format) => {
+          const Icon = format.icon;
+          const isSelected = selectedFormat === format.id;
+          const isLoading = isExporting && isSelected;
 
-      {/* Modal */}
-      <div className="relative bg-background border border-input rounded-md shadow-lg w-full max-w-2xl max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-input">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md">
-              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
-            </div>
-            <div>
-              <h2 className="text-lg sm:text-xl font-semibold text-foreground">
-                Export Presentation
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                Choose a format to export your presentation
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-muted rounded-md transition-colors"
-          >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {EXPORT_FORMATS.map((format) => {
-              const Icon = format.icon;
-              const isSelected = selectedFormat === format.id;
-              const isLoading = isExporting && isSelected;
-
-              return (
-                <button
-                  key={format.id}
-                  onClick={() => handleExport(format.id)}
-                  disabled={isExporting}
+          return (
+            <button
+              key={format.id}
+              onClick={() => handleExport(format.id)}
+              disabled={isExporting}
+              className={`
+                relative p-4 sm:p-6 rounded-md border-2 transition-all duration-200
+                ${format.isSpecial ? "sm:col-span-2" : ""}
+                ${
+                  isSelected
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                    : "border-input hover:border-blue-300 hover:bg-muted/50"
+                }
+                ${
+                  isExporting
+                    ? "opacity-50 cursor-not-allowed"
+                    : "cursor-pointer"
+                }
+                group
+              `}
+            >
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div
                   className={`
-                    relative p-4 sm:p-6 rounded-md border-2 transition-all duration-200
-                    ${format.isSpecial ? "sm:col-span-2" : ""}
-                    ${
-                      isSelected
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                        : "border-input hover:border-blue-300 hover:bg-muted/50"
-                    }
-                    ${
-                      isExporting
-                        ? "opacity-50 cursor-not-allowed"
-                        : "cursor-pointer"
-                    }
-                    group
-                  `}
+                  p-2 sm:p-3 rounded-md ${format.bgColor}
+                  ${isSelected ? "scale-110" : "group-hover:scale-105"}
+                  transition-transform duration-200
+                `}
                 >
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div
-                      className={`
-                      p-2 sm:p-3 rounded-md ${format.bgColor}
-                      ${isSelected ? "scale-110" : "group-hover:scale-105"}
-                      transition-transform duration-200
-                    `}
-                    >
-                      <Icon
-                        className={`w-5 h-5 sm:w-6 sm:h-6 ${format.color}`}
-                      />
-                    </div>
-
-                    <div className="flex-1 text-left">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-sm sm:text-base font-semibold text-foreground">
-                          {format.name}
-                        </h3>
-                        {format.isRecommended && (
-                          <span className="px-2 py-0.5 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full">
-                            Recommended
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs sm:text-sm text-muted-foreground">
-                        {format.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Loading indicator */}
-                  {isLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md">
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                        <span className="text-xs sm:text-sm text-blue-600 font-medium">
-                          Exporting...
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Authentication Error */}
-          {showAuthError && (
-            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-              <div className="flex items-start gap-2 sm:gap-3">
-                <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded">
-                  <X className="w-4 h-4 text-red-600" />
+                  <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${format.color}`} />
                 </div>
-                <div>
-                  <h4 className="text-sm sm:text-base font-medium text-red-800 dark:text-red-200 mb-1">
-                    Authentication Required
-                  </h4>
-                  <p className="text-xs sm:text-sm text-red-700 dark:text-red-300">
-                    Export requires authentication. Please{" "}
-                    <button
-                      onClick={handleSignInClick}
-                      className="underline hover:no-underline font-medium"
-                    >
-                      sign in
-                    </button>{" "}
-                    to continue.
+
+                <div className="flex-1 text-left">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm sm:text-base font-semibold text-foreground">
+                      {format.name}
+                    </h3>
+                    {format.isRecommended && (
+                      <span className="px-2 py-0.5 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full">
+                        Recommended
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    {format.description}
                   </p>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+
+              {/* Loading indicator */}
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-xs sm:text-sm text-blue-600 font-medium">
+                      Exporting...
+                    </span>
+                  </div>
+                </div>
+              )}
+            </button>
+          );
+        })}
       </div>
-    </div>
+
+      {/* Authentication Error */}
+      {showAuthError && (
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+          <div className="flex items-start gap-2 sm:gap-3">
+            <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded">
+              <X className="w-4 h-4 text-red-600" />
+            </div>
+            <div>
+              <h4 className="text-sm sm:text-base font-medium text-red-800 dark:text-red-200 mb-1">
+                Authentication Required
+              </h4>
+              <p className="text-xs sm:text-sm text-red-700 dark:text-red-300">
+                Export requires authentication. Please{" "}
+                <button
+                  onClick={handleSignInClick}
+                  className="underline hover:no-underline font-medium"
+                >
+                  sign in
+                </button>{" "}
+                to continue.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </Modal>
   );
 };

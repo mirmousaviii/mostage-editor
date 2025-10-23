@@ -4,7 +4,7 @@ A presentation editor powered by [Mostage](https://github.com/mirmousaviii/mosta
 
 ## Live Demo
 
-Visit the live demo: [https://mirmousaviii.github.io/mostage-editor](https://mirmousaviii.github.io/mostage-editor)
+Visit the live demo: [mostage.js.org](https://mostage.js.org/)
 
 ## Documentation
 
