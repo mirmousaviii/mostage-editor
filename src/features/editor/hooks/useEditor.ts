@@ -5,7 +5,7 @@ import { EditorState } from "../types/editor.types";
 
 const defaultMarkdown = `# Welcome to Mostage
 
-## Presentation based on Markdown
+## Presentation Framework
 
 ---
 
@@ -37,7 +37,10 @@ const defaultMarkdown = `# Welcome to Mostage
 
 <!-- confetti -->
 
-### Happy presenting with Mostage!`;
+### Happy presenting with Mostage!
+
+#### Get started now [mo.js.org](https://mo.js.org)
+`;
 
 export const useEditor = () => {
   const [state, setState] = useState<EditorState>({

@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { PresentationConfig } from "../types/presentation.types";
 
 const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
-  theme: "light",
+  theme: "dark",
   scale: 1.0,
   loop: false,
   keyboard: true,
@@ -20,16 +20,16 @@ const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
     horizontal: true,
   },
   header: {
-    enabled: false,
-    content: "",
+    enabled: true,
+    content: "# Mostage",
     position: "top-left",
-    showOnFirstSlide: true,
+    showOnFirstSlide: false,
   },
   footer: {
-    enabled: false,
-    content: "",
+    enabled: true,
+    content: "#### Presentation framework",
     position: "bottom-left",
-    showOnFirstSlide: true,
+    showOnFirstSlide: false,
   },
   plugins: {
     ProgressBar: {
@@ -64,6 +64,16 @@ const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
       ],
     },
   },
+  // background: [
+  //   {
+  //     imagePath: "https://mo.js.org/demo/images/background.svg",
+  //     size: "cover",
+  //     position: "center",
+  //     repeat: "no-repeat",
+  //     bgColor: "#000000",
+  //     allSlidesExcept: [1, 2],
+  //   },
+  // ],
 };
 
 export const usePresentation = () => {

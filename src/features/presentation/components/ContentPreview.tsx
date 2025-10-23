@@ -102,6 +102,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
           header: presentationConfig.header,
           footer: presentationConfig.footer,
           plugins: presentationConfig.plugins,
+          background: presentationConfig.background,
         });
 
         mostageRef.current.start().then(() => {

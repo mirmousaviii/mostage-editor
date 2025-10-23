@@ -58,6 +58,24 @@ export interface PresentationConfig {
       colors?: string[];
     };
   };
+  background?: Array<{
+    imagePath: string;
+    size: "contain" | "cover" | "auto" | string;
+    position:
+      | "top-left"
+      | "top-center"
+      | "top-right"
+      | "center"
+      | "bottom-left"
+      | "bottom-center"
+      | "bottom-right"
+      | "left"
+      | "right";
+    repeat: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+    bgColor: string;
+    allSlides?: number[];
+    allSlidesExcept?: number[];
+  }>;
 }
 
 export interface ContentPreviewProps {

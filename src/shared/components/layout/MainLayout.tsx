@@ -33,6 +33,7 @@ import { PresentationConfig } from "@/features/presentation/types/presentation.t
 import { ContentEditor } from "@/features/editor/components/ContentEditor";
 import { ContentPreview } from "@/features/presentation/components/ContentPreview";
 import { PresentationSettings } from "@/features/presentation/components/PresentationSettings";
+import { usePresentation } from "@/features/presentation/hooks/usePresentation";
 import { ResizableSplitPane } from "@/shared/components/layout/ResizableSplitPane";
 import { ThemeToggle } from "@/shared/common/ThemeToggle";
 import { AuthModal } from "@/features/auth/components/AuthModal";
@@ -64,69 +65,6 @@ const DEFAULT_MOBILE_PANE_SIZE = 40; // Default pane size for mobile (vertical l
 const MIN_PANE_SIZE = 15; // Minimum pane size percentage
 const MAX_PANE_SIZE = 75; // Maximum pane size percentage
 
-const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
-  theme: "light",
-  scale: 1.0,
-  loop: false,
-  keyboard: true,
-  touch: true,
-  urlHash: true,
-  transition: {
-    type: "horizontal",
-    duration: 300,
-    easing: "ease-in-out",
-  },
-  centerContent: {
-    vertical: true,
-    horizontal: true,
-  },
-  header: {
-    enabled: false,
-    content: "",
-    position: "top-left",
-    showOnFirstSlide: true,
-  },
-  footer: {
-    enabled: false,
-    content: "",
-    position: "bottom-left",
-    showOnFirstSlide: true,
-  },
-  plugins: {
-    ProgressBar: {
-      enabled: true,
-      position: "bottom",
-      height: "12px",
-      color: "#007acc",
-    },
-    SlideNumber: {
-      enabled: true,
-      position: "bottom-right",
-      format: "current/total",
-    },
-    Controller: {
-      enabled: true,
-      position: "bottom-center",
-    },
-    Confetti: {
-      enabled: true,
-      particleCount: 50,
-      size: { min: 5, max: 10 },
-      duration: 3000,
-      delay: 0,
-      colors: [
-        "#ff6b6b",
-        "#4ecdc4",
-        "#45b7d1",
-        "#96ceb4",
-        "#feca57",
-        "#ff9ff3",
-        "#54a0ff",
-      ],
-    },
-  },
-};
-
 export const MainLayout: React.FC<EditorProps> = ({
   markdown,
   onChange,
@@ -149,8 +87,8 @@ export const MainLayout: React.FC<EditorProps> = ({
   const [isMobile, setIsMobile] = useState(false);
 
   // Presentation configuration
-  const [presentationConfig, setPresentationConfig] =
-    useState<PresentationConfig>(DEFAULT_PRESENTATION_CONFIG);
+  const { config: presentationConfig, updateConfig: setPresentationConfig } =
+    usePresentation();
 
   // Handle responsive layout
   useEffect(() => {
@@ -294,7 +232,7 @@ export const MainLayout: React.FC<EditorProps> = ({
         console.error("Import failed:", error);
       }
     },
-    [onChange]
+    [onChange, setPresentationConfig]
   );
 
   const handleImportMultiple = useCallback(
@@ -325,7 +263,7 @@ export const MainLayout: React.FC<EditorProps> = ({
         console.error("Import failed:", error);
       }
     },
-    [onChange]
+    [onChange, setPresentationConfig]
   );
 
   // Render helpers

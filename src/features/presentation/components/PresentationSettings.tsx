@@ -192,6 +192,32 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
         colors: ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"],
       },
     },
+    background: [
+      {
+        imagePath: "https://mo.js.org/demo/images/background-first.svg",
+        size: "contain",
+        position: "top-left",
+        repeat: "no-repeat",
+        bgColor: "#000000",
+        allSlides: [1],
+      },
+      {
+        imagePath: "https://mo.js.org/demo/images/background.svg",
+        size: "cover",
+        position: "center",
+        repeat: "no-repeat",
+        bgColor: "#000000",
+        allSlidesExcept: [1, 24],
+      },
+      {
+        imagePath: "https://mo.js.org/demo/images/background-end.svg",
+        size: "cover",
+        position: "right",
+        repeat: "no-repeat",
+        bgColor: "#000000",
+        allSlides: [24],
+      },
+    ],
   });
 
   // Export configuration
