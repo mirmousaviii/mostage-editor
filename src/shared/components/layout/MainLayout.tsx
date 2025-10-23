@@ -421,13 +421,11 @@ export const MainLayout: React.FC<EditorProps> = ({
                 config={presentationConfig}
                 onConfigChange={setPresentationConfig}
               />
-              <div className="min-h-[400px] h-full flex-shrink-0">
-                <ContentEditor
-                  value={markdown}
-                  onChange={onChange}
-                  onOpenAuthModal={handleOpenAuthModal}
-                />
-              </div>
+              <ContentEditor
+                value={markdown}
+                onChange={onChange}
+                onOpenAuthModal={handleOpenAuthModal}
+              />
             </div>
           </div>
         </ResizableSplitPane>
