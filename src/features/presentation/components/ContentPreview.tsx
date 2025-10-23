@@ -177,20 +177,23 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+      <div className="flex items-center justify-between p-2 sm:p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+        <h3 className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
           Live Preview
         </h3>
-        <div className="flex items-center gap-3">
-          <div className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
             {slideCount > 0 ? `${slideCount} slides` : "Loading..."}
+          </div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 sm:hidden">
+            {slideCount > 0 ? `${slideCount}` : "..."}
           </div>
           <button
             onClick={handleFullscreen}
-            className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 cursor-pointer"
+            className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 cursor-pointer"
             title="Enter fullscreen mode"
           >
-            <Maximize className="w-4 h-4" />
+            <Maximize className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
         </div>
       </div>
