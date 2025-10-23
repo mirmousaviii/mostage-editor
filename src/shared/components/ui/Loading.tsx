@@ -36,7 +36,7 @@ export function Loading() {
           Mostage Editor
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Loading your workspace...
+          Loading the workspace...
         </p>
       </div>
     </div>
