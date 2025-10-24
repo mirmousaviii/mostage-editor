@@ -55,7 +55,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         </h3>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
           Web editor for Mostage framework. Create and edit presentations in
-          real time. <br /> Export to PDF, PNG, JPG and other formats.
+          real time. Export to different formats.
         </p>
 
         <ul className="list-disc list-inside text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
@@ -114,8 +114,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
           Donate
         </h3>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
-          If you like Mostage Editor, please consider donating to support the
-          project.
+          You can support the project by sponsoring on GitHub.
         </p>
         <ul className="list-disc list-inside text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
           <li>
