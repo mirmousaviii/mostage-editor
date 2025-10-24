@@ -45,6 +45,7 @@ const defaultMarkdown = `# Welcome to Mostage
 
 ![LOGO](https://mo.js.org/demo/images/logo.svg)
 
+---
 `;
 
 export const useEditor = () => {
