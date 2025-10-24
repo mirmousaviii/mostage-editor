@@ -4,6 +4,8 @@ import { ContentEditorProps } from "../types/editor.types";
 import { useState, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { AIModal } from "./AIModal";
+import { SaveModal } from "./SaveModal";
+import { NewFileConfirmationModal } from "./NewFileConfirmationModal";
 import { MarkdownToolbar } from "./MarkdownToolbar";
 
 export const ContentEditor: React.FC<ContentEditorProps> = ({
@@ -11,9 +13,12 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
   onChange,
   placeholder = "Start typing your markdown here...",
   onOpenAuthModal,
+  onOpenExportModal,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [showAIModal, setShowAIModal] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showNewFileConfirmation, setShowNewFileConfirmation] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Helper function to insert text at cursor position
@@ -106,9 +111,9 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
           {/* Markdown Toolbar */}
           <MarkdownToolbar
             onInsert={insertText}
-            onNewFile={handleNewFile}
+            onOpenNewFileConfirmation={() => setShowNewFileConfirmation(true)}
             onOpenFile={handleFileOpen}
-            onDownloadFile={handleFileDownload}
+            onOpenSaveModal={() => setShowSaveModal(true)}
             onOpenAIModal={() => setShowAIModal(true)}
           />
 
@@ -184,6 +189,21 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
           }
         }}
         onOpenAuthModal={onOpenAuthModal || (() => {})}
+      />
+
+      {/* Save Modal */}
+      <SaveModal
+        isOpen={showSaveModal}
+        onClose={() => setShowSaveModal(false)}
+        onDownload={handleFileDownload}
+        onOpenExportModal={onOpenExportModal || (() => {})}
+      />
+
+      {/* New File Confirmation Modal */}
+      <NewFileConfirmationModal
+        isOpen={showNewFileConfirmation}
+        onClose={() => setShowNewFileConfirmation(false)}
+        onConfirm={handleNewFile}
       />
     </div>
   );

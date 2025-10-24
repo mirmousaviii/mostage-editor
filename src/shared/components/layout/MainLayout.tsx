@@ -141,12 +141,12 @@ export const MainLayout: React.FC<EditorProps> = ({
     setShowAuthModal(true);
   }, []);
 
-  const handleOpenAboutModal = useCallback(() => {
-    setShowAboutModal(true);
-  }, []);
-
   const handleOpenExportModal = useCallback(() => {
     setShowExportModal(true);
+  }, []);
+
+  const handleOpenAboutModal = useCallback(() => {
+    setShowAboutModal(true);
   }, []);
 
   const handleOpenImportModal = useCallback(() => {
@@ -364,6 +364,7 @@ export const MainLayout: React.FC<EditorProps> = ({
                 value={markdown}
                 onChange={onChange}
                 onOpenAuthModal={handleOpenAuthModal}
+                onOpenExportModal={handleOpenExportModal}
               />
             </div>
           </div>
@@ -397,6 +398,7 @@ export const MainLayout: React.FC<EditorProps> = ({
               value={markdown}
               onChange={onChange}
               onOpenAuthModal={handleOpenAuthModal}
+              onOpenExportModal={handleOpenExportModal}
             />
           </div>
         </div>
@@ -420,6 +422,7 @@ export const MainLayout: React.FC<EditorProps> = ({
           value={markdown}
           onChange={onChange}
           onOpenAuthModal={handleOpenAuthModal}
+          onOpenExportModal={handleOpenExportModal}
         />
       </div>
     </div>

@@ -26,18 +26,18 @@ import {
 
 interface MarkdownToolbarProps {
   onInsert: (before: string, after?: string, placeholder?: string) => void;
-  onNewFile: () => void;
+  onOpenNewFileConfirmation: () => void;
   onOpenFile: () => void;
-  onDownloadFile: () => void;
+  onOpenSaveModal: () => void;
   onOpenAIModal: () => void;
   className?: string;
 }
 
 export function MarkdownToolbar({
   onInsert,
-  onNewFile,
+  onOpenNewFileConfirmation,
   onOpenFile,
-  onDownloadFile,
+  onOpenSaveModal,
   onOpenAIModal,
   className = "",
 }: MarkdownToolbarProps) {
@@ -99,7 +99,7 @@ export function MarkdownToolbar({
       <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
         {/* New File Button */}
         <button
-          onClick={onNewFile}
+          onClick={onOpenNewFileConfirmation}
           className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
           title="New File"
         >
@@ -115,11 +115,11 @@ export function MarkdownToolbar({
           <FolderOpen className="w-4 h-4" />
         </button>
 
-        {/* Download File Button */}
+        {/* Save File Button */}
         <button
-          onClick={onDownloadFile}
+          onClick={onOpenSaveModal}
           className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
-          title="Download Markdown File"
+          title="Save Markdown File"
         >
           <Save className="w-4 h-4" />
         </button>

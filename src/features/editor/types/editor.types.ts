@@ -16,4 +16,5 @@ export interface ContentEditorProps {
   onChange: (value: string) => void;
   placeholder?: string;
   onOpenAuthModal?: () => void;
+  onOpenExportModal?: () => void;
 }
