@@ -58,7 +58,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       maxWidth="md"
     >
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 mb-6">
         {/* Error Message */}
         {error && (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-2 sm:p-3">
