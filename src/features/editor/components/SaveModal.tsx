@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Download, FileText, ExternalLink, X } from "lucide-react";
+import { Download, FileText, ExternalLink } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
 
 interface SaveModalProps {

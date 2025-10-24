@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FileText, AlertTriangle, X } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
 
 interface NewFileConfirmationModalProps {

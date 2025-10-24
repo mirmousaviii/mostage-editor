@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 import { AuthModalProps } from "../types/auth.types";
 import { Modal } from "@/shared/components/ui/Modal";
+import { analytics } from "@/shared/utils/analytics";
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -17,10 +18,20 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     name: "",
   });
 
+  // Track auth modal open
+  useEffect(() => {
+    if (isOpen) {
+      analytics.trackAuthModalOpen(isSignUp ? "signup" : "login");
+    }
+  }, [isOpen, isSignUp]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
+
+    // Track auth attempt
+    analytics.trackAuthAttempt(isSignUp ? "signup" : "login");
 
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -30,9 +41,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       setError(
         "Sorry, you can't sign up because no one has donated yet! Please donate first then wait for it 😉"
       );
+      // Track signup error
+      analytics.trackAuthError("signup_error");
     } else {
       // Sign In error message
       setError("Invalid username or password. Please try again.");
+      // Track login error
+      analytics.trackAuthError("login_error");
     }
 
     setIsLoading(false);
@@ -153,8 +168,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <button
             type="button"
             onClick={() => {
-              setIsSignUp(!isSignUp);
+              const newMode = !isSignUp;
+              setIsSignUp(newMode);
               setError(""); // Clear error when switching modes
+              // Track mode switch
+              analytics.trackAuthModeSwitch(newMode ? "signup" : "login");
             }}
             className="text-primary hover:text-primary/80 font-medium transition-colors cursor-pointer"
           >

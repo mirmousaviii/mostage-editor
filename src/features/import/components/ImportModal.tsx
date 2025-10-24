@@ -9,6 +9,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
+import { analytics } from "@/shared/utils/analytics";
 
 interface ImportModalProps {
   isOpen: boolean;
@@ -101,6 +102,10 @@ export const ImportModal: React.FC<ImportModalProps> = ({
       return;
     }
 
+    // Track import event
+    const fileExtension =
+      file.name.split(".").pop()?.toLowerCase() || "unknown";
+    analytics.trackImport(fileExtension);
     onImport(file);
   };
 

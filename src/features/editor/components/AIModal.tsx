@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Sparkles, Loader2, X } from "lucide-react";
 
 import { Modal } from "@/shared/components/ui/Modal";
+import { analytics } from "@/shared/utils/analytics";
 
 interface AIModalProps {
   isOpen: boolean;
@@ -25,8 +26,18 @@ export function AIModal({
   const [error, setError] = useState("");
   const [showAuthError, setShowAuthError] = useState(false);
 
+  // Track AI modal open
+  React.useEffect(() => {
+    if (isOpen) {
+      analytics.trackAIUsage("modal_open");
+    }
+  }, [isOpen]);
+
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
+
+    // Track AI usage with prompt
+    analytics.trackAIUsage("generate_content", prompt);
 
     // Show authentication error instead of generating content
     setShowAuthError(true);
@@ -84,6 +95,12 @@ export function AIModal({
 
   const handleInsert = () => {
     if (generatedContent && onInsertContent) {
+      // Track AI content insertion with content length
+      analytics.trackAIUsage(
+        "insert_content",
+        undefined,
+        generatedContent.length
+      );
       onInsertContent(generatedContent);
       handleClose();
     }
@@ -94,6 +111,12 @@ export function AIModal({
       await navigator.clipboard.writeText(generatedContent);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      // Track copy action with content length
+      analytics.trackAIUsage(
+        "copy_content",
+        undefined,
+        generatedContent.length
+      );
     } catch {
       console.error("Failed to copy content");
     }

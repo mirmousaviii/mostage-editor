@@ -20,6 +20,10 @@ Visit the live demo: [mostage.js.org](https://mostage.js.org/)
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
+## Documentation
+
+- [Project Structure](docs/project-structure.md) - Architecture and development guide
+
 ## Contributing
 
 This project is part of the Mostage ecosystem. For contributions, please refer to the main [Mostage repository](https://github.com/mirmousaviii/mostage).

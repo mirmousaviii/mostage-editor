@@ -3,6 +3,7 @@
 import React from "react";
 import { Github, ExternalLink } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
+import { analytics } from "@/shared/utils/analytics";
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -10,6 +11,13 @@ interface AboutModalProps {
 }
 
 export function AboutModal({ isOpen, onClose }: AboutModalProps) {
+  // Track about modal view when it opens
+  React.useEffect(() => {
+    if (isOpen) {
+      analytics.trackAboutView();
+    }
+  }, [isOpen]);
+
   return (
     <Modal
       isOpen={isOpen}

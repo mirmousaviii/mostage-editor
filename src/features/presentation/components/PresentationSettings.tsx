@@ -13,6 +13,7 @@ import {
   RotateCcw,
   X,
 } from "lucide-react";
+import { analytics } from "@/shared/utils/analytics";
 
 export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
   config,
@@ -22,6 +23,14 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
   const [activeTab, setActiveTab] = useState<
     "general" | "plugins" | "header-footer" | "background"
   >("general");
+
+  // Handle tab change with analytics tracking
+  const handleTabChange = (
+    tabName: "general" | "plugins" | "header-footer" | "background"
+  ) => {
+    setActiveTab(tabName);
+    analytics.trackPresentationTab(tabName);
+  };
   const [showImportModal, setShowImportModal] = useState(false);
   const [importError, setImportError] = useState("");
   const [showResetModal, setShowResetModal] = useState(false);
@@ -305,7 +314,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
           {/* Tab Navigation */}
           <div className="flex flex-wrap border-b border-gray-200 dark:border-gray-600 overflow-x-auto">
             <button
-              onClick={() => setActiveTab("general")}
+              onClick={() => handleTabChange("general")}
               className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === "general"
                   ? "border-blue-500 text-blue-600 dark:text-blue-400"
@@ -315,7 +324,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
               General
             </button>
             <button
-              onClick={() => setActiveTab("header-footer")}
+              onClick={() => handleTabChange("header-footer")}
               className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === "header-footer"
                   ? "border-blue-500 text-blue-600 dark:text-blue-400"
@@ -325,7 +334,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
               Header & Footer
             </button>
             <button
-              onClick={() => setActiveTab("background")}
+              onClick={() => handleTabChange("background")}
               className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === "background"
                   ? "border-blue-500 text-blue-600 dark:text-blue-400"
@@ -335,7 +344,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
               Background
             </button>
             <button
-              onClick={() => setActiveTab("plugins")}
+              onClick={() => handleTabChange("plugins")}
               className={`px-2 py-2 text-xs font-medium border-b-2 transition-colors whitespace-nowrap flex-shrink-0 ${
                 activeTab === "plugins"
                   ? "border-blue-500 text-blue-600 dark:text-blue-400"

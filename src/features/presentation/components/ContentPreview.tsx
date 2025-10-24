@@ -7,6 +7,7 @@ import {
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Mostage } from "mostage";
 import { Maximize } from "lucide-react";
+import { analytics } from "@/shared/utils/analytics";
 
 export const ContentPreview: React.FC<ContentPreviewProps> = ({
   markdown,
@@ -163,6 +164,9 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
   }, []);
 
   const handleFullscreen = () => {
+    // Track fullscreen toggle
+    analytics.trackFullscreen("on");
+
     if (containerRef.current) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const element = containerRef.current as any;

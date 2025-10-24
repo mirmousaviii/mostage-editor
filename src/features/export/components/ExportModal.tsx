@@ -5,6 +5,7 @@ import { Download, FileText, FileImage, FileCode, X } from "lucide-react";
 
 import { ExportModalProps } from "../types/export.types";
 import { Modal } from "@/shared/components/ui/Modal";
+import { analytics } from "@/shared/utils/analytics";
 
 const EXPORT_FORMATS = [
   {
@@ -76,6 +77,8 @@ export const ExportModal: React.FC<ExportModalProps> = ({
     setSelectedFormat(format);
 
     try {
+      // Track export event
+      analytics.trackExport(format);
       await onExport(format);
     } catch (error) {
       console.error("Export failed:", error);
