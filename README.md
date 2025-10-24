@@ -2,6 +2,13 @@
 
 A presentation editor powered by [Mostage](https://github.com/mirmousaviii/mostage) - the markdown-based presentation framework.
 
+## Mostage
+
+A presentation framework based on Markdown and HTML. Available as NPM package, CLI and Web Editor.
+
+- [mo.js.org](https://mo.js.org/)
+- [github.com/mirmousaviii/mostage](https://github.com/mirmousaviii/mostage)
+
 ## Live Demo
 
 Visit the live demo: [mostage.js.org](https://mostage.js.org/)
