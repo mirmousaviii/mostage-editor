@@ -18,8 +18,6 @@ const defaultMarkdown = `# Welcome to Mostage
 
 ---
 
-![LOGO](https://mo.js.org/demo/images/logo.svg)
-
 ## Key Features
 
 - **Markdown Support** - Write in Markdown
@@ -29,11 +27,10 @@ const defaultMarkdown = `# Welcome to Mostage
 ---
 
 
-## Getting Started
-- #### Edit this \`content\` file
-- #### Modify \`config\` as needed
-- #### Run your presentation
-- #### Export your presentation
+## How can I use Mostage?
+- ##### Use the CLI
+- ##### Use the NPM package
+- ##### Use the Online Editor
 
 ---
 
@@ -42,6 +39,12 @@ const defaultMarkdown = `# Welcome to Mostage
 ### Happy presenting with Mostage!
 
 #### Get started now [mo.js.org](https://mo.js.org)
+
+---
+<!-- confetti -->
+
+![LOGO](https://mo.js.org/demo/images/logo.svg)
+
 `;
 
 export const useEditor = () => {
