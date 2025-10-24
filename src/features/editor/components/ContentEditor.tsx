@@ -127,6 +127,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
               bg-background text-foreground
               font-mono text-sm leading-relaxed
               placeholder-muted-foreground
+              whitespace-nowrap
             "
             style={{
               fontFamily:

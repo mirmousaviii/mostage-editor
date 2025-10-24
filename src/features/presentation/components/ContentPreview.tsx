@@ -183,11 +183,8 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
           Live Preview
         </h3>
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
             {slideCount > 0 ? `${slideCount} slides` : "Loading..."}
-          </div>
-          <div className="text-xs text-gray-500 dark:text-gray-400 sm:hidden">
-            {slideCount > 0 ? `${slideCount}` : "..."}
           </div>
           <button
             onClick={handleFullscreen}
