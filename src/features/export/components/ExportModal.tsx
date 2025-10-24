@@ -87,6 +87,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
 
   const handleSignInClick = () => {
     setShowAuthError(false);
+    onClose(); // Close the export modal first
     onOpenAuthModal?.();
   };
 
