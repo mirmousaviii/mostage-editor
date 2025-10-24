@@ -265,7 +265,7 @@ export const ResizableSplitPane: React.FC<ResizableSplitPaneProps> = ({
         data-resizer
         className={`
           relative z-20 flex items-center justify-center
-          ${isHorizontal ? "w-2 h-full sm:w-1" : "h-2 w-full sm:h-1"}
+          ${isHorizontal ? "w-3 h-full sm:w-1" : "h-3 w-full sm:h-1"}
           ${isDragging ? "bg-blue-500" : "bg-gray-300 dark:bg-gray-600"}
           hover:bg-blue-400 dark:hover:bg-blue-500
           cursor-${isHorizontal ? "col-resize" : "row-resize"}
