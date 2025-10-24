@@ -200,6 +200,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
         position: "top-left",
         repeat: "no-repeat",
         bgColor: "#000000",
+        global: false,
         allSlides: [1],
       },
       {
@@ -208,6 +209,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
         position: "center",
         repeat: "no-repeat",
         bgColor: "#000000",
+        global: false,
         allSlidesExcept: [1, 24],
       },
       {
@@ -216,6 +218,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
         position: "right",
         repeat: "no-repeat",
         bgColor: "#000000",
+        global: false,
         allSlides: [24],
       },
     ],
@@ -1223,132 +1226,179 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         </div>
 
                         <div className="flex flex-col gap-2">
-                          <div className="flex items-center gap-2">
-                            <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                              Apply to slides:
-                            </label>
+                          <label className="flex items-center cursor-pointer">
                             <input
-                              type="text"
-                              value={
-                                inputValues[`allSlides-${index}`] !== undefined
-                                  ? inputValues[`allSlides-${index}`]
-                                  : bg.allSlides
-                                  ? bg.allSlides.join(", ")
-                                  : ""
-                              }
+                              type="checkbox"
+                              checked={bg.global || false}
                               onChange={(e) => {
-                                setInputValues((prev) => ({
-                                  ...prev,
-                                  [`allSlides-${index}`]: e.target.value,
-                                }));
-                              }}
-                              onBlur={(e) => {
-                                const inputValue = e.target.value.trim();
-                                if (inputValue === "") {
-                                  const newBackgrounds = [
-                                    ...(config.background || []),
-                                  ];
-                                  newBackgrounds[index] = {
-                                    ...newBackgrounds[index],
-                                    allSlides: undefined,
-                                  };
-                                  onConfigChange({
-                                    ...config,
-                                    background: newBackgrounds,
-                                  });
-                                  setInputValues((prev) => ({
-                                    ...prev,
-                                    [`allSlides-${index}`]: "",
-                                  }));
-                                  return;
-                                }
-
-                                const slides = inputValue
-                                  .split(/[,\s]+/)
-                                  .map((s) => parseInt(s.trim()))
-                                  .filter((n) => !isNaN(n) && n > 0);
-
                                 const newBackgrounds = [
                                   ...(config.background || []),
                                 ];
                                 newBackgrounds[index] = {
                                   ...newBackgrounds[index],
-                                  allSlides:
-                                    slides.length > 0 ? slides : undefined,
+                                  global: e.target.checked,
+                                  allSlides: e.target.checked
+                                    ? undefined
+                                    : newBackgrounds[index].allSlides,
+                                  allSlidesExcept: e.target.checked
+                                    ? undefined
+                                    : newBackgrounds[index].allSlidesExcept,
                                 };
                                 onConfigChange({
                                   ...config,
                                   background: newBackgrounds,
                                 });
                               }}
-                              className="w-full flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                              placeholder="1, 2, 3 (slide numbers)"
+                              className="sr-only"
                             />
-                          </div>
+                            <div
+                              className={`w-4 h-4 rounded border-2 mr-2 flex items-center justify-center transition-colors ${
+                                bg.global
+                                  ? "bg-blue-500 border-blue-500"
+                                  : "border-gray-300 dark:border-gray-500"
+                              }`}
+                            >
+                              {bg.global && (
+                                <Check className="w-2 h-2 text-white" />
+                              )}
+                            </div>
+                            <span className="text-xs text-gray-700 dark:text-gray-300">
+                              Apply to all slides (Global)
+                            </span>
+                          </label>
 
-                          <div className="flex items-center gap-2">
-                            <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                              Apply to all except:
-                            </label>
-                            <input
-                              type="text"
-                              value={
-                                inputValues[`allSlidesExcept-${index}`] !==
-                                undefined
-                                  ? inputValues[`allSlidesExcept-${index}`]
-                                  : bg.allSlidesExcept
-                                  ? bg.allSlidesExcept.join(", ")
-                                  : ""
-                              }
-                              onChange={(e) => {
-                                setInputValues((prev) => ({
-                                  ...prev,
-                                  [`allSlidesExcept-${index}`]: e.target.value,
-                                }));
-                              }}
-                              onBlur={(e) => {
-                                const inputValue = e.target.value.trim();
-                                if (inputValue === "") {
-                                  const newBackgrounds = [
-                                    ...(config.background || []),
-                                  ];
-                                  newBackgrounds[index] = {
-                                    ...newBackgrounds[index],
-                                    allSlidesExcept: undefined,
-                                  };
-                                  onConfigChange({
-                                    ...config,
-                                    background: newBackgrounds,
-                                  });
-                                  setInputValues((prev) => ({
-                                    ...prev,
-                                    [`allSlidesExcept-${index}`]: "",
-                                  }));
-                                  return;
-                                }
+                          {!bg.global && (
+                            <>
+                              <div className="flex items-center gap-2">
+                                <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                                  Apply to slides:
+                                </label>
+                                <input
+                                  type="text"
+                                  value={
+                                    inputValues[`allSlides-${index}`] !==
+                                    undefined
+                                      ? inputValues[`allSlides-${index}`]
+                                      : bg.allSlides
+                                      ? bg.allSlides.join(", ")
+                                      : ""
+                                  }
+                                  onChange={(e) => {
+                                    setInputValues((prev) => ({
+                                      ...prev,
+                                      [`allSlides-${index}`]: e.target.value,
+                                    }));
+                                  }}
+                                  onBlur={(e) => {
+                                    const inputValue = e.target.value.trim();
+                                    if (inputValue === "") {
+                                      const newBackgrounds = [
+                                        ...(config.background || []),
+                                      ];
+                                      newBackgrounds[index] = {
+                                        ...newBackgrounds[index],
+                                        allSlides: undefined,
+                                      };
+                                      onConfigChange({
+                                        ...config,
+                                        background: newBackgrounds,
+                                      });
+                                      setInputValues((prev) => ({
+                                        ...prev,
+                                        [`allSlides-${index}`]: "",
+                                      }));
+                                      return;
+                                    }
 
-                                const slides = inputValue
-                                  .split(/[,\s]+/)
-                                  .map((s) => parseInt(s.trim()))
-                                  .filter((n) => !isNaN(n) && n > 0);
+                                    const slides = inputValue
+                                      .split(/[,\s]+/)
+                                      .map((s) => parseInt(s.trim()))
+                                      .filter((n) => !isNaN(n) && n > 0);
 
-                                const newBackgrounds = [
-                                  ...(config.background || []),
-                                ];
-                                newBackgrounds[index] = {
-                                  ...newBackgrounds[index],
-                                  allSlidesExcept:
-                                    slides.length > 0 ? slides : undefined,
-                                };
-                                onConfigChange({
-                                  ...config,
-                                  background: newBackgrounds,
-                                });
-                              }}
-                              className="w-full flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                              placeholder="1, 2, 3 (exclude these)"
-                            />
-                          </div>
+                                    const newBackgrounds = [
+                                      ...(config.background || []),
+                                    ];
+                                    newBackgrounds[index] = {
+                                      ...newBackgrounds[index],
+                                      allSlides:
+                                        slides.length > 0 ? slides : undefined,
+                                    };
+                                    onConfigChange({
+                                      ...config,
+                                      background: newBackgrounds,
+                                    });
+                                  }}
+                                  className="w-full flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                  placeholder="1, 2, 3 (slide numbers)"
+                                />
+                              </div>
+
+                              <div className="flex items-center gap-2">
+                                <label className="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                                  Apply to all except:
+                                </label>
+                                <input
+                                  type="text"
+                                  value={
+                                    inputValues[`allSlidesExcept-${index}`] !==
+                                    undefined
+                                      ? inputValues[`allSlidesExcept-${index}`]
+                                      : bg.allSlidesExcept
+                                      ? bg.allSlidesExcept.join(", ")
+                                      : ""
+                                  }
+                                  onChange={(e) => {
+                                    setInputValues((prev) => ({
+                                      ...prev,
+                                      [`allSlidesExcept-${index}`]:
+                                        e.target.value,
+                                    }));
+                                  }}
+                                  onBlur={(e) => {
+                                    const inputValue = e.target.value.trim();
+                                    if (inputValue === "") {
+                                      const newBackgrounds = [
+                                        ...(config.background || []),
+                                      ];
+                                      newBackgrounds[index] = {
+                                        ...newBackgrounds[index],
+                                        allSlidesExcept: undefined,
+                                      };
+                                      onConfigChange({
+                                        ...config,
+                                        background: newBackgrounds,
+                                      });
+                                      setInputValues((prev) => ({
+                                        ...prev,
+                                        [`allSlidesExcept-${index}`]: "",
+                                      }));
+                                      return;
+                                    }
+
+                                    const slides = inputValue
+                                      .split(/[,\s]+/)
+                                      .map((s) => parseInt(s.trim()))
+                                      .filter((n) => !isNaN(n) && n > 0);
+
+                                    const newBackgrounds = [
+                                      ...(config.background || []),
+                                    ];
+                                    newBackgrounds[index] = {
+                                      ...newBackgrounds[index],
+                                      allSlidesExcept:
+                                        slides.length > 0 ? slides : undefined,
+                                    };
+                                    onConfigChange({
+                                      ...config,
+                                      background: newBackgrounds,
+                                    });
+                                  }}
+                                  className="w-full flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                  placeholder="1, 2, 3 (exclude these)"
+                                />
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1371,6 +1421,7 @@ export const PresentationSettings: React.FC<PresentationToolbarProps> = ({
                         position: "center" as const,
                         repeat: "no-repeat" as const,
                         bgColor: "#000000",
+                        global: false,
                         allSlides: undefined,
                       };
                       onConfigChange({

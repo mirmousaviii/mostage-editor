@@ -71,6 +71,7 @@ const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
       position: "center",
       repeat: "no-repeat",
       bgColor: "#000000",
+      global: false,
       allSlidesExcept: [4, 5],
     },
     {
@@ -79,6 +80,7 @@ const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
       position: "center",
       repeat: "no-repeat",
       bgColor: "#000000",
+      global: false,
       allSlides: [5],
     },
   ],

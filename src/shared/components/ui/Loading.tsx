@@ -15,6 +15,7 @@ export function Loading() {
             width={64}
             height={64}
             className="w-16 h-16 mx-auto"
+            priority
           />
         </div>
 

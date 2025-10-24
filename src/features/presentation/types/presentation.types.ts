@@ -73,6 +73,7 @@ export interface PresentationConfig {
       | "right";
     repeat: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
     bgColor: string;
+    global?: boolean;
     allSlides?: number[];
     allSlidesExcept?: number[];
   }>;
