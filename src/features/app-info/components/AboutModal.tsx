@@ -109,6 +109,38 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         </ul>
       </div>
 
+      <div>
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
+          Donate
+        </h3>
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
+          If you like Mostage Editor, please consider donating to support the
+          project.
+        </p>
+        <ul className="list-disc list-inside text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+          <li>
+            <a
+              href="https://github.com/sponsors/mirmousaviii"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              GitHub Sponsors
+            </a>
+          </li>
+          {/* <li>
+            <a href="https://www.patreon.com/mirmousaviii" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+              Patreon
+            </a>
+          </li> */}
+          {/* <li>
+            <a href="https://www.buymeacoffee.com/mirmousaviii" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+              Buy Me a Coffee
+            </a>
+          </li> */}
+        </ul>
+      </div>
+
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end">
         <a
           href="https://github.com/mirmousaviii/mostage"
