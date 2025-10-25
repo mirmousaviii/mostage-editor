@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Modal } from "@/shared/components/ui/Modal";
-import { FileText, AlertTriangle, FilePlus } from "lucide-react";
+import { FileText, AlertTriangle, FilePlus, Plus } from "lucide-react";
 
 interface NewSampleModalProps {
   isOpen: boolean;
@@ -50,6 +50,9 @@ export const NewSampleModal: React.FC<NewSampleModalProps> = ({
 
   const headerContent = (
     <div className="flex items-center gap-2 sm:gap-3">
+      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md">
+        <Plus className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+      </div>
       <div>
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">
           Start New Presentation

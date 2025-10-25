@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, User, UserPlus } from "lucide-react";
 
 import { AuthModalProps } from "../types/auth.types";
 import { Modal } from "@/shared/components/ui/Modal";
@@ -65,11 +65,33 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     onClose();
   };
 
+  const headerContent = (
+    <div className="flex items-center gap-2 sm:gap-3">
+      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md">
+        {isSignUp ? (
+          <UserPlus className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+        ) : (
+          <User className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+        )}
+      </div>
+      <div>
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+          {isSignUp ? "Create Account" : "Sign In"}
+        </h2>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          {isSignUp
+            ? "Create a new account to get started"
+            : "Sign in to your existing account"}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={isSignUp ? "Create Account" : "Sign In"}
+      headerContent={headerContent}
       maxWidth="md"
     >
       {/* Form */}

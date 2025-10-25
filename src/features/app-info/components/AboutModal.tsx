@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, Info } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
 import { analytics } from "@/shared/utils/analytics";
 
@@ -18,11 +18,27 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
     }
   }, [isOpen]);
 
+  const headerContent = (
+    <div className="flex items-center gap-2 sm:gap-3">
+      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md">
+        <Info className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+      </div>
+      <div>
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+          About Mostage Editor
+        </h2>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          Information about the application and framework
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="About Mostage Editor"
+      headerContent={headerContent}
       maxWidth="2xl"
     >
       <div>

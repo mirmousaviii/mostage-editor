@@ -149,11 +149,14 @@ export function AIModal({
 
   const headerContent = (
     <div className="flex items-center gap-2 sm:gap-3">
+      <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-md">
+        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
+      </div>
       <div>
-        <h2 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground">
           AI Content Generator
         </h2>
-        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Generate professional presentation content with AI
         </p>
       </div>
