@@ -33,7 +33,10 @@ import { PresentationConfig } from "@/features/presentation/types/presentation.t
 import { ContentEditor } from "@/features/editor/components/ContentEditor";
 import { ContentPreview } from "@/features/presentation/components/ContentPreview";
 import { PresentationSettings } from "@/features/presentation/components/PresentationSettings";
-import { usePresentation } from "@/features/presentation/hooks/usePresentation";
+import {
+  usePresentation,
+  DEFAULT_PRESENTATION_CONFIG,
+} from "@/features/presentation/hooks/usePresentation";
 import { ResizableSplitPane } from "@/shared/components/layout/ResizableSplitPane";
 import { ThemeToggle } from "@/shared/common/ThemeToggle";
 import { AuthModal } from "@/features/auth/components/AuthModal";
@@ -45,7 +48,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/logo.svg";
-import { FileText, Download, Upload, User, Info } from "lucide-react";
+import { FileText, Download, Upload, User, Info, Plus } from "lucide-react";
 import {
   exportToHTML,
   exportToPDF,
@@ -152,6 +155,21 @@ export const MainLayout: React.FC<EditorProps> = ({
   const handleOpenImportModal = useCallback(() => {
     setShowImportModal(true);
   }, []);
+
+  const handleLoadSample = useCallback(async () => {
+    // TODO: Use the sample loader service and API
+    const [content, config] = await Promise.all([
+      fetch("/samples/basic/content.md").then((r) => r.text()),
+      fetch("/samples/basic/config.json").then((r) => r.json()),
+    ]);
+    onChange(content);
+    setPresentationConfig(config);
+  }, [onChange, setPresentationConfig]);
+
+  const handleNewPresentation = useCallback(() => {
+    onChange("");
+    setPresentationConfig(DEFAULT_PRESENTATION_CONFIG);
+  }, [onChange, setPresentationConfig]);
 
   const handleExport = useCallback(
     async (format: string) => {
@@ -290,6 +308,25 @@ export const MainLayout: React.FC<EditorProps> = ({
 
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
+          <button
+            onClick={handleNewPresentation}
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
+            title="New presentation"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">New</span>
+          </button>
+          <button
+            onClick={handleLoadSample}
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
+            title="Load sample presentation"
+          >
+            <FileText className="w-4 h-4" />
+            <span className="hidden sm:inline">Sample</span>
+          </button>
+
+          <div className="w-px h-6 bg-input mx-1" />
+
           <button
             onClick={handleOpenImportModal}
             className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"

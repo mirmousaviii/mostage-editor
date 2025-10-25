@@ -3,8 +3,8 @@
 import { useState, useCallback } from "react";
 import { PresentationConfig } from "../types/presentation.types";
 
-const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
-  theme: "dark",
+export const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
+  theme: "light",
   scale: 1.0,
   loop: false,
   keyboard: true,
@@ -21,13 +21,13 @@ const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
   },
   header: {
     enabled: true,
-    content: "# Mostage",
+    content: "",
     position: "top-left",
     showOnFirstSlide: false,
   },
   footer: {
     enabled: true,
-    content: "#### Presentation framework",
+    content: "",
     position: "bottom-left",
     showOnFirstSlide: false,
   },
@@ -64,26 +64,7 @@ const DEFAULT_PRESENTATION_CONFIG: PresentationConfig = {
       ],
     },
   },
-  background: [
-    {
-      imagePath: "https://mo.js.org/demo/images/background.svg",
-      size: "cover",
-      position: "center",
-      repeat: "no-repeat",
-      bgColor: "#000000",
-      global: false,
-      allSlidesExcept: [4, 5],
-    },
-    {
-      imagePath: "https://mo.js.org/demo/images/background-end.svg",
-      size: "cover",
-      position: "center",
-      repeat: "no-repeat",
-      bgColor: "#000000",
-      global: false,
-      allSlides: [5],
-    },
-  ],
+  background: [],
 };
 
 export const usePresentation = () => {
