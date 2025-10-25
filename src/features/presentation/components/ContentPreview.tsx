@@ -16,6 +16,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const mostageRef = useRef<Mostage | null>(null);
   const [slideCount, setSlideCount] = useState<number>(0);
+  const [currentSlide, setCurrentSlide] = useState<number>(1);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastConfigRef = useRef<PresentationConfig | null>(null);
 
@@ -61,6 +62,8 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
             // Get slide count after presentation is initialized
             if (mostageRef.current) {
               setSlideCount(mostageRef.current.getTotalSlides());
+              setCurrentSlide(1); // Always start from first slide
+              mostageRef.current.goToSlide(0); // Go to first slide
             }
           });
         }
@@ -109,6 +112,8 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         mostageRef.current.start().then(() => {
           if (mostageRef.current) {
             setSlideCount(mostageRef.current.getTotalSlides());
+            setCurrentSlide(1); // Always start from first slide
+            mostageRef.current.goToSlide(0); // Go to first slide
           }
         });
       }
@@ -151,6 +156,29 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
     };
   }, [markdown, config, updateMostage, recreateMostage]);
 
+  // Update current slide when mostage instance changes
+  useEffect(() => {
+    if (mostageRef.current && slideCount > 0) {
+      // Reset to first slide when new presentation loads
+      setCurrentSlide(1);
+      mostageRef.current.goToSlide(0); // Go to first slide (0-based)
+    }
+  }, [slideCount]);
+
+  // Simple polling to sync current slide
+  useEffect(() => {
+    if (!mostageRef.current || slideCount === 0) return;
+
+    const interval = setInterval(() => {
+      if (mostageRef.current) {
+        const newSlide = mostageRef.current.getCurrentSlide() + 1;
+        setCurrentSlide((prev) => (prev !== newSlide ? newSlide : prev));
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [slideCount]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -180,6 +208,14 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
     }
   };
 
+  // Method to navigate to a specific slide
+  const goToSlide = (slideIndex: number) => {
+    if (mostageRef.current) {
+      mostageRef.current.goToSlide(slideIndex);
+      setCurrentSlide(slideIndex + 1); // Convert to 1-based
+    }
+  };
+
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between p-2 sm:p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
@@ -187,9 +223,43 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
           Live Preview
         </h3>
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="text-xs text-gray-500 dark:text-gray-400">
-            {slideCount > 0 ? `${slideCount} slides` : "Loading..."}
-          </div>
+          {/* Slide Navigation Group */}
+          {slideCount > 0 && (
+            <div className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-sm border border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors group">
+              <span className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                Slide
+              </span>
+              <input
+                type="text"
+                min="1"
+                max={slideCount}
+                value={currentSlide}
+                onChange={(e) => {
+                  const slideNumber = parseInt(e.target.value);
+                  if (slideNumber >= 1 && slideNumber <= slideCount) {
+                    setCurrentSlide(slideNumber);
+                    goToSlide(slideNumber - 1); // Convert to 0-based index
+                  }
+                }}
+                className="w-5 text-center text-xs font-medium bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 focus:ring-0 focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+                style={{
+                  MozAppearance: "textfield",
+                  WebkitAppearance: "none",
+                }}
+              />
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                of {slideCount}
+              </span>
+            </div>
+          )}
+
+          {/* Loading state */}
+          {slideCount === 0 && (
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              Loading...
+            </div>
+          )}
+
           <button
             onClick={handleFullscreen}
             className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 cursor-pointer"
@@ -199,6 +269,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
           </button>
         </div>
       </div>
+
       <div className="flex-1 overflow-auto">
         <div ref={containerRef} className="h-full w-full" />
       </div>
