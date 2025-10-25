@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Modal } from "@/shared/components/ui/Modal";
-import { FileText, Sparkles, AlertTriangle, FilePlus } from "lucide-react";
+import { FileText, AlertTriangle, FilePlus } from "lucide-react";
 
 interface NewSampleModalProps {
   isOpen: boolean;

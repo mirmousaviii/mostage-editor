@@ -16,11 +16,7 @@ import {
   Minus,
   Terminal,
   PartyPopper,
-  FolderOpen,
-  Save,
   Sparkles,
-  FileText,
-  HelpCircle,
   ChevronDown,
 } from "lucide-react";
 
@@ -35,9 +31,6 @@ interface MarkdownToolbarProps {
 
 export function MarkdownToolbar({
   onInsert,
-  onOpenNewFileConfirmation,
-  onOpenFile,
-  onOpenSaveModal,
   onOpenAIModal,
   className = "",
 }: MarkdownToolbarProps) {
@@ -99,6 +92,18 @@ export function MarkdownToolbar({
 
       {/* Markdown Formatting Toolbar */}
       <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
+        {/* AI Generate Button */}
+        <button
+          onClick={onOpenAIModal}
+          className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 dark:text-purple-400 dark:hover:text-purple-300 dark:hover:bg-purple-900/20 rounded transition-all duration-300 hover:scale-105 group"
+          title="Generate presentation content with AI"
+        >
+          <Sparkles className="w-4 h-4 group-hover:animate-pulse group-hover:rotate-12 transition-all duration-300" />
+          <span>AI</span>
+        </button>
+
+        <div className="w-px h-6 bg-input mx-1" />
+
         {/* Heading Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
@@ -281,18 +286,6 @@ export function MarkdownToolbar({
           title="New Slide"
         >
           <Minus className="w-4 h-4" />
-        </button>
-
-        <div className="w-px h-6 bg-input mx-1" />
-
-        {/* AI Generate Button */}
-        <button
-          onClick={onOpenAIModal}
-          className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 dark:text-purple-400 dark:hover:text-purple-300 dark:hover:bg-purple-900/20 rounded transition-all duration-300 hover:scale-105 group"
-          title="Generate presentation content with AI"
-        >
-          <Sparkles className="w-4 h-4 group-hover:animate-pulse group-hover:rotate-12 transition-all duration-300" />
-          <span>AI</span>
         </button>
 
         {/* <a
