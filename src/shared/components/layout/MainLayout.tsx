@@ -43,12 +43,13 @@ import { AuthModal } from "@/features/auth/components/AuthModal";
 import { AboutModal } from "@/features/app-info/components/AboutModal";
 import { ExportModal } from "@/features/export/components/ExportModal";
 import { ImportModal } from "@/features/import/components/ImportModal";
+import { NewSampleModal } from "@/features/editor/components/NewSampleModal";
 import { MobileWarning } from "@/shared/components/ui";
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/logo.svg";
-import { FileText, Download, Upload, User, Info, Plus } from "lucide-react";
+import { FileText, Download, Upload, User, Info, Sparkles } from "lucide-react";
 import {
   exportToHTML,
   exportToPDF,
@@ -79,6 +80,7 @@ export const MainLayout: React.FC<EditorProps> = ({
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [showNewSampleModal, setShowNewSampleModal] = useState(false);
 
   // Split pane states
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -154,6 +156,10 @@ export const MainLayout: React.FC<EditorProps> = ({
 
   const handleOpenImportModal = useCallback(() => {
     setShowImportModal(true);
+  }, []);
+
+  const handleOpenNewSampleModal = useCallback(() => {
+    setShowNewSampleModal(true);
   }, []);
 
   const handleLoadSample = useCallback(async () => {
@@ -309,20 +315,12 @@ export const MainLayout: React.FC<EditorProps> = ({
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
           <button
-            onClick={handleNewPresentation}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
-            title="New presentation"
+            onClick={handleOpenNewSampleModal}
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 border border-primary rounded-md transition-colors"
+            title="Start new presentation"
           >
-            <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">New</span>
-          </button>
-          <button
-            onClick={handleLoadSample}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
-            title="Load sample presentation"
-          >
-            <FileText className="w-4 h-4" />
-            <span className="hidden sm:inline">Sample</span>
+            <Sparkles className="w-4 h-4" />
+            <span className="hidden sm:inline">Start</span>
           </button>
 
           <div className="w-px h-6 bg-input mx-1" />
@@ -527,6 +525,14 @@ export const MainLayout: React.FC<EditorProps> = ({
         onClose={() => setShowImportModal(false)}
         onImport={handleImport}
         onImportMultiple={handleImportMultiple}
+      />
+
+      <NewSampleModal
+        isOpen={showNewSampleModal}
+        onClose={() => setShowNewSampleModal(false)}
+        onNew={handleNewPresentation}
+        onSample={handleLoadSample}
+        hasExistingContent={markdown.trim().length > 0}
       />
 
       {/* Mobile Warning */}

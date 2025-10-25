@@ -137,12 +137,12 @@ export const ExportModal: React.FC<ExportModalProps> = ({
               onClick={() => handleExport(format.id)}
               disabled={isExporting}
               className={`
-                relative p-4 sm:p-6 rounded-md border-2 transition-all duration-200
+                relative p-4 sm:p-6 rounded-md border border-input
                 ${format.isSpecial ? "sm:col-span-2" : ""}
                 ${
                   isSelected
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                    : "border-input hover:border-blue-300 hover:bg-muted/50"
+                    ? "border-primary bg-primary/5"
+                    : "hover:bg-primary/5"
                 }
                 ${
                   isExporting
@@ -156,8 +156,6 @@ export const ExportModal: React.FC<ExportModalProps> = ({
                 <div
                   className={`
                   p-2 sm:p-3 rounded-md ${format.bgColor}
-                  ${isSelected ? "scale-110" : "group-hover:scale-105"}
-                  transition-transform duration-200
                 `}
                 >
                   <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${format.color}`} />
