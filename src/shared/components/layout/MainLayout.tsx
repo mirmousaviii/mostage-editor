@@ -49,7 +49,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/logo.svg";
-import { FileText, Download, Upload, User, Info, Sparkles } from "lucide-react";
+import { FileText, Download, Upload, User, Info, Plus } from "lucide-react";
 import {
   exportToHTML,
   exportToPDF,
@@ -316,18 +316,18 @@ export const MainLayout: React.FC<EditorProps> = ({
         <div className="flex items-center gap-1">
           <button
             onClick={handleOpenNewSampleModal}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 border border-primary rounded-md transition-colors"
-            title="Start new presentation"
+            className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 border border-primary rounded-md transition-colors"
+            title="New presentation"
           >
-            <Sparkles className="w-4 h-4" />
-            <span className="hidden sm:inline">Start</span>
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">New</span>
           </button>
 
           <div className="w-px h-6 bg-input mx-1" />
 
           <button
             onClick={handleOpenImportModal}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
+            className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
             title="Import presentation"
           >
             <Upload className="w-4 h-4" />
@@ -335,7 +335,7 @@ export const MainLayout: React.FC<EditorProps> = ({
           </button>
           <button
             onClick={handleOpenExportModal}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
+            className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-foreground bg-background hover:bg-secondary border border-input rounded-md transition-colors"
             title="Export presentation"
           >
             <Download className="w-4 h-4" />
@@ -346,7 +346,7 @@ export const MainLayout: React.FC<EditorProps> = ({
 
           <button
             onClick={handleOpenAboutModal}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
+            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
             title="About Mostage Editor"
           >
             <Info className="w-4 h-4" />
@@ -355,7 +355,7 @@ export const MainLayout: React.FC<EditorProps> = ({
           <ThemeToggle />
           <button
             onClick={handleOpenAuthModal}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
+            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
             title="Sign In / Sign Up"
           >
             <User className="w-4 h-4" />

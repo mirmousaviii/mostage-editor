@@ -13,7 +13,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
+      className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
       title={`Switch to ${resolvedTheme === "light" ? "dark" : "light"} mode`}
     >
       {resolvedTheme === "light" ? (

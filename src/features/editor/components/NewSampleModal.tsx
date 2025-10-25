@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Modal } from "@/shared/components/ui/Modal";
-import { Plus, FileText, Sparkles, AlertTriangle } from "lucide-react";
+import { FileText, Sparkles, AlertTriangle, FilePlus } from "lucide-react";
 
 interface NewSampleModalProps {
   isOpen: boolean;
@@ -18,7 +18,7 @@ const PRESENTATION_OPTIONS = [
     name: "New Presentation",
     description:
       "Start with a blank presentation and create your content from scratch or using AI assistance",
-    icon: Plus,
+    icon: FilePlus,
     color: "text-blue-600",
     bgColor: "bg-blue-50 dark:bg-blue-900/20",
   },
