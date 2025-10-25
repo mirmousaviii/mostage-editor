@@ -1,6 +1,28 @@
-// Export utilities for different presentation formats
+/**
+ * Export utilities for different presentation formats
+ */
 
 import { ExportOptions } from "../types/export.types";
+
+/**
+ * Helper function to download a file
+ */
+const downloadFile = (
+  content: string,
+  filename: string,
+  mimeType: string
+): void => {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
 
 /**
  * Export presentation as HTML file
@@ -73,4 +95,27 @@ export const exportToJPG = async (
 ): Promise<void> => {
   // TODO: Implement JPG export functionality
   console.log("JPG export not implemented yet", { markdown, config });
+};
+
+/**
+ * Export presentation config as JSON file
+ */
+export const exportConfig = async (
+  config: Record<string, unknown>,
+  options: ExportOptions = {}
+): Promise<void> => {
+  const filename = `${options.filename || "config"}.json`;
+  const content = JSON.stringify(config, null, 2);
+  downloadFile(content, filename, "application/json");
+};
+
+/**
+ * Export presentation content as Markdown file
+ */
+export const exportContent = async (
+  markdown: string,
+  options: ExportOptions = {}
+): Promise<void> => {
+  const filename = `${options.filename || "content"}.md`;
+  downloadFile(markdown, filename, "text/markdown");
 };

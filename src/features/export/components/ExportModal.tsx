@@ -1,23 +1,21 @@
 "use client";
 
 import React, { useState } from "react";
-import { Download, FileText, FileImage, FileCode, X } from "lucide-react";
+import {
+  Download,
+  FileText,
+  FileImage,
+  FileCode,
+  X,
+  Settings,
+  File,
+} from "lucide-react";
 
-import { ExportModalProps } from "../types/export.types";
+import { ExportModalProps, ExportFormat } from "../types/export.types";
 import { Modal } from "@/shared/components/ui/Modal";
 import { analytics } from "@/shared/utils/analytics";
 
 const EXPORT_FORMATS = [
-  {
-    id: "mostage",
-    name: "Mostage Presentation",
-    description:
-      "Complete Mostage presentation with library, content and config",
-    icon: FileCode,
-    color: "text-indigo-600",
-    bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
-    isSpecial: true,
-  },
   {
     id: "html",
     name: "HTML",
@@ -51,6 +49,32 @@ const EXPORT_FORMATS = [
     color: "text-purple-600",
     bgColor: "bg-purple-50 dark:bg-purple-900/20",
   },
+  {
+    id: "config",
+    name: "Export Config",
+    description: "Export presentation configuration as JSON",
+    icon: Settings,
+    color: "text-green-600",
+    bgColor: "bg-green-50 dark:bg-green-900/20",
+  },
+  {
+    id: "content",
+    name: "Export Content",
+    description: "Export presentation content as Markdown",
+    icon: File,
+    color: "text-cyan-600",
+    bgColor: "bg-cyan-50 dark:bg-cyan-900/20",
+  },
+  {
+    id: "mostage",
+    name: "Mostage Presentation",
+    description:
+      "Complete Mostage presentation with library, content and config",
+    icon: FileCode,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
+    isSpecial: true,
+  },
 ];
 
 export const ExportModal: React.FC<ExportModalProps> = ({
@@ -60,12 +84,12 @@ export const ExportModal: React.FC<ExportModalProps> = ({
   onOpenAuthModal,
 }) => {
   const [isExporting, setIsExporting] = useState(false);
-  const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
+  const [selectedFormat, setSelectedFormat] = useState<ExportFormat | null>(
+    null
+  );
   const [showAuthError, setShowAuthError] = useState(false);
 
-  const handleExport = async (format: string) => {
-    // Check if format requires authentication
-    // TODO: fix this, it should be based on the format
+  const handleExport = async (format: ExportFormat) => {
     const requiresAuth = ["mostage", "pptx", "jpg", "html", "pdf"];
 
     if (requiresAuth.includes(format)) {
@@ -77,7 +101,6 @@ export const ExportModal: React.FC<ExportModalProps> = ({
     setSelectedFormat(format);
 
     try {
-      // Track export event
       analytics.trackExport(format);
       await onExport(format);
     } catch (error) {
@@ -134,7 +157,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
           return (
             <button
               key={format.id}
-              onClick={() => handleExport(format.id)}
+              onClick={() => handleExport(format.id as ExportFormat)}
               disabled={isExporting}
               className={`
                 relative p-4 sm:p-6 rounded-md border border-input

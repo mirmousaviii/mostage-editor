@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { ExportResult, ExportFormat } from "../types/export.types";
+import {
+  ExportResult,
+  ExportFormat,
+  ExportOptions,
+} from "../types/export.types";
+import { exportConfig, exportContent } from "../services/exportUtils";
 
 export const useExport = () => {
   const [isExporting, setIsExporting] = useState(false);
@@ -12,52 +17,26 @@ export const useExport = () => {
       format: ExportFormat,
       content: string,
       config: Record<string, unknown>,
-      options: Record<string, unknown> = {}
+      options: ExportOptions = {}
     ): Promise<ExportResult> => {
       setIsExporting(true);
       setExportError(null);
 
       try {
         switch (format) {
+          case "config":
+            await exportConfig(config, options);
+            break;
+          case "content":
+            await exportContent(content, options);
+            break;
           case "html":
-            // TODO: Implement HTML export
-            console.log("HTML export not implemented yet", {
-              content,
-              config,
-              options,
-            });
-            break;
           case "pdf":
-            // TODO: Implement PDF export
-            console.log("PDF export not implemented yet", {
-              content,
-              config,
-              options,
-            });
-            break;
-          case "mostage":
-            // TODO: Implement Mostage export
-            console.log("Mostage export not implemented yet", {
-              content,
-              config,
-              options,
-            });
-            break;
           case "pptx":
-            // TODO: Implement PPTX export
-            console.log("PPTX export not implemented yet", {
-              content,
-              config,
-              options,
-            });
-            break;
           case "jpg":
-            // TODO: Implement JPG export
-            console.log("JPG export not implemented yet", {
-              content,
-              config,
-              options,
-            });
+          case "mostage":
+            // TODO: Implement these export formats
+            console.log(`${format} export not implemented yet`);
             break;
           default:
             throw new Error(`Unsupported export format: ${format}`);

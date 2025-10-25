@@ -56,6 +56,8 @@ import {
   exportToMostage,
   exportToPPTX,
   exportToJPG,
+  exportConfig,
+  exportContent,
 } from "@/features/export/services/exportUtils";
 import {
   handleFileImportWithConfig,
@@ -181,43 +183,32 @@ export const MainLayout: React.FC<EditorProps> = ({
     async (format: string) => {
       try {
         const options = {
-          filename: "presentation",
           theme: presentationConfig.theme,
         };
 
+        const config = presentationConfig as unknown as Record<string, unknown>;
+
         switch (format) {
+          case "config":
+            await exportConfig(config, options);
+            break;
+          case "content":
+            await exportContent(markdown, options);
+            break;
           case "mostage":
-            await exportToMostage(
-              markdown,
-              presentationConfig as unknown as Record<string, unknown>,
-              options
-            );
+            await exportToMostage(markdown, config, options);
             break;
           case "html":
-            await exportToHTML(
-              markdown,
-              presentationConfig as unknown as Record<string, unknown>,
-              options
-            );
+            await exportToHTML(markdown, config, options);
             break;
           case "pdf":
-            await exportToPDF(
-              markdown,
-              presentationConfig as unknown as Record<string, unknown>,
-              options
-            );
+            await exportToPDF(markdown, config, options);
             break;
           case "pptx":
-            await exportToPPTX(
-              markdown,
-              presentationConfig as unknown as Record<string, unknown>
-            );
+            await exportToPPTX(markdown, config);
             break;
           case "jpg":
-            await exportToJPG(
-              markdown,
-              presentationConfig as unknown as Record<string, unknown>
-            );
+            await exportToJPG(markdown, config);
             break;
           default:
             console.error("Unknown export format:", format);
