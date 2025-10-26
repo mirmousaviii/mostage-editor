@@ -230,6 +230,8 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
               <span className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                 Slide
               </span>
+              {/* TODO: Add up and down arrows to increment and decrement the slide number */}
+              {/* Don't use number input because the style was not working as expected */}
               <input
                 type="text"
                 min="1"
@@ -242,7 +244,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
                     goToSlide(slideNumber - 1); // Convert to 0-based index
                   }
                 }}
-                className="w-5 text-center text-xs font-medium bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 focus:ring-0 focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+                className="w-6 text-center text-xs font-medium bg-transparent border-none outline-none text-gray-900 dark:text-gray-100 focus:ring-0 focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
                 style={{
                   MozAppearance: "textfield",
                   WebkitAppearance: "none",
