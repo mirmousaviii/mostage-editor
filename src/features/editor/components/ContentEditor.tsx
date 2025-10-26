@@ -14,12 +14,24 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
   placeholder = "Start typing your markdown here...",
   onOpenAuthModal,
   onOpenExportModal,
+  updateEditingSlide,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [showAIModal, setShowAIModal] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showNewFileConfirmation, setShowNewFileConfirmation] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Handle cursor position changes to update the current slide
+  const handleCursorChange = () => {
+    const textarea = textareaRef.current;
+    if (!textarea || !updateEditingSlide) return;
+
+    const beforeCursor = value.substring(0, textarea.selectionStart);
+    const currentSlide = (beforeCursor.match(/^---$/gm) || []).length + 1;
+
+    updateEditingSlide(currentSlide);
+  };
 
   // Helper function to insert text at cursor position
   const insertText = (
@@ -121,6 +133,9 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             ref={textareaRef}
             value={value}
             onChange={(e) => onChange(e.target.value)}
+            onKeyUp={handleCursorChange}
+            onMouseUp={handleCursorChange}
+            onFocus={handleCursorChange}
             placeholder={placeholder}
             className="
               flex-1 w-full p-4 border-0 resize-none outline-none

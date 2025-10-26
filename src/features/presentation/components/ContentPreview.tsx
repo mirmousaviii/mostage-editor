@@ -12,6 +12,7 @@ import { analytics } from "@/shared/utils/analytics";
 export const ContentPreview: React.FC<ContentPreviewProps> = ({
   markdown,
   config,
+  editingSlide,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mostageRef = useRef<Mostage | null>(null);
@@ -156,16 +157,15 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
     };
   }, [markdown, config, updateMostage, recreateMostage]);
 
-  // Update current slide when mostage instance changes
+  // Sync with editor slide changes
   useEffect(() => {
-    if (mostageRef.current && slideCount > 0) {
-      // Reset to first slide when new presentation loads
-      setCurrentSlide(1);
-      mostageRef.current.goToSlide(0); // Go to first slide (0-based)
+    if (mostageRef.current && editingSlide && editingSlide <= slideCount) {
+      setCurrentSlide(editingSlide);
+      mostageRef.current.goToSlide(editingSlide - 1); // Convert to 0-based
     }
-  }, [slideCount]);
+  }, [editingSlide, slideCount]);
 
-  // Simple polling to sync current slide
+  // Simple polling to sync current slide (fallback)
   useEffect(() => {
     if (!mostageRef.current || slideCount === 0) return;
 
@@ -174,7 +174,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         const newSlide = mostageRef.current.getCurrentSlide() + 1;
         setCurrentSlide((prev) => (prev !== newSlide ? newSlide : prev));
       }
-    }, 1000);
+    }, 300);
 
     return () => clearInterval(interval);
   }, [slideCount]);

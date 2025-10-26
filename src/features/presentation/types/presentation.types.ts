@@ -82,6 +82,7 @@ export interface PresentationConfig {
 export interface ContentPreviewProps {
   markdown: string;
   config: PresentationConfig;
+  editingSlide?: number;
 }
 
 export interface PresentationToolbarProps {

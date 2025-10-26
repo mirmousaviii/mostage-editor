@@ -76,6 +76,8 @@ export const MainLayout: React.FC<EditorProps> = ({
   onChange,
   showEditor,
   showPreview,
+  editingSlide,
+  updateEditingSlide,
 }) => {
   // Modal states
   const [showAboutModal, setShowAboutModal] = useState(false);
@@ -170,12 +172,12 @@ export const MainLayout: React.FC<EditorProps> = ({
       fetch("/samples/basic/content.md").then((r) => r.text()),
       fetch("/samples/basic/config.json").then((r) => r.json()),
     ]);
-    onChange(content);
+    onChange(content, true); // Reset slide for sample load
     setPresentationConfig(config);
   }, [onChange, setPresentationConfig]);
 
   const handleNewPresentation = useCallback(() => {
-    onChange("");
+    onChange("", true); // Reset slide for new presentation
     setPresentationConfig(DEFAULT_PRESENTATION_CONFIG);
   }, [onChange, setPresentationConfig]);
 
@@ -234,7 +236,7 @@ export const MainLayout: React.FC<EditorProps> = ({
 
         // Update content if available
         if (result.content) {
-          onChange(result.content);
+          onChange(result.content, true); // Reset slide for import
         }
 
         // Update config if available
@@ -265,7 +267,7 @@ export const MainLayout: React.FC<EditorProps> = ({
 
         // Update content if available
         if (result.content) {
-          onChange(result.content);
+          onChange(result.content, true); // Reset slide for import
         }
 
         // Update config if available
@@ -376,7 +378,11 @@ export const MainLayout: React.FC<EditorProps> = ({
         >
           {/* Top Pane: Live Preview (Mobile) */}
           <div className="h-full border-b border-gray-200 dark:border-gray-700">
-            <ContentPreview markdown={markdown} config={presentationConfig} />
+            <ContentPreview
+              markdown={markdown}
+              config={presentationConfig}
+              editingSlide={editingSlide}
+            />
           </div>
 
           {/* Bottom Pane: Presentation Settings + Content Editor (Mobile) */}
@@ -391,6 +397,7 @@ export const MainLayout: React.FC<EditorProps> = ({
                 onChange={onChange}
                 onOpenAuthModal={handleOpenAuthModal}
                 onOpenExportModal={handleOpenExportModal}
+                updateEditingSlide={updateEditingSlide}
               />
             </div>
           </div>
@@ -425,13 +432,18 @@ export const MainLayout: React.FC<EditorProps> = ({
               onChange={onChange}
               onOpenAuthModal={handleOpenAuthModal}
               onOpenExportModal={handleOpenExportModal}
+              updateEditingSlide={updateEditingSlide}
             />
           </div>
         </div>
 
         {/* Right Pane: Live Preview */}
         <div className="h-full">
-          <ContentPreview markdown={markdown} config={presentationConfig} />
+          <ContentPreview
+            markdown={markdown}
+            config={presentationConfig}
+            editingSlide={editingSlide}
+          />
         </div>
       </ResizableSplitPane>
     );
@@ -449,6 +461,7 @@ export const MainLayout: React.FC<EditorProps> = ({
           onChange={onChange}
           onOpenAuthModal={handleOpenAuthModal}
           onOpenExportModal={handleOpenExportModal}
+          updateEditingSlide={updateEditingSlide}
         />
       </div>
     </div>
@@ -457,7 +470,11 @@ export const MainLayout: React.FC<EditorProps> = ({
   const renderPreviewOnly = () => (
     <div className="h-full flex">
       <div className="flex-1">
-        <ContentPreview markdown={markdown} config={presentationConfig} />
+        <ContentPreview
+          markdown={markdown}
+          config={presentationConfig}
+          editingSlide={editingSlide}
+        />
       </div>
     </div>
   );

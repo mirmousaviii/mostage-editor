@@ -10,14 +10,24 @@ export const useEditor = () => {
     markdown: defaultMarkdown,
     showEditor: true,
     showPreview: true,
+    editingSlide: 1,
   });
 
-  const updateMarkdown = useCallback((markdown: string) => {
-    setState((prev) => ({ ...prev, markdown }));
+  const updateMarkdown = useCallback((markdown: string, resetSlide = false) => {
+    setState((prev) => ({
+      ...prev,
+      markdown,
+      editingSlide: resetSlide ? 1 : prev.editingSlide,
+    }));
+  }, []);
+
+  const updateEditingSlide = useCallback((slideNumber: number) => {
+    setState((prev) => ({ ...prev, editingSlide: slideNumber }));
   }, []);
 
   return {
     ...state,
     updateMarkdown,
+    updateEditingSlide,
   };
 };
