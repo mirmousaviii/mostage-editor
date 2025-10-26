@@ -23,6 +23,8 @@ Visit the live demo: [mostage.js.org](https://mostage.js.org/)
 ## Documentation
 
 - [Project Structure](docs/project-structure.md) - Architecture and development guide
+- [State Management](docs/state-management.md) - State management patterns and architecture
+- [FAQ](docs/faq.md) - Frequently asked questions and explanations
 
 ## Contributing
 

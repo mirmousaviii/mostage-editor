@@ -49,6 +49,10 @@ The analytics system tracks the following events:
 - **AI usage**: `ai_usage` (generate_content/insert_content)
 - **Presentation Settings tabs**: `presentation_tab` (general/header-footer/background/plugins)
 - **Fullscreen toggle**: `fullscreen_toggle` (on/off)
+- **Authentication modal open**: `auth_modal_open` (login/signup)
+- **Authentication attempt**: `auth_attempt` (login/signup)
+- **Authentication error**: `auth_error` (login_error/signup_error)
+- **Authentication mode switch**: `auth_mode_switch` (login/signup)
 
 ### 4. Testing Analytics
 

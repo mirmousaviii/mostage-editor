@@ -12,7 +12,7 @@ A Next.js 15 presentation editor with TypeScript, React 19, and Tailwind CSS.
 
 ## Directory Structure
 
-```
+```text
 src/
 ├── app/                    # Next.js App Router
 ├── features/              # Feature-based modules
@@ -53,7 +53,3 @@ npm run lint     # Code linting
 - **GitHub Pages**: Static export
 - **Vercel**: Native Next.js
 - **Environment**: `.env.local` (local) / Environment variables (production)
-
-## Documentation
-
-- [Analytics Setup](analytics.md) - GA4 configuration
