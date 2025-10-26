@@ -62,6 +62,39 @@ The analytics system tracks the following events:
 
 ### 5. Important Notes
 
+#### Technical Requirements
+
 - Analytics only works in production or with correct environment variable
 - For local testing, use Google Analytics DebugView
 - All events are implemented with user privacy in mind
+
+#### Privacy & Legal Compliance
+
+- **GDPR Compliant**: User consent required before tracking begins
+- **Privacy Policy**: Available at `/privacy` page
+- **IP Anonymization**: Enabled by default for privacy protection
+- **Custom Implementation**: Uses Next.js Script component (not third-party libraries) for full control
+
+#### Performance & Security
+
+- **Conditional Loading**: Analytics scripts only load after user consent
+- **No External Dependencies**: Reduces bundle size and security risks
+- **Optimized Loading**: Uses Next.js `afterInteractive` strategy
+
+### 6. GDPR Compliance Features
+
+GDPR compliance features:
+
+#### Cookie Consent Management
+
+- **Consent Banner**: Users see a consent banner on first visit
+- **Opt-in Required**: Analytics only starts after explicit user consent
+- **Opt-out Option**: Users can continue using the site without analytics
+- **Persistent Choice**: User's consent choice is remembered
+
+#### Privacy Protection
+
+- **IP Anonymization**: IP addresses are automatically anonymized
+- **No Personal Data**: No personal information is collected
+- **Local Storage**: User content stays in their browser
+- **Transparent Policy**: Clear privacy policy explains data usage

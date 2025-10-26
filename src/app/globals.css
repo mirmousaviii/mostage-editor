@@ -127,7 +127,6 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 /* Scrollbar Styles */
