@@ -43,7 +43,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
           Mostage{" "}
-          <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
+          <span className="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-mono rounded-md ml-1">
             Version {pkgMostage.version || "latest"}
           </span>
         </h3>
@@ -78,7 +78,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
           Mostage Editor{" "}
-          <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
+          <span className="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-mono rounded-md ml-1">
             Version {pkg.version || "latest"}
           </span>
         </h3>
