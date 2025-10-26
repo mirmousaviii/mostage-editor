@@ -33,7 +33,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
 
 ##### Or
 
-#### Add content "manually" or generate with "AI"
+#### Add content "Manually" or generate with "AI"
 `
     );
   }, []);
