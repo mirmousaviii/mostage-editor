@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/shared/contexts/ThemeContext";
+import { UIThemeProvider } from "@/shared/contexts/UIThemeContext";
 import { GoogleAnalytics } from "@/shared/utils";
 
 const geistSans = Geist({
@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <GoogleAnalytics />
-        <ThemeProvider>{children}</ThemeProvider>
+        <UIThemeProvider>{children}</UIThemeProvider>
       </body>
     </html>
   );

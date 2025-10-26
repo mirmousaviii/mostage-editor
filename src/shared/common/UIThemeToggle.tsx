@@ -1,29 +1,29 @@
 "use client";
 
-import { useTheme } from "@/shared/hooks/useTheme";
+import { useUITheme } from "@/shared/contexts/UIThemeContext";
 import { Sun, Moon } from "lucide-react";
 
-export function ThemeToggle() {
-  const { resolvedTheme, toggleTheme } = useTheme();
+export function UIThemeToggle() {
+  const { resolvedUITheme, toggleUITheme } = useUITheme();
 
   const handleToggle = () => {
-    toggleTheme();
+    toggleUITheme();
   };
 
   return (
     <button
       onClick={handleToggle}
       className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
-      title={`Switch to ${resolvedTheme === "light" ? "dark" : "light"} mode`}
+      title={`Switch to ${resolvedUITheme === "light" ? "dark" : "light"} mode`}
     >
-      {resolvedTheme === "light" ? (
+      {resolvedUITheme === "light" ? (
         <Moon className="w-4 h-4" />
       ) : (
         <Sun className="w-4 h-4" />
       )}
 
       <span className="hidden sm:inline">
-        {resolvedTheme === "light" ? "Dark" : "Light"}
+        {resolvedUITheme === "light" ? "Dark" : "Light"}
       </span>
     </button>
   );

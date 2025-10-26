@@ -38,7 +38,7 @@ import {
   DEFAULT_PRESENTATION_CONFIG,
 } from "@/features/presentation/hooks/usePresentation";
 import { ResizableSplitPane } from "@/shared/components/layout/ResizableSplitPane";
-import { ThemeToggle } from "@/shared/common/ThemeToggle";
+import { UIThemeToggle } from "@/shared/common/UIThemeToggle";
 import { AuthModal } from "@/features/auth/components/AuthModal";
 import { AboutModal } from "@/features/app-info/components/AboutModal";
 import { ExportModal } from "@/features/export/components/ExportModal";
@@ -345,7 +345,7 @@ export const MainLayout: React.FC<EditorProps> = ({
             <Info className="w-4 h-4" />
             <span className="hidden sm:inline">About</span>
           </button>
-          <ThemeToggle />
+          <UIThemeToggle />
           <button
             onClick={handleOpenAuthModal}
             className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"

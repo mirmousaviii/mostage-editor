@@ -1,1 +1,1 @@
-export { ThemeProvider } from "./ThemeContext";
+export { UIThemeProvider, useUITheme } from "./UIThemeContext";

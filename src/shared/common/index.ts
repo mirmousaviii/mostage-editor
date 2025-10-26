@@ -1,1 +1,1 @@
-export { ThemeToggle } from "./ThemeToggle";
+export { UIThemeToggle } from "./UIThemeToggle";
