@@ -133,9 +133,6 @@ export const ExportModal: React.FC<ExportModalProps> = ({
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">
           Export Presentation
         </h2>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          Choose a format to export your presentation
-        </p>
       </div>
     </div>
   );

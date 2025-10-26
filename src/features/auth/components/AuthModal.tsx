@@ -78,11 +78,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">
           {isSignUp ? "Create Account" : "Sign In"}
         </h2>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          {isSignUp
-            ? "Create a new account to get started"
-            : "Sign in to your existing account"}
-        </p>
       </div>
     </div>
   );

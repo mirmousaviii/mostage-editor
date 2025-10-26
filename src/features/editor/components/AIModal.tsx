@@ -156,9 +156,6 @@ export function AIModal({
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">
           AI Content Generator
         </h2>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          Generate professional presentation content with AI
-        </p>
       </div>
     </div>
   );
@@ -171,7 +168,7 @@ export function AIModal({
       maxWidth="4xl"
     >
       {/* Prompt Input */}
-      <div>
+      <div className="mb-4">
         <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Describe what you want to create:
         </label>
@@ -182,7 +179,7 @@ export function AIModal({
           className="w-full h-24 sm:h-32 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"
           disabled={isGenerating}
         />
-        <div className="flex justify-between items-center mt-2">
+        <div className="flex justify-between items-center mt-1">
           <span className="text-xs text-gray-500">
             {prompt.length}/500 characters
           </span>

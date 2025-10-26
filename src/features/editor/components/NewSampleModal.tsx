@@ -57,9 +57,6 @@ export const NewSampleModal: React.FC<NewSampleModalProps> = ({
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">
           Start New Presentation
         </h2>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          Choose how you&apos;d like to start your presentation
-        </p>
       </div>
     </div>
   );
@@ -94,6 +91,10 @@ export const NewSampleModal: React.FC<NewSampleModalProps> = ({
             </div>
           </div>
         )}
+
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          Click on the option you want to use to start your presentation
+        </p>
 
         {/* Options Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">

@@ -27,9 +27,6 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">
           About Mostage Editor
         </h2>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          Information about the application and framework
-        </p>
       </div>
     </div>
   );
