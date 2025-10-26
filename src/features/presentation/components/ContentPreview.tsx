@@ -21,18 +21,27 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastConfigRef = useRef<PresentationConfig | null>(null);
 
-  const updateMostage = useCallback(
-    (content: string, presentationConfig: PresentationConfig) => {
-      if (containerRef.current) {
-        // Use default content if empty
-        const displayContent =
-          content.trim() ||
-          `
-## No content
+  // Helper function to get display content
+  const getDisplayContent = useCallback((content: string) => {
+    return (
+      content.trim() ||
+      `## No content
 
 <br/>
 
-#### Add content manually or generate with AI`;
+#### Use the **"New"** button to get started
+
+##### Or
+
+#### Add content "manually" or generate with "AI"
+`
+    );
+  }, []);
+
+  const updateMostage = useCallback(
+    (content: string, presentationConfig: PresentationConfig) => {
+      if (containerRef.current) {
+        const displayContent = getDisplayContent(content);
 
         // If Mostage instance exists, update content
         if (mostageRef.current) {
@@ -70,7 +79,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         }
       }
     },
-    []
+    [getDisplayContent]
   );
 
   const recreateMostage = useCallback(
@@ -82,15 +91,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
           mostageRef.current = null;
         }
 
-        // Use default content if empty
-        const displayContent =
-          content.trim() ||
-          `
-## No content
-
-<br/>
-
-#### Add content manually or generate with AI`;
+        const displayContent = getDisplayContent(content);
 
         // Create new Mostage instance with updated config
         mostageRef.current = new Mostage({
@@ -119,7 +120,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         });
       }
     },
-    []
+    [getDisplayContent]
   );
 
   // Handle content and config changes with smart logic
