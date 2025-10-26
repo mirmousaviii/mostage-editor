@@ -4,6 +4,8 @@ import React from "react";
 import { Github, ExternalLink, Info } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
 import { analytics } from "@/shared/utils/analytics";
+import pkg from "../../../../package.json";
+import pkgMostage from "../../../../node_modules/mostage/package.json";
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -40,7 +42,10 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
     >
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
-          Mostage
+          Mostage{" "}
+          <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
+            Version {pkgMostage.version || "latest"}
+          </span>
         </h3>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
           A presentation framework based on Markdown and HTML. Available as NPM
@@ -72,7 +77,10 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
-          Mostage Editor
+          Mostage Editor{" "}
+          <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
+            Version {pkg.version || "latest"}
+          </span>
         </h3>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
           Web editor for Mostage framework. Create and edit presentations in
