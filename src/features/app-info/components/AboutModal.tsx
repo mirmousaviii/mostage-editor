@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { Github, ExternalLink, Info } from "lucide-react";
+import { Github, ExternalLink, Info, Settings } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
 import { analytics } from "@/shared/utils/analytics";
+import { useCookieConsentContext } from "@/shared/components";
 import pkg from "../../../../package.json";
 import pkgMostage from "../../../../node_modules/mostage/package.json";
 
@@ -13,6 +14,8 @@ interface AboutModalProps {
 }
 
 export function AboutModal({ isOpen, onClose }: AboutModalProps) {
+  const { hasConsent, resetConsent } = useCookieConsentContext();
+
   // Track about modal view when it opens
   React.useEffect(() => {
     if (isOpen) {
@@ -43,7 +46,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
           Mostage{" "}
-          <span className="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-mono rounded-md ml-1">
+          <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
             Version {pkgMostage.version || "latest"}
           </span>
         </h3>
@@ -78,7 +81,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
           Mostage Editor{" "}
-          <span className="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-mono rounded-md ml-1">
+          <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
             Version {pkg.version || "latest"}
           </span>
         </h3>
@@ -170,14 +173,21 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end">
+        <button
+          onClick={resetConsent}
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-xs sm:text-sm"
+        >
+          <Settings className="w-3 h-3 sm:w-4 sm:h-4" />
+          Privacy Settings
+        </button>
         <a
-          href="https://github.com/mirmousaviii/mostage"
+          href="/privacy"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-xs sm:text-sm"
         >
-          <Github className="w-3 h-3 sm:w-4 sm:h-4" />
-          GitHub
+          <Info className="w-3 h-3 sm:w-4 sm:h-4" />
+          Privacy Policy
         </a>
         <a
           href="https://mo.js.org"
@@ -187,6 +197,17 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         >
           <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
           Website
+        </a>
+        <a
+          href="https://github.com/sponsors/mirmousaviii"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/50 transition-colors text-xs sm:text-sm"
+        >
+          <span role="img" aria-label="Heart">
+            💖
+          </span>
+          Donate
         </a>
       </div>
     </Modal>

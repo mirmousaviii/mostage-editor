@@ -4,8 +4,14 @@ import Script from "next/script";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-export function GoogleAnalytics() {
-  if (!GA_MEASUREMENT_ID) {
+interface GoogleAnalyticsProps {
+  consentGiven?: boolean;
+}
+
+export function GoogleAnalytics({
+  consentGiven = false,
+}: GoogleAnalyticsProps) {
+  if (!GA_MEASUREMENT_ID || !consentGiven) {
     return null;
   }
 
@@ -22,6 +28,8 @@ export function GoogleAnalytics() {
           gtag('js', new Date());
           gtag('config', '${GA_MEASUREMENT_ID}', {
             page_path: window.location.pathname,
+            anonymize_ip: true,
+            cookie_flags: 'SameSite=None;Secure'
           });
         `}
       </Script>

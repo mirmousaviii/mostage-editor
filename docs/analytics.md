@@ -65,3 +65,24 @@ The analytics system tracks the following events:
 - Analytics only works in production or with correct environment variable
 - For local testing, use Google Analytics DebugView
 - All events are implemented with user privacy in mind
+- **GDPR Compliance**: User consent is required before analytics tracking begins
+- **Privacy Policy**: Available at `/privacy` page
+- **IP Anonymization**: Enabled by default for privacy protection
+
+### 6. GDPR Compliance Features
+
+GDPR compliance features:
+
+#### Cookie Consent Management
+
+- **Consent Banner**: Users see a consent banner on first visit
+- **Opt-in Required**: Analytics only starts after explicit user consent
+- **Opt-out Option**: Users can continue using the site without analytics
+- **Persistent Choice**: User's consent choice is remembered
+
+#### Privacy Protection
+
+- **IP Anonymization**: IP addresses are automatically anonymized
+- **No Personal Data**: No personal information is collected
+- **Local Storage**: User content stays in their browser
+- **Transparent Policy**: Clear privacy policy explains data usage
