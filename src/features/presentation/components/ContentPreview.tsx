@@ -32,9 +32,11 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
 
 #### Use the **"New"** button to get started
 
-##### Or
+#### The sample presentation is available in the "New"
 
-#### Add content "Manually" or generate with "AI"
+###### Or
+
+###### Add content "Manually" or generate with "AI"
 `
     );
   }, []);
