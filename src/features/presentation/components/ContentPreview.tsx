@@ -16,6 +16,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mostageRef = useRef<Mostage | null>(null);
+  const slideInputRef = useRef<HTMLInputElement>(null);
   const [slideCount, setSlideCount] = useState<number>(0);
   const [currentSlide, setCurrentSlide] = useState<number>(1);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -226,13 +227,22 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Slide Navigation Group */}
           {slideCount > 0 && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-sm border border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors group">
+            <div
+              className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-sm border border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors group cursor-pointer"
+              onClick={() => {
+                if (slideInputRef.current) {
+                  slideInputRef.current.focus();
+                  slideInputRef.current.select();
+                }
+              }}
+            >
               <span className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                 Slide
               </span>
               {/* TODO: Add up and down arrows to increment and decrement the slide number */}
               {/* Don't use number input because the style was not working as expected */}
               <input
+                ref={slideInputRef}
                 type="text"
                 min="1"
                 max={slideCount}
