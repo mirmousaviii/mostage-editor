@@ -3,10 +3,10 @@
 import { MainLayout } from "@/shared/components/layout";
 import { Loading } from "@/shared/components/ui";
 import { useEditor } from "@/features/editor/hooks/useEditor";
-import { useState, useEffect } from "react";
+import { useAppLoading } from "@/shared/hooks/useAppLoading";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  const isAppLoaded = useAppLoading();
   const {
     markdown,
     showEditor,
@@ -16,16 +16,7 @@ export default function Home() {
     updateEditingSlide,
   } = useEditor();
 
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
+  if (!isAppLoaded) {
     return <Loading />;
   }
 
