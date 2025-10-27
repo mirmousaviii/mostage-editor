@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Github, ExternalLink, Info, Settings } from "lucide-react";
+import { ExternalLink, Info, Settings } from "lucide-react";
 import { Modal } from "@/shared/components/ui/Modal";
 import { analytics } from "@/shared/utils/analytics";
 import { useCookieConsentContext } from "@/shared/components";
@@ -14,7 +14,7 @@ interface AboutModalProps {
 }
 
 export function AboutModal({ isOpen, onClose }: AboutModalProps) {
-  const { hasConsent, resetConsent } = useCookieConsentContext();
+  const { resetConsent } = useCookieConsentContext();
 
   // Track about modal view when it opens
   React.useEffect(() => {
