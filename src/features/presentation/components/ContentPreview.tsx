@@ -32,7 +32,7 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
 
 #### Use the **"New"** button to get started
 
-#### The sample presentation is available in the "New"
+###### The sample presentation is available in the "New"
 
 ###### Or
 

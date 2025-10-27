@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Bold,
   Italic,
@@ -16,7 +16,12 @@ import {
   Terminal,
   PartyPopper,
   Sparkles,
+  QrCode,
+  BarChart3,
+  HelpCircle,
+  MessageSquare,
 } from "lucide-react";
+import { LoginRequiredModal } from "./LoginRequiredModal";
 
 interface MarkdownToolbarProps {
   onInsert: (before: string, after?: string, placeholder?: string) => void;
@@ -24,14 +29,18 @@ interface MarkdownToolbarProps {
   onOpenFile: () => void;
   onOpenSaveModal: () => void;
   onOpenAIModal: () => void;
+  onOpenAuthModal: () => void;
   className?: string;
 }
 
 export function MarkdownToolbar({
   onInsert,
   onOpenAIModal,
+  onOpenAuthModal,
   className = "",
 }: MarkdownToolbarProps) {
+  const [showLoginRequiredModal, setShowLoginRequiredModal] = useState(false);
+
   // Markdown formatting functions
   const formatBold = () => onInsert("**", "**", "bold text");
   const formatItalic = () => onInsert("*", "*", "italic text");
@@ -56,14 +65,32 @@ export function MarkdownToolbar({
   // Additional formatting functions
   const formatStrikethrough = () => onInsert("~~", "~~", "strikethrough text");
   const formatCodeBlock = () => onInsert("\n```\n", "\n```", "code block");
-  const formatConfetti = () => onInsert("\n<!-- confetti -->\n", "", "");
-  const formatHorizontalRule = () => onInsert("\n---\n", "", "");
+
+  // Special content functions
+  const insertConfetti = () => onInsert("\n<!-- confetti -->\n", "", "");
+  const insertNewSlide = () => onInsert("\n---\n", "", "");
+
+  // Interactive features that require authentication
+  const handleQRCodeClick = () => {
+    setShowLoginRequiredModal(true);
+  };
+
+  const handlePollClick = () => {
+    setShowLoginRequiredModal(true);
+  };
+
+  const handleQuizClick = () => {
+    setShowLoginRequiredModal(true);
+  };
+
+  const handleQuestionAnswerClick = () => {
+    setShowLoginRequiredModal(true);
+  };
 
   return (
     <div className={`flex flex-col ${className}`}>
       {/* Possible to add another row for more buttons here */}
 
-      {/* Markdown Formatting Toolbar */}
       <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
         {/* AI Generate Button */}
         <button
@@ -77,6 +104,65 @@ export function MarkdownToolbar({
 
         <div className="w-px h-6 bg-input mx-1" />
 
+        {/* Confetti Button */}
+        <button
+          onClick={insertConfetti}
+          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+          title="Confetti"
+        >
+          <PartyPopper className="w-4 h-4" />
+        </button>
+
+        {/* New Slide Button */}
+        <button
+          onClick={insertNewSlide}
+          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+          title="New Slide"
+        >
+          <Minus className="w-4 h-4" />
+        </button>
+
+        <div className="w-px h-6 bg-input mx-1" />
+
+        {/* QR Code Button */}
+        <button
+          onClick={handleQRCodeClick}
+          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+          title="QR Code"
+        >
+          <QrCode className="w-4 h-4" />
+        </button>
+
+        {/* Live Polling Button */}
+        <button
+          onClick={handlePollClick}
+          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+          title="Live Polling"
+        >
+          <BarChart3 className="w-4 h-4" />
+        </button>
+
+        {/* Live Quiz Button */}
+        <button
+          onClick={handleQuizClick}
+          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+          title="Live Quiz"
+        >
+          <HelpCircle className="w-4 h-4" />
+        </button>
+
+        {/* Q&A Button */}
+        <button
+          onClick={handleQuestionAnswerClick}
+          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
+          title="Q&A"
+        >
+          <MessageSquare className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Markdown Formatting Toolbar */}
+      <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
         {/* Heading Buttons */}
         <button
           onClick={formatH1}
@@ -205,24 +291,6 @@ export function MarkdownToolbar({
           <ListOrdered className="w-4 h-4" />
         </button>
 
-        <div className="w-px h-6 bg-input mx-1" />
-
-        <button
-          onClick={formatConfetti}
-          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
-          title="Confetti"
-        >
-          <PartyPopper className="w-4 h-4" />
-        </button>
-
-        <button
-          onClick={formatHorizontalRule}
-          className="flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors"
-          title="New Slide"
-        >
-          <Minus className="w-4 h-4" />
-        </button>
-
         {/* <a
           href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
           target="_blank"
@@ -233,6 +301,13 @@ export function MarkdownToolbar({
           <HelpCircle className="w-4 h-4" />
         </a> */}
       </div>
+
+      {/* Login Required Modal */}
+      <LoginRequiredModal
+        isOpen={showLoginRequiredModal}
+        onClose={() => setShowLoginRequiredModal(false)}
+        onOpenAuthModal={onOpenAuthModal}
+      />
     </div>
   );
 }

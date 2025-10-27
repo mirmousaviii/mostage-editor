@@ -127,6 +127,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             onOpenFile={handleFileOpen}
             onOpenSaveModal={() => setShowSaveModal(true)}
             onOpenAIModal={() => setShowAIModal(true)}
+            onOpenAuthModal={onOpenAuthModal || (() => {})}
           />
 
           <textarea
