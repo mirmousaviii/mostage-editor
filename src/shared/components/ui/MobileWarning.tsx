@@ -15,15 +15,12 @@ export const MobileWarning: React.FC = () => {
         <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-md">
-              <Monitor className="w-5 h-5 text-blue-600" />
+              <Smartphone className="w-5 h-5 text-blue-600" />
             </div>
             <div>
               <h2 className="text-md sm:text-md font-semibold text-gray-900 dark:text-gray-100">
-                Better Experience on Desktop
+                Mobile Experience Notice
               </h2>
-              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                Recommended for optimal editing
-              </p>
             </div>
           </div>
         </div>
@@ -34,11 +31,11 @@ export const MobileWarning: React.FC = () => {
           <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md p-3 sm:p-4">
             <div className="flex items-start gap-3">
               <div className="p-1 bg-amber-100 dark:bg-amber-900/30 rounded">
-                <Smartphone className="w-4 h-4 text-amber-600" />
+                <Monitor className="w-4 h-4 text-amber-600" />
               </div>
               <div>
                 <h3 className="text-sm sm:text-base font-medium text-amber-800 dark:text-amber-200 mb-1">
-                  Mobile Experience Notice
+                  Better Experience on Desktop
                 </h3>
                 <p className="text-xs sm:text-sm text-amber-700 dark:text-amber-300">
                   This editor is optimized for desktop use.
@@ -55,7 +52,7 @@ export const MobileWarning: React.FC = () => {
             <ul className="space-y-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
               <li className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                <span>Full keyboard shortcuts and toolbar access</span>
+                <span>Full functionality like speaker mode and more</span>
               </li>
               <li className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
