@@ -3,9 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, Shield, Database, Lock } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Mostage Editor",
-  description:
-    "Privacy policy and data protection information for Mostage Editor",
+  title: "Privacy Policy - Mostage App",
+  description: "Privacy policy and data protection information for Mostage App",
 };
 
 export default function PrivacyPolicyPage() {
@@ -19,7 +18,7 @@ export default function PrivacyPolicyPage() {
             className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Editor
+            Back to Mostage App
           </Link>
 
           <div className="flex items-center gap-3 mb-3">
@@ -42,7 +41,7 @@ export default function PrivacyPolicyPage() {
               Introduction
             </h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm mb-3">
-              Mostage Editor respects your privacy. This policy explains how we
+              Mostage App respects your privacy. This policy explains how we
               collect and use data to improve our service.
             </p>
             <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
@@ -50,7 +49,7 @@ export default function PrivacyPolicyPage() {
                 Data Controller
               </h3>
               <p className="text-gray-700 dark:text-gray-300 text-sm">
-                Mostage Editor (Open Source Project)
+                Mostage App (Open Source Project)
                 <br />
                 Contact: GitHub Repository
               </p>

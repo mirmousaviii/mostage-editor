@@ -30,7 +30,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
       </div>
       <div>
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">
-          About Mostage Editor
+          About Mostage App
         </h2>
       </div>
     </div>
@@ -45,24 +45,24 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
     >
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
-          Mostage{" "}
+          Mostage JS{" "}
           <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
             Version {pkgMostage.version || "latest"}
           </span>
         </h3>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
           A presentation framework based on Markdown and HTML. Available as NPM
-          package, CLI and Web Editor.
+          package, CLI and Web App.
         </p>
         <ul className="list-disc list-inside text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
           <li>
             <a
-              href="https://mo.js.org"
+              href="https://mostage.js.org"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:underline"
             >
-              mo.js.org
+              mostage.js.org
             </a>
           </li>
           <li>
@@ -80,7 +80,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
       <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
-          Mostage Editor{" "}
+          Mostage App{" "}
           <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-mono rounded-md ml-1">
             Version {pkg.version || "latest"}
           </span>
@@ -93,12 +93,12 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         <ul className="list-disc list-inside text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
           <li>
             <a
-              href="https://mostage.js.org"
+              href="https://mostage.app"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:underline"
             >
-              mostage.js.org
+              mostage.app
             </a>
           </li>
           <li>
@@ -141,7 +141,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
         </ul>
       </div>
 
-      <div>
+      {/* <div>
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3">
           Donate
         </h3>
@@ -159,18 +159,8 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
               GitHub Sponsors
             </a>
           </li>
-          {/* <li>
-            <a href="https://www.patreon.com/mirmousaviii" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-              Patreon
-            </a>
-          </li> */}
-          {/* <li>
-            <a href="https://www.buymeacoffee.com/mirmousaviii" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-              Buy Me a Coffee
-            </a>
-          </li> */}
         </ul>
-      </div>
+      </div> */}
 
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end">
         <button
@@ -190,7 +180,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
           Privacy Policy
         </a>
         <a
-          href="https://mo.js.org"
+          href="https://mostage.app/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-xs sm:text-sm"

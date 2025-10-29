@@ -1,4 +1,4 @@
-# Mostage Editor
+# Mostage App
 
 A presentation editor powered by [Mostage](https://github.com/mirmousaviii/mostage) - the markdown-based presentation framework.
 

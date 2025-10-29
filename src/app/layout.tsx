@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mostage Editor",
+  title: "Mostage App",
   description: "Presentation Editor powered by Mostage",
 };
 

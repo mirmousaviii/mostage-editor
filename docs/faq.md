@@ -1,6 +1,6 @@
 # FAQ - Frequently Asked Questions
 
-This document answers common questions about Mostage Editor.
+This document answers common questions about Mostage App.
 
 ## 🎨 **Theme Management**
 

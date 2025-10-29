@@ -34,7 +34,7 @@ export function Loading() {
 
         {/* Text */}
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-          Mostage Editor
+          Mostage App
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Loading the workspace...

@@ -30,7 +30,7 @@ export default function NotFound() {
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
           >
             <Home className="w-4 h-4" />
-            Go to Editor
+            Go to Mostage App
           </Link>
         </div>
 
@@ -49,7 +49,7 @@ export default function NotFound() {
             </Link>
             <span className="text-muted-foreground">•</span>
             <Link
-              href="https://mo.js.org/"
+              href="https://mostage.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"

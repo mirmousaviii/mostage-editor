@@ -1,6 +1,6 @@
 # State Management
 
-Mostage Editor uses **feature-based architecture** with React hooks and Context API for state management.
+Mostage App uses **feature-based architecture** with React hooks and Context API for state management.
 
 **Context Usage**: UIThemeContext is implemented and actively used for global UI theme management.
 

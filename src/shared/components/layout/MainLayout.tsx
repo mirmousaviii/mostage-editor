@@ -3,7 +3,7 @@
 /**
  * MainLayout Component
  *
- * The main layout component that provides the core structure for the Mostage Editor application.
+ * The main layout component that provides the core structure for the Mostage App application.
  * It manages the responsive split-pane layout, modal states, and presentation configuration.
  *
  * Features:
@@ -297,11 +297,14 @@ export const MainLayout: React.FC<EditorProps> = ({
             priority
           />
           <Link
-            href="/"
+            href="https://mostage.app/"
             className="text-sm sm:text-lg md:text-2xl font-bold text-foreground hover:text-primary transition-colors cursor-pointer"
           >
-            Mostage Editor
+            Mostage
           </Link>
+          <span className="text-xs sm:text-sm text-muted-foreground font-medium hidden sm:block">
+            Presentation Framework
+          </span>
         </div>
       </div>
 
@@ -340,7 +343,7 @@ export const MainLayout: React.FC<EditorProps> = ({
           <button
             onClick={handleOpenAboutModal}
             className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 text-sm font-medium text-card-foreground bg-card border border-input rounded-sm hover:bg-secondary cursor-pointer focus:outline-none transition-colors"
-            title="About Mostage Editor"
+            title="About Mostage App"
           >
             <Info className="w-4 h-4" />
             <span className="hidden sm:inline">About</span>
