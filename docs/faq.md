@@ -26,3 +26,9 @@ This document answers common questions about Mostage App.
 ### Why are there unused codes or messy parts?
 
 **Answer**: This is an MVP application and we don't know exactly what we want. Different features are being developed and tested. I developed some things and later decided they should be removed.
+
+## 📝 **Markdown Editor**
+
+### Why didn't we use existing Markdown editors?
+
+**Answer**: We didn't find any good, up-to-date, flexible, and bug-free solution. The strongest options were Milkdown and MDXEditor, both of which had significant bugs. Major issues included lack of flexibility, features like undo not working correctly, and inability to properly control themes in dark and light modes.
