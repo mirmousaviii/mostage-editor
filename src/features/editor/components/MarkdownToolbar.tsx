@@ -22,6 +22,8 @@ import {
   MessageSquare as MessageSquareIcon,
   ChevronDown as ChevronDownIcon,
   Type as TypeIcon,
+  Undo2 as UndoIcon,
+  Redo2 as RedoIcon,
 } from "lucide-react";
 import { LoginRequiredModal } from "./LoginRequiredModal";
 import { ToolbarButton, ToolbarDivider, PopupForm } from "./toolbar";
@@ -40,6 +42,10 @@ interface MarkdownToolbarProps {
   onOpenAIModal: () => void;
   onOpenAuthModal: () => void;
   getSelectedText?: () => string;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
   className?: string;
 }
 
@@ -68,6 +74,10 @@ export function MarkdownToolbar({
   onOpenAIModal,
   onOpenAuthModal,
   getSelectedText,
+  onUndo,
+  onRedo,
+  canUndo = false,
+  canRedo = false,
   className = "",
 }: MarkdownToolbarProps) {
   // ==================== State Management ====================
@@ -403,6 +413,36 @@ export function MarkdownToolbar({
 
       {/* Markdown Formatting Toolbar */}
       <div className="flex items-center p-1 border-b border-input bg-gray-300 dark:bg-gray-900">
+        {/* Undo/Redo */}
+        <ToolbarButton
+          onClick={() => onUndo?.()}
+          title="Undo"
+          icon={
+            <UndoIcon
+              className={`w-4 h-4 ${
+                !canUndo ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            />
+          }
+          className={`flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors ${
+            !canUndo ? "cursor-not-allowed" : ""
+          }`}
+        />
+        <ToolbarButton
+          onClick={() => onRedo?.()}
+          title="Redo"
+          icon={
+            <RedoIcon
+              className={`w-4 h-4 ${
+                !canRedo ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            />
+          }
+          className={`flex items-center justify-center w-8 h-8 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors ${
+            !canRedo ? "cursor-not-allowed" : ""
+          }`}
+        />
+        <ToolbarDivider />
         {/* Title Dropdown */}
         <div className="relative" ref={titleDropdownRef}>
           <button

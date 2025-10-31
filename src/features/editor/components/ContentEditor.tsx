@@ -1,7 +1,7 @@
 "use client";
 
 import { ContentEditorProps } from "../types/editor.types";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { AIModal } from "./AIModal";
 import { SaveModal } from "./SaveModal";
@@ -19,9 +19,10 @@ import {
   isListLine,
   isInCodeBlock,
 } from "../utils";
+import { useUndoRedo } from "../hooks/useUndoRedo";
 
 export const ContentEditor: React.FC<ContentEditorProps> = ({
-  value,
+  value: externalValue,
   onChange,
   placeholder = "Start typing your markdown here...",
   onOpenAuthModal,
@@ -34,6 +35,42 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showNewFileConfirmation, setShowNewFileConfirmation] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // ==================== Undo/Redo Management ====================
+  const {
+    value,
+    canUndo,
+    canRedo,
+    executeCommand,
+    handleChange: handleUndoRedoChange,
+    undo,
+    redo,
+    reset: resetUndoRedo,
+  } = useUndoRedo({
+    initialValue: externalValue,
+    maxHistorySize: 500, // Optimized for most content sizes (can handle up to ~500KB total safely)
+  });
+
+  const isInternalChangeRef = useRef(false);
+
+  // Sync external value changes (e.g., when loading new file)
+  useEffect(() => {
+    // Only sync if change came from outside (not from our internal changes)
+    if (!isInternalChangeRef.current && externalValue !== value) {
+      resetUndoRedo(externalValue);
+    }
+    isInternalChangeRef.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalValue]);
+
+  // Sync internal value changes to parent
+  useEffect(() => {
+    if (value !== externalValue) {
+      isInternalChangeRef.current = true;
+      onChange(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   // ==================== Event Handlers ====================
   /**
@@ -76,7 +113,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       textToInsert +
       after +
       value.substring(end);
-    onChange(newText);
+    executeCommand(newText);
 
     // Set cursor position after inserted text
     setTimeout(() => {
@@ -140,7 +177,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       );
 
       if (result) {
-        onChange(result.newText);
+        executeCommand(result.newText);
         updateTextareaSelection(result.newStart, result.newEnd);
       }
     } else {
@@ -154,7 +191,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       );
 
       if (result) {
-        onChange(result.newText);
+        executeCommand(result.newText);
         updateTextareaSelection(result.newPos);
       }
     }
@@ -174,7 +211,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const reader = new FileReader();
         reader.onload = (e) => {
           const content = e.target?.result as string;
-          onChange(content);
+          executeCommand(content);
         };
         reader.readAsText(file);
       }
@@ -201,7 +238,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
    * Resets the editor content to empty
    */
   const handleNewFile = () => {
-    onChange("");
+    executeCommand("");
   };
 
   // ==================== Utility Functions ====================
@@ -247,7 +284,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const heading = `${"#".repeat(level)} ${textToFormat}`;
       const newText =
         value.substring(0, lineStart) + heading + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newEnd = lineStart + heading.length;
@@ -264,7 +301,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = headingInfo.content;
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -276,7 +313,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = `${"#".repeat(level)} ${headingInfo.content}`;
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -289,7 +326,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const newLine = `${"#".repeat(level)} ${quoteInfo.content}`;
       const newText =
         value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newPos = lineStart + newLine.length;
@@ -303,7 +340,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = `${"#".repeat(level)} ${line}`;
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -315,7 +352,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = `${"#".repeat(level)} `;
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -355,7 +392,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const quote = `> ${textToFormat}`;
       const newText =
         value.substring(0, lineStart) + quote + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newEnd = lineStart + quote.length;
@@ -371,7 +408,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const newLine = quoteInfo.content;
       const newText =
         value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newPos = lineStart + newLine.length;
@@ -383,7 +420,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const newLine = `> ${headingInfo.content}`;
       const newText =
         value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newPos = lineStart + newLine.length;
@@ -397,7 +434,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = `> ${line}`;
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -409,7 +446,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = "> ";
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -452,7 +489,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const paragraph = (needsNewlineBefore ? "\n\n" : "") + textToFormat;
       const newText =
         value.substring(0, lineStart) + paragraph + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newEnd = lineStart + paragraph.length;
@@ -468,7 +505,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const newLine = headingInfo.content;
       const newText =
         value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newPos = lineStart + newLine.length;
@@ -480,7 +517,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const newLine = quoteInfo.content;
       const newText =
         value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newPos = lineStart + newLine.length;
@@ -494,7 +531,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       const paragraph = needsNewlineBefore ? "\n\n" : "";
       const newText =
         value.substring(0, lineStart) + paragraph + value.substring(lineEnd);
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         const newPos = lineStart + paragraph.length;
@@ -564,7 +601,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
           value.substring(0, start) +
           listItems.join("\n") +
           value.substring(end);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newEnd = start + listItems.join("\n").length;
@@ -592,7 +629,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
           value.substring(0, start) +
           listItems.join("\n") +
           value.substring(end);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newEnd = start + listItems.join("\n").length;
@@ -623,7 +660,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
           value.substring(0, start) +
           listItems.join("\n") +
           value.substring(end);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newEnd = start + listItems.join("\n").length;
@@ -651,7 +688,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
 
       const newText =
         value.substring(0, start) + listItems.join("\n") + value.substring(end);
-      onChange(newText);
+      executeCommand(newText);
 
       // Keep selection after formatting
       setTimeout(() => {
@@ -677,7 +714,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = "- " + content.trim();
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -693,7 +730,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const newLine = "1. " + content.trim();
         const newText =
           value.substring(0, lineStart) + newLine + value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + newLine.length;
@@ -715,7 +752,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
           value.substring(0, lineStart) +
           withoutMarker +
           value.substring(lineEnd);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = start - markerMatch[0].length;
@@ -732,7 +769,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
       if (trimmedLine) {
         const marker = listType === "unordered" ? "- " : "1. ";
         const newText = beforeLine + marker + trimmedLine + afterLine;
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + marker.length + trimmedLine.length;
@@ -743,7 +780,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         // Empty line - just add marker
         const marker = listType === "unordered" ? "- " : "1. ";
         const newText = beforeLine + marker + afterLine;
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           const newPos = lineStart + marker.length;
@@ -794,7 +831,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         : "";
 
       const newText = beforeBlock + content + afterBlock;
-      onChange(newText);
+      executeCommand(newText);
 
       setTimeout(() => {
         // Position cursor at the start of the content
@@ -817,7 +854,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const codeBlock = `\`\`\`\n${selectedText}\n\`\`\``;
         const newText =
           value.substring(0, start) + codeBlock + value.substring(end);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           // Position cursor after the closing markers
@@ -830,7 +867,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
         const inlineCode = `\`${selectedText}\``;
         const newText =
           value.substring(0, start) + inlineCode + value.substring(end);
-        onChange(newText);
+        executeCommand(newText);
 
         setTimeout(() => {
           // Position cursor after the closing backtick
@@ -907,12 +944,47 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             onOpenAIModal={() => setShowAIModal(true)}
             onOpenAuthModal={onOpenAuthModal || (() => {})}
             getSelectedText={getSelectedText}
+            onUndo={undo}
+            onRedo={redo}
+            canUndo={canUndo}
+            canRedo={canRedo}
           />
 
           <textarea
             ref={textareaRef}
             value={value}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => {
+              handleUndoRedoChange(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              // Handle keyboard shortcuts for Undo/Redo
+              // Use e.code instead of e.key for language-independent detection
+              // e.code represents the physical key pressed, not the character produced
+              const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+
+              // Undo: Ctrl+Z (Windows/Linux) or Cmd+Z (Mac) - universal standard
+              // Must NOT have Shift key pressed
+              // KeyZ is the physical Z key regardless of keyboard layout
+              if (isCtrlOrCmd && !e.shiftKey && e.code === "KeyZ") {
+                e.preventDefault();
+                if (canUndo) {
+                  undo();
+                }
+              }
+              // Redo:
+              // - Ctrl+Y (Windows standard) or Cmd+Y (Mac) - KeyY
+              // - Ctrl+Shift+Z (Linux/Mac standard) or Cmd+Shift+Z - KeyZ with Shift
+              // We support both for cross-platform compatibility
+              else if (
+                isCtrlOrCmd &&
+                (e.code === "KeyY" || (e.code === "KeyZ" && e.shiftKey))
+              ) {
+                e.preventDefault();
+                if (canRedo) {
+                  redo();
+                }
+              }
+            }}
             onKeyUp={handleCursorChange}
             onMouseUp={handleCursorChange}
             onFocus={handleCursorChange}
@@ -974,7 +1046,7 @@ export const ContentEditor: React.FC<ContentEditorProps> = ({
             const end = textarea.selectionEnd;
             const newValue =
               value.substring(0, start) + content + value.substring(end);
-            onChange(newValue);
+            executeCommand(newValue);
 
             // Set cursor position after inserted content
             setTimeout(() => {
