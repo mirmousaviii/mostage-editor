@@ -2,7 +2,7 @@
  * Utility functions for text formatting operations
  */
 
-import { isTextFormatted, removeMarkers } from "./textUtils";
+import { removeMarkers } from "./textUtils";
 
 /**
  * Checks if markers wrap around the selection (markers are outside selection)
